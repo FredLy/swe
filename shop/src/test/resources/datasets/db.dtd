@@ -1,0 +1,82 @@
+<!ELEMENT dataset (
+    abteilung*,
+    kategorie*,
+    saison*,
+    artikel*,
+    kunde*,
+    bestellung*,
+    hibernate_sequence*,
+    posten*)>
+
+<!ELEMENT abteilung EMPTY>
+<!ATTLIST abteilung
+    id CDATA #REQUIRED
+    bezeichnung CDATA #IMPLIED
+>
+
+<!ELEMENT kategorie EMPTY>
+<!ATTLIST kategorie
+    id CDATA #REQUIRED
+    bezeichnung CDATA #IMPLIED
+>
+
+<!ELEMENT saison EMPTY>
+<!ATTLIST saison
+    id CDATA #REQUIRED
+    bezeichnung CDATA #IMPLIED
+>
+
+<!ELEMENT artikel EMPTY>
+<!ATTLIST artikel
+    id CDATA #REQUIRED
+    bezeichnung CDATA #IMPLIED
+    groesse CDATA #IMPLIED
+    preis CDATA #IMPLIED
+    saison_id CDATA #IMPLIED
+    kategorie_id CDATA #IMPLIED
+    abteilung_id CDATA #IMPLIED
+    erstelldatum CDATA #IMPLIED
+    aktualisierungsdatum CDATA #IMPLIED
+>
+
+<!ELEMENT kunde EMPTY>
+<!ATTLIST kunde
+    id CDATA #REQUIRED
+    email CDATA #IMPLIED
+    name CDATA #IMPLIED
+    vorname CDATA #IMPLIED
+    strasse CDATA #IMPLIED
+    hausnummer CDATA #IMPLIED
+    plz CDATA #IMPLIED
+    ort CDATA #IMPLIED
+    erstelldatum CDATA #IMPLIED
+    aktualisierungsdatum CDATA #IMPLIED
+>
+
+<!ELEMENT bestellung EMPTY>
+<!ATTLIST bestellung
+    id CDATA #REQUIRED
+    bezeichnung CDATA #IMPLIED
+    kunden_id CDATA #IMPLIED
+    datum CDATA #IMPLIED
+    idx CDATA #IMPLIED
+    erstelldatum CDATA #IMPLIED
+    aktualisierungsdatum CDATA #IMPLIED
+>
+
+<!ELEMENT hibernate_sequence EMPTY>
+<!ATTLIST hibernate_sequence
+    next_val CDATA #REQUIRED
+>
+
+<!ELEMENT posten EMPTY>
+<!ATTLIST posten
+    id CDATA #REQUIRED
+    menge CDATA #IMPLIED
+    bestellungs_id CDATA #IMPLIED
+    artikel_id CDATA #IMPLIED
+    idx CDATA #IMPLIED
+    erstelldatum CDATA #IMPLIED
+    aktualisierungsdatum CDATA #IMPLIED
+>
+

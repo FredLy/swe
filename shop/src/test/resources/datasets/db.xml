@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<!DOCTYPE dataset SYSTEM "db.dtd">
+<dataset>
+  <abteilung id="0" bezeichnung="Damenmode"/>
+  <abteilung id="1" bezeichnung="Herrenmode"/>
+  <abteilung id="2" bezeichnung="Kindermode"/>
+  <abteilung id="3" bezeichnung="Babymode"/>
+  <kategorie id="0" bezeichnung="Babybekleidung"/>
+  <kategorie id="1" bezeichnung="Accessoires"/>
+  <kategorie id="2" bezeichnung="Anzuege"/>
+  <kategorie id="3" bezeichnung="Bademode"/>
+  <kategorie id="4" bezeichnung="Blazer und Sakkos"/>
+  <kategorie id="5" bezeichnung="Blusen"/>
+  <kategorie id="6" bezeichnung="Hemden"/>
+  <kategorie id="8" bezeichnung="Hosen"/>
+  <kategorie id="9" bezeichnung="Jacken und Maentel"/>
+  <kategorie id="10" bezeichnung="Jeanshosen"/>
+  <kategorie id="11" bezeichnung="Kleider"/>
+  <kategorie id="12" bezeichnung="Kostueme und Mehrteiler"/>
+  <kategorie id="13" bezeichnung="Nachtwaesche und Bademaentel"/>
+  <kategorie id="14" bezeichnung="Pullover und Strickjacken"/>
+  <kategorie id="15" bezeichnung="Roecke"/>
+  <kategorie id="16" bezeichnung="Shirts"/>
+  <kategorie id="17" bezeichnung="Struempfe und Strumpfhosen"/>
+  <kategorie id="18" bezeichnung="Sweatshirts"/>
+  <kategorie id="19" bezeichnung="Tops"/>
+  <kategorie id="20" bezeichnung="Unterwaesche"/>
+  <kategorie id="21" bezeichnung="Westen"/>
+  <kategorie id="22" bezeichnung="Umstandskleidung"/>
+  <kategorie id="23" bezeichnung="Spezielle Anlaesse, Fan- und Arbeitskleidung"/>
+  <saison id="0" bezeichnung="Fruehjahr"/>
+  <saison id="1" bezeichnung="Sommer"/>
+  <saison id="2" bezeichnung="Herbst"/>
+  <saison id="3" bezeichnung="Winter"/>
+  <artikel id="0" bezeichnung="Winterjacke EsIstKalt" groesse="54" preis="99.00" saison_id="3" kategorie_id="9" abteilung_id="1" erstelldatum="2029-10-20" aktualisierungsdatum="2029-10-20"/>
+  <artikel id="1" bezeichnung="BlueJeans Classic" groesse="31/31" preis="49.00" saison_id="0" kategorie_id="10" abteilung_id="1" erstelldatum="2029-10-20" aktualisierungsdatum="2029-10-20"/>
+  <artikel id="2" bezeichnung="Schicker Anzug" groesse="52" preis="449.00" saison_id="0" kategorie_id="2" abteilung_id="1" erstelldatum="2029-10-20" aktualisierungsdatum="2029-10-20"/>
+  <artikel id="3" bezeichnung="Lederguertel active" groesse="M" preis="29.00" saison_id="0" kategorie_id="1" abteilung_id="1" erstelldatum="2029-10-20" aktualisierungsdatum="2029-10-20"/>
+  <artikel id="4" bezeichnung="Abendkleid Frischluft" groesse="40" preis="99.00" saison_id="0" kategorie_id="11" abteilung_id="0" erstelldatum="2029-10-20" aktualisierungsdatum="2029-10-20"/>
+  <kunde id="0" email="fred.ly2607@googlemail.com" name="Angstmann" vorname="Anton" strasse="Auerbacher Stra" hausnummer="5A" plz="86514" ort="Angelbach" erstelldatum="2029-10-20" aktualisierungsdatum="2029-10-20"/>
+  <kunde id="1" email="pascal.vetter21@googlemail.com" name="Bechtold" vorname="Bernd" strasse="Breitenweg" hausnummer="22" plz="94832" ort="Bietigheim" erstelldatum="2029-10-20" aktualisierungsdatum="2029-10-20"/>
+  <kunde id="2" email="eberhardt.yannick@gmail.com" name="Clever" vorname="Christa" strasse="Crossweg" hausnummer="1" plz="47512" ort="Chemnitz" erstelldatum="2029-10-20" aktualisierungsdatum="2029-10-20"/>
+  <kunde id="3" email="kristian.sudar@gmail.com" name="Diebold" vorname="Dieter" strasse="Drachtengasse" hausnummer="23" plz="21564" ort="Dallau" erstelldatum="2029-10-20" aktualisierungsdatum="2029-10-20"/>
+  <kunde id="4" email="menges.marc@gmail.com" name="Endlich" vorname="Esra" strasse="Erlenweg" hausnummer="87B" plz="47862" ort="Eberbach" erstelldatum="2029-10-20" aktualisierungsdatum="2029-10-20"/>
+  <bestellung id="0" bezeichnung="Bestellung_K0_0" kunden_id="0" datum="2023-01-20" idx="0" erstelldatum="2029-10-20" aktualisierungsdatum="2029-10-20"/>
+  <bestellung id="1" bezeichnung="Bestellung_K1_0" kunden_id="1" datum="2020-03-20" idx="0" erstelldatum="2029-10-20" aktualisierungsdatum="2029-10-20"/>
+  <bestellung id="2" bezeichnung="Bestellung_K2_0" kunden_id="2" datum="2007-05-20" idx="0" erstelldatum="2029-10-20" aktualisierungsdatum="2029-10-20"/>
+  <bestellung id="3" bezeichnung="Bestellung_K3_0" kunden_id="3" datum="2020-06-20" idx="0" erstelldatum="2029-10-20" aktualisierungsdatum="2029-10-20"/>
+  <bestellung id="4" bezeichnung="Bestellung_K3_1" kunden_id="3" datum="2007-01-20" idx="0" erstelldatum="2029-10-20" aktualisierungsdatum="2029-10-20"/>
+  <hibernate_sequence next_val="100"/>
+  <posten id="0" menge="1" bestellungs_id="0" artikel_id="0" idx="0" erstelldatum="2029-10-20" aktualisierungsdatum="2029-10-20"/>
+  <posten id="1" menge="2" bestellungs_id="0" artikel_id="1" idx="1" erstelldatum="2029-10-20" aktualisierungsdatum="2029-10-20"/>
+  <posten id="2" menge="1" bestellungs_id="1" artikel_id="3" idx="0" erstelldatum="2029-10-20" aktualisierungsdatum="2029-10-20"/>
+  <posten id="3" menge="5" bestellungs_id="2" artikel_id="4" idx="0" erstelldatum="2029-10-20" aktualisierungsdatum="2029-10-20"/>
+  <posten id="4" menge="1" bestellungs_id="2" artikel_id="1" idx="1" erstelldatum="2029-10-20" aktualisierungsdatum="2029-10-20"/>
+  <posten id="5" menge="1" bestellungs_id="3" artikel_id="2" idx="0" erstelldatum="2029-10-20" aktualisierungsdatum="2029-10-20"/>
+  <posten id="6" menge="2" bestellungs_id="4" artikel_id="4" idx="0" erstelldatum="2029-10-20" aktualisierungsdatum="2029-10-20"/>
+</dataset>
