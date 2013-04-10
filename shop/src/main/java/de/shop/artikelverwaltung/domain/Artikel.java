@@ -19,10 +19,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
@@ -38,7 +34,6 @@ import de.shop.bestellverwaltung.domain.Posten;
 	@NamedQuery(name = Artikel.ALL_ARTIKEL,
 			query = "SELECT a FROM Artikel a")
 })
-@XmlRootElement
 public class Artikel implements Serializable {
 
 	private static final long serialVersionUID = 4636681345698247017L;
@@ -51,49 +46,41 @@ public class Artikel implements Serializable {
 	@Id
 	@GeneratedValue
 	@Column(name = "id", nullable = false, updatable = false)
-	@XmlAttribute
 	private Long id = KEINE_ID;
 	
 	@Size(min = 2, max = 50, message = "{ArtikelBezeichnung.msg}")
 	@Column(name = "bezeichnung", length = 50, nullable = false)
-	@XmlElement
 	private String bezeichnung;
 	
 	@Column(name = "groesse", length = 10, nullable = true)
-	@XmlElement
 	private String groesse;
 	
 	@DecimalMin("0.0")
 	@Column(name = "preis", length = 12, nullable = false)
-	@XmlElement
 	private Double preis;
 	
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "saison_id", nullable = true, insertable = true, updatable = true)
-	@XmlElement
 	private Saison saison;
 	
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "kategorie_id", nullable = true, insertable = true, updatable = true)
-	@XmlElement
 	private Kategorie kategorie;
 	
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "abteilung_id", nullable = true, insertable = true, updatable = true)
-	@XmlElement
 	private Abteilung abteilung;
 	
 	@Temporal(TemporalType.DATE)
-	@XmlElement
+	@JsonIgnore
 	private Date erstelldatum;
 	
 	@Temporal(TemporalType.DATE)
-	@XmlElement
+	@JsonIgnore
 	private Date aktualisierungsdatum;
 	
 	@OneToMany
 	@JoinColumn(name = "artikel_id")
-	@XmlTransient
 	@JsonIgnore
 	private List<Posten> posten;
 	

@@ -1,5 +1,7 @@
 package de.shop.kundenverwaltung.service;
 
+import static de.shop.util.Constants.KEINE_ID;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -16,8 +18,7 @@ import javax.validation.groups.Default;
 
 import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.util.Log;
-import de.shop.util.ValidationService;
-import static de.shop.util.Constants.KEINE_ID;
+import de.shop.util.ValidatorProvider;
 
 @Log
 public class KundeService implements Serializable {
@@ -28,7 +29,7 @@ public class KundeService implements Serializable {
 	private transient EntityManager em;
 	
 	@Inject
-	private ValidationService validationService;
+	private ValidatorProvider validatorProvider;
 	
 	public List<Kunde> findKundenByNachname(String name, Locale locale) {
 		validateNachname(name, locale);
@@ -39,7 +40,7 @@ public class KundeService implements Serializable {
 	}
 	
 	private void validateNachname(String nachname, Locale locale) {
-		final Validator validator = validationService.getValidator(locale);
+		final Validator validator = validatorProvider.getValidator(locale);
 		final Set<ConstraintViolation<Kunde>> violations = validator.validateValue(Kunde.class,
 				                                                                           "name",
 				                                                                           nachname,
@@ -59,7 +60,7 @@ public class KundeService implements Serializable {
 	}
 	
 	public void validateKundeId(Long kundeId, Locale locale) {
-		final Validator validator = validationService.getValidator(locale);
+		final Validator validator = validatorProvider.getValidator(locale);
 		final Set<ConstraintViolation<Kunde>> violations = validator.validateValue(Kunde.class,
 				                                                                           "id",
 				                                                                           kundeId,
@@ -79,7 +80,7 @@ public class KundeService implements Serializable {
 	}
 	
 	private void validateKunde(Kunde kunde, Locale locale, Class<?>... groups) {
-		final Validator validator = validationService.getValidator(locale);
+		final Validator validator = validatorProvider.getValidator(locale);
 		final Set<ConstraintViolation<Kunde>> violations = validator.validate(kunde, groups);
 		if (!violations.isEmpty()) {
 			throw new KundeValidationException(kunde, violations);

@@ -44,10 +44,9 @@
 			<property name="hibernate.id.sequence_name" value="sequence_style_generator"/>
 			-->
 
-			<!-- Nur notwendig, falls H2 als In-Memory Datenbank genutzt wird
 			<property name="hibernate.hbm2ddl.auto" value="create"/>
-			<property name="hibernate.hbm2ddl.import_files" value="/init.sql"/>
-			-->
+			<property name="hibernate.hbm2ddl.import_files" value="sql/init.sql"/>
+
 		</properties>
 	</persistence-unit>
 </persistence>

@@ -1,5 +1,7 @@
 package de.shop.bestellverwaltung.service;
 
+import static de.shop.util.Constants.KEINE_ID;
+
 import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
 import java.util.Collection;
@@ -23,8 +25,7 @@ import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.kundenverwaltung.service.KundeService;
 import de.shop.util.Log;
 import de.shop.util.NotFoundException;
-import de.shop.util.ValidationService;
-import static de.shop.util.Constants.KEINE_ID;
+import de.shop.util.ValidatorProvider;
 
 @Log
 public class BestellungService implements Serializable {
@@ -43,7 +44,7 @@ public class BestellungService implements Serializable {
 	private KundeService ks;
 	
 	@Inject
-	private ValidationService validationService;
+	private ValidatorProvider validatorProvider;
 		
 	public Bestellung findBestellungById(Long id) {
 		Bestellung bestellung = em.find(Bestellung.class, id);
@@ -119,7 +120,7 @@ public class BestellungService implements Serializable {
 	}
 	
 	private void validateBestellung(Bestellung bestellung, Locale locale, Class<?>... groups) {
-		final Validator validator = validationService.getValidator(locale);
+		final Validator validator = validatorProvider.getValidator(locale);
 		
 		final Set<ConstraintViolation<Bestellung>> violations = validator.validate(bestellung);
 		if (violations != null && !violations.isEmpty()) {

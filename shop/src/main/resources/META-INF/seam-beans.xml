@@ -8,13 +8,13 @@
        xmlns:u="urn:java:de.shop.util"
        xmlns:m="urn:java:de.shop.mail">
 
-	<u:ValidationService>
-		<u:locales>
+	<u:ValidatorProvider>
+		<!--<u:locales>
 			<s:value>en</s:value>
 			<s:value>de</s:value>
-		</u:locales>
+		</u:locales>-->
 		<s:modifies/>
-	</u:ValidationService>
+	</u:ValidatorProvider>
 	
 	<m:BestellungObserver mailAbsender="shop@sume.eu" nameAbsender="SWA03">
 		<s:modifies/>

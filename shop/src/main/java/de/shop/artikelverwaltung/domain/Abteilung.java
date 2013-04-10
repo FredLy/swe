@@ -12,9 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -22,7 +19,6 @@ import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "abteilung")
-@XmlRootElement
 public class Abteilung implements Serializable {
 
 	private static final long serialVersionUID = 6621511845673794931L;
@@ -32,13 +28,11 @@ public class Abteilung implements Serializable {
 	@Id
 	@GeneratedValue
 	@Column(name = "id", nullable = false, updatable = false)
-	@XmlAttribute
 	private Long id = KEINE_ID;
 	
 	@NotBlank
 	@Size(min = 2, max = 50, message = "{AbteilungsBezeichnung.msg}")
 	@Column(name = "bezeichnung", length = 50, nullable = false)
-	@XmlElement
 	private String bezeichnung;
 	
 	@OneToMany
