@@ -21,10 +21,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.NotBlank;
@@ -44,7 +40,6 @@ import de.shop.kundenverwaltung.domain.Kunde;
 	@NamedQuery(name = Bestellung.KUNDE_BY_ID, query = "SELECT b.kunde from Bestellung b WHERE b.id = :id"),
 	@NamedQuery(name = Bestellung.POSTEN_BY_ID, query = "SELECT p from Posten p WHERE p.bestellung.id = :id")
 })
-@XmlRootElement
 public class Bestellung implements Serializable {
 
 	private static final long serialVersionUID = -4842381972226268777L;
@@ -62,28 +57,23 @@ public class Bestellung implements Serializable {
 	@Id
 	@GeneratedValue
 	@Column(name = "id", nullable = false, updatable = false)	
-	@XmlAttribute
 	private Long id = KEINE_ID;
 	
 	@NotBlank
 	@Column(name = "bezeichnung", nullable = false)
-	@XmlElement
 	private String bezeichnung;
 	
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "kunden_id", nullable = false, insertable = false, updatable = false)
-	@XmlTransient
 	@JsonIgnore
 	private Kunde kunde;
 	
 	@Transient
-	@XmlElement
 	private URI kundeUri;
 	
 	@OneToMany
 	@JoinColumn(name = "bestellungs_id", nullable = false)
 	@OrderColumn(name = "idx")
-	@XmlElement
 	private List<Posten> posten;
 	
 	@Temporal(TemporalType.DATE)

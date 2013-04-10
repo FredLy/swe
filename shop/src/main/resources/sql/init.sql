@@ -1,6 +1,13 @@
 DROP SEQUENCE hibernate_sequence;
 CREATE SEQUENCE hibernate_sequence START WITH 5000;
 
+CREATE INDEX bestellung__kunde_index ON bestellung(kunden_id);
+CREATE INDEX posten__bestellung_index ON posten(bestellungs_id);
+CREATE INDEX posten__artikel_index ON posten(artikel_id);
+CREATE INDEX artikel__saison_index ON artikel(saison_id);
+CREATE INDEX artikel__kategorie_index ON artikel(kategorie_id);
+CREATE INDEX artikel__abteilung_index ON artikel(abteilung_id);
+
 --CREATE TABLE hibernate_sequence(next_val bigint PRIMARY KEY);
 --CREATE TABLE Abteilung(id BIGINT PRIMARY KEY,bezeichnung NVARCHAR(50));
 --CREATE TABLE Kategorie(id bigint PRIMARY KEY,bezeichnung nvarchar(50));
@@ -55,29 +62,29 @@ insert into Saison values(1,'Sommer');
 insert into Saison values(2,'Herbst');
 insert into Saison values(3,'Winter');
 
-insert into Artikel(id, bezeichnung, groesse, preis, saison, kategorie, abteilung, erstelldatum, aktualisierungsdatum) values(0,'Winterjacke EsIstKalt',54,99.99,3,9,1,'29.10.2012','29.10.2012');
-insert into Artikel values(1,'BlueJeans Classic','31/31',49.99,NULL,10,1,29.10.2012,NULL);
-insert into Artikel values(2,'Schicker Anzug','52',499.99,NULL,2,1,29.10.2012,NULL);
-insert into Artikel values(3,'Lederguertel Active','M',29.95,NULL,1,1,29.10.2012,NULL);
-insert into Artikel values(4,'Abendkleid Frischluft','40',99.95,NULL,11,0,29.10.2012,NULL);
+insert into Artikel(id, bezeichnung, groesse, preis, saison_id, kategorie_id, abteilung_id, erstelldatum, aktualisierungsdatum) values(0,'Winterjacke EsIstKalt',54,99.99,3,9,1,to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
+insert into Artikel(id, bezeichnung, groesse, preis, saison_id, kategorie_id, abteilung_id, erstelldatum, aktualisierungsdatum) values(1,'BlueJeans Classic','31/31',49.99,3, 10, 1, to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
+insert into Artikel(id, bezeichnung, groesse, preis, saison_id, kategorie_id, abteilung_id, erstelldatum, aktualisierungsdatum) values(2,'Schicker Anzug','52',499.99,3,2,1,to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
+insert into Artikel(id, bezeichnung, groesse, preis, saison_id, kategorie_id, abteilung_id, erstelldatum, aktualisierungsdatum) values(3,'Lederguertel Active','M',29.95,3,1,1,to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
+insert into Artikel(id, bezeichnung, groesse, preis, saison_id, kategorie_id, abteilung_id, erstelldatum, aktualisierungsdatum) values(4,'Abendkleid Frischluft','40',99.95,1,11,0,to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
 
-insert into Kunde(id, email, name, vorname, strasse, hausnummer, plz, ort, erstelldatum, aktualisirungsdatum) values(0,'fred.ly@googlemail.com','Ly','Fred','Auerbacher Straße','5A','86514','Angelbach',29.10.2012,NULL);
-insert into Kunde values(1,'pascal.vetter21@googlemail.com','Vetter','Pascal','Breitenweg','22','94832','Bietigheim',29.10.2012,NULL);
-insert into Kunde values(2,'eberhardt.yannick@gmail.com','Eberhardt','Yannick','Crossweg','1','47512','Chemnitz',29.10.2012,NULL);
-insert into Kunde values(3,'kristian.sudar@gmail.com','Sudar','Kristian','Drachtengasse','23','21564','Dallau',29.10.2012,NULL);
-insert into Kunde values(4,'menges.marc@gmail.com','Menges','Marc','Erlenweg','87B','47862','Eberbach',29.10.2012,NULL);
+insert into Kunde(id, email, name, vorname, strasse, hausnummer, plz, ort, erstelldatum, aktualisierungsdatum) values(0,'fred.ly@googlemail.com','Ly','Fred','Auerbacher Straße','5A','86514','Angelbach',to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
+insert into Kunde(id, email, name, vorname, strasse, hausnummer, plz, ort, erstelldatum, aktualisierungsdatum) values(1,'pascal.vetter21@googlemail.com','Vetter','Pascal','Breitenweg','22','94832','Bietigheim',to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
+insert into Kunde(id, email, name, vorname, strasse, hausnummer, plz, ort, erstelldatum, aktualisierungsdatum) values(2,'eberhardt.yannick@gmail.com','Eberhardt','Yannick','Crossweg','1','47512','Chemnitz',to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
+insert into Kunde(id, email, name, vorname, strasse, hausnummer, plz, ort, erstelldatum, aktualisierungsdatum) values(3,'kristian.sudar@gmail.com','Sudar','Kristian','Drachtengasse','23','21564','Dallau',to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
+insert into Kunde(id, email, name, vorname, strasse, hausnummer, plz, ort, erstelldatum, aktualisierungsdatum) values(4,'menges.marc@gmail.com','Menges','Marc','Erlenweg','87B','47862','Eberbach',to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
 
-insert into Bestellung values(0,'Bestellung_K0_0,0',23.01.2012,NULL,29.10.2012,NULL);
-insert into Bestellung values(1,'Bestellung_K1_0,0',23.01.2012,NULL,29.10.2012,NULL);
-insert into Bestellung values(2,'Bestellung_K2_0,0',23.01.2012,NULL,29.10.2012,NULL);
-insert into Bestellung values(3,'Bestellung_K3_0,0',23.01.2012,NULL,29.10.2012,NULL);
-insert into Bestellung values(4,'Bestellung_K3_1,0',23.01.2012,NULL,29.10.2012,NULL);
+insert into Bestellung(id, bezeichnung, kunden_id, datum, idx, erstelldatum, aktualisierungsdatum) values(0,'Bestellung_K0_0',0,to_date('01/23/2012','mm/dd/yyyy'),0,to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
+insert into Bestellung(id, bezeichnung, kunden_id, datum, idx, erstelldatum, aktualisierungsdatum) values(1,'Bestellung_K1_0',1,to_date('01/23/2012','mm/dd/yyyy'),0,to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
+insert into Bestellung(id, bezeichnung, kunden_id, datum, idx, erstelldatum, aktualisierungsdatum) values(2,'Bestellung_K2_0',2,to_date('01/23/2012','mm/dd/yyyy'),0,to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
+insert into Bestellung(id, bezeichnung, kunden_id, datum, idx, erstelldatum, aktualisierungsdatum) values(3,'Bestellung_K3_0',3,to_date('01/23/2012','mm/dd/yyyy'),0,to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
+insert into Bestellung(id, bezeichnung, kunden_id, datum, idx, erstelldatum, aktualisierungsdatum) values(4,'Bestellung_K3_1',3,to_date('01/23/2012','mm/dd/yyyy'),1,to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
 
-insert into Posten values(0,1,0,0,0,29.10.2012,NULL);
-insert into Posten values(1,2,0,1,1,29.10.2012,NULL);
-insert into Posten values(2,1,1,3,0,29.10.2012,NULL);
-insert into Posten values(3,5,2,4,0,29.10.2012,NULL);
-insert into Posten values(4,1,2,1,1,29.10.2012,NULL);
-insert into Posten values(5,1,3,2,0,29.10.2012,NULL);
-insert into Posten values(6,2,4,4,0,29.10.2012,NULL);
+insert into Posten(id, menge, bestellungs_id, artikel_id, idx, erstelldatum, aktualisierungsdatum) values(0,1,0,0,0,to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
+insert into Posten(id, menge, bestellungs_id, artikel_id, idx, erstelldatum, aktualisierungsdatum) values(1,2,0,1,1,to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
+insert into Posten(id, menge, bestellungs_id, artikel_id, idx, erstelldatum, aktualisierungsdatum) values(2,1,1,3,0,to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
+insert into Posten(id, menge, bestellungs_id, artikel_id, idx, erstelldatum, aktualisierungsdatum) values(3,5,2,4,0,to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
+insert into Posten(id, menge, bestellungs_id, artikel_id, idx, erstelldatum, aktualisierungsdatum) values(4,1,2,1,1,to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
+insert into Posten(id, menge, bestellungs_id, artikel_id, idx, erstelldatum, aktualisierungsdatum) values(5,1,3,2,0,to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
+insert into Posten(id, menge, bestellungs_id, artikel_id, idx, erstelldatum, aktualisierungsdatum) values(6,2,4,4,0,to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
 
