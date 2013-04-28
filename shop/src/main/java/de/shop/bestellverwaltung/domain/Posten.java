@@ -105,6 +105,14 @@ public class Posten implements Serializable {
 		this.id = id;
 	}
 	
+	public int getVersion() {
+		return version;
+	}
+	
+	public void setVersion(int version) {
+		this.version = version;
+	}
+	
 	public int getMenge() {
 		return menge;
 	}

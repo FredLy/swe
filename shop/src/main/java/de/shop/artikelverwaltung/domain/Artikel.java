@@ -111,6 +111,13 @@ public class Artikel implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	public int getVersion() {
+		return version;
+	}
+	
+	public void setVersion(int version) {
+		this.version = version;
+	}
 	public String getBezeichnung() {
 		return bezeichnung;
 	}

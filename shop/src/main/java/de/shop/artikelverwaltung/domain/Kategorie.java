@@ -65,6 +65,14 @@ public class Kategorie implements Serializable {
 		this.id = id;
 	}
 	
+	public int getVersion() {
+		return version;
+	}
+	
+	public void setVersion(int version) {
+		this.version = version;
+	}
+	
 	public String getBezeichnung() {
 		return bezeichnung;
 	}
