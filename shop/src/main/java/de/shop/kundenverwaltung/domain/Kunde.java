@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,6 +21,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -56,6 +58,7 @@ public class Kunde implements Serializable {
 	public static final String KUNDE_BY_NACHNAME = PREFIX + "findKundeByNachname";
 	public static final String KUNDE_BY_ID = PREFIX + "findKundeById";
 	public static final String ALL_KUNDEN = PREFIX + "findAllKunden";
+	private static final int ERSTE_VERSION = 0;
 	
 
 		
@@ -64,6 +67,10 @@ public class Kunde implements Serializable {
 	@Column(name = "id", nullable = false, updatable = false)
 	@XmlAttribute
 	private Long id = KEINE_ID;
+	
+	@Version
+	@Basic(optional = false)
+	private int version = ERSTE_VERSION;
 	
 	@Email
 	@Column(name = "email", length = 50, nullable = false, unique = true)

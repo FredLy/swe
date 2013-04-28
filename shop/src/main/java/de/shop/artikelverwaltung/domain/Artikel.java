@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Size;
 
@@ -42,11 +44,16 @@ public class Artikel implements Serializable {
 	public static final String ARTIKEL_BY_ID = PREFIX + "findArtikelByID";
 	public static final String ARTIKEL_BY_BEZEICHNUNG = PREFIX + "findArtikelByBezeichnung";
 	public static final String ALL_ARTIKEL = PREFIX + "findAllArtikel";
+	private static final int ERSTE_VERSION = 0;
 	
 	@Id
 	@GeneratedValue
 	@Column(name = "id", nullable = false, updatable = false)
 	private Long id = KEINE_ID;
+	
+	@Version
+	@Basic(optional = false)
+	private int version = ERSTE_VERSION;
 	
 	@Size(min = 2, max = 50, message = "{ArtikelBezeichnung.msg}")
 	@Column(name = "bezeichnung", length = 50, nullable = false)

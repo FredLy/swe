@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.net.URI;
 import java.util.Date;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,6 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -38,12 +40,17 @@ public class Posten implements Serializable {
 
 	private static final String PREFIX = "PostenService.";
 	public static final String POSTEN_BY_ID = PREFIX + "findPostenById";
+	private static final int ERSTE_VERSION = 0;
 	
 	@Id
 	@GeneratedValue
 	@Column(name = "id", nullable = false, updatable = false)
 	@XmlAttribute
 	private Long id = KEINE_ID;
+	
+	@Version
+	@Basic(optional = false)
+	private int version = ERSTE_VERSION;
 	
 	@Column(name = "menge", nullable = false, updatable = false)
 	@XmlElement

@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,6 +22,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.NotBlank;
@@ -52,12 +54,17 @@ public class Bestellung implements Serializable {
 	public static final String BESTELLUNGEN_BY_KUNDE_ID = PREFIX + "findBestellungenByKundeId";
 	public static final String KUNDE_BY_ID = PREFIX + "findKundeById";
 	public static final String POSTEN_BY_ID = PREFIX + "findPostenById";
+	private static final int ERSTE_VERSION = 0;
 	
 	
 	@Id
 	@GeneratedValue
 	@Column(name = "id", nullable = false, updatable = false)	
 	private Long id = KEINE_ID;
+	
+	@Version
+	@Basic(optional = false)
+	private int version = ERSTE_VERSION;
 	
 	@NotBlank
 	@Column(name = "bezeichnung", nullable = false)
