@@ -8,7 +8,6 @@ import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static de.shop.util.TestConstants.KUNDEN_NACHNAME_QUERY_PARAM;
 import static de.shop.util.TestConstants.KUNDEN_PATH;
 import static java.net.HttpURLConnection.HTTP_CREATED;
 import static de.shop.util.TestConstants.LOCATION;
@@ -129,7 +128,7 @@ public class KundeResourceTest extends AbstractResourceTest{
 		// When
 		
 		final Response response = given().header(ACCEPT, APPLICATION_JSON)
-					.queryParam(KUNDEN_NACHNAME_QUERY_PARAM, nachname)
+					.queryParam(NACHNAME_A, nachname)
 		             .get(KUNDEN_PATH);
 		
 		// Then
@@ -156,7 +155,7 @@ public class KundeResourceTest extends AbstractResourceTest{
 		
 		// When
 		final Response response = given().header(ACCEPT, APPLICATION_JSON)
-				                         .queryParam(KUNDEN_NACHNAME_QUERY_PARAM, nachname)
+				                         .queryParam(NACHNAME_A, nachname)
                                          .get(KUNDEN_PATH);
 		
 		// Then
