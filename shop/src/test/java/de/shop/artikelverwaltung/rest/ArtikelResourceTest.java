@@ -4,8 +4,10 @@ import static com.jayway.restassured.RestAssured.given;
 import static de.shop.util.TestConstants.ACCEPT;
 import static de.shop.util.TestConstants.ARTIKEL_ID_PATH;
 import static de.shop.util.TestConstants.ARTIKEL_ID_PATH_PARAM;
+import static de.shop.util.TestConstants.LOCATION;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
+import static java.net.HttpURLConnection.HTTP_CREATED;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -72,5 +74,45 @@ public class ArtikelResourceTest extends AbstractResourceTest {
     	assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
 		LOGGER.finer("ENDE");
 	}
+	
+	@Test
+	public void createArtikel() {
+		LOGGER.finer("BEGINN");
+		
+		// Given
+		final String bezeichnung = "NeuerArtikel";
+		final String groesse = "L";
+		final double preis = 14.99;
+		final short saison = 2;
+		final short kategorie = 2;
+		final short abteilung = 2;
+		
+		
+		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
+		             		          .add("bezeichnung", bezeichnung)
+		             		          .add("groesse", groesse)
+		             		          .add("preis", preis)
+		             		          .add("saison", saison)
+		             		          .add("kategorie", kategorie)
+		             		          .add("abteilung", abteilung)
+		             		          .build();
+
+		// When
+		final Response response = (given().contentType(APPLICATION_JSON)
+				                         .body(jsonObject.toString()))
+                                         .post(ARTIKEL_ID_PATH);
+		
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_CREATED));
+		final String location = response.getHeader(LOCATION);
+		final int startPos = location.lastIndexOf('/');
+		final String idStr = location.substring(startPos + 1);
+		final Long id = Long.valueOf(idStr);
+		assertThat(id.longValue() > 0, is(true));
+
+		LOGGER.finer("ENDE");
+	}
+	
+	
 
 }
