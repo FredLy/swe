@@ -221,7 +221,7 @@ public class KundeResourceTest extends AbstractResourceTest{
 		//When
 		final Response response = given()
 											.pathParameter(KUNDEN_ID_PATH_PARAM, kundeId)
-											.delete(KUNDEN_PATH);
+											.delete(KUNDEN_ID_PATH);
 		
 		//Then
 		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
@@ -241,7 +241,7 @@ public class KundeResourceTest extends AbstractResourceTest{
 		// When
 		Response response = given().header(ACCEPT, APPLICATION_JSON)
 				                   .pathParameter(KUNDEN_ID_PATH_PARAM, kundeId)
-                                   .get(KUNDEN_PATH);
+                                   .get(KUNDEN_ID_PATH);
 		
 		JsonObject jsonObject;
 		try (final JsonReader jsonReader =
