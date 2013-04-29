@@ -227,7 +227,7 @@
 		
 		<junit.version>4.10</junit.version>
 		<dbunit.version>2.4.8</dbunit.version>
-		
+		<rest-assured.version>1.7.2</rest-assured.version>
 		<javax.json.version>1.0-b06</javax.json.version>
 		
 		<selenium.version>2.25.0</selenium.version>
