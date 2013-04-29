@@ -112,7 +112,4 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 
 		LOGGER.finer("ENDE");
 	}
-	
-	
-
 }
