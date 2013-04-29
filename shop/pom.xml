@@ -200,7 +200,7 @@
 		<!--
 		<jboss.bom.version>1.0.0.Final</jboss.bom.version>
 		-->
-		
+		<httpclient.version>4.2.3</httpclient.version>
 		<arquillian-bom.version>1.0.2.Final</arquillian-bom.version>
 		<jboss-javaee-6.0.version>3.0.1.Final</jboss-javaee-6.0.version>
 		<jboss.version>7.2.0.Final</jboss.version>
@@ -512,6 +512,13 @@
 			<groupId>org.glassfish</groupId>
 			<artifactId>javax.json</artifactId>
 			<version>${javax.json.version}</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>${httpclient.version}</version><!--$NO-MVN-MAN-VER$-->
 			<scope>test</scope>
 		</dependency>
 		
