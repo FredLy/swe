@@ -41,6 +41,8 @@ import de.shop.util.AbstractResourceTest;
 
 public class BestellungResourceTest extends AbstractResourceTest {
 	
+	// A = AVAILABLE -- N_A = NOT_AVAILABLE
+	
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	private static final Long BESTELLUNG_BY_ID = Long.valueOf(1);
 	private static final Long BESTELLUNG_BY_ID_N_A = Long.valueOf(1232);
