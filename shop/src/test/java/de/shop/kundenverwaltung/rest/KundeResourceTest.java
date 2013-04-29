@@ -9,6 +9,9 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+
 import de.shop.util.AbstractResourceTest;
 
 @RunWith(Arquillian.class)
