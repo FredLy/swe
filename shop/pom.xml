@@ -194,9 +194,10 @@
 		<java.version>1.7</java.version>
 		<java.minor.version>1.7.0-07</java.minor.version>
 		
+		<shrinkwrap-resolver-bom.version>2.0.0-beta-2</shrinkwrap-resolver-bom.version>
+		<shrinkwrap-bom.version>1.1.2</shrinkwrap-bom.version>
+		
 		<!--
-		<shrinkwrap-resolver-bom.version>2.0.0-alpha-4</shrinkwrap-resolver-bom.version>
-		<shrinkwrap-bom.version>1.1.0-alpha-4</shrinkwrap-bom.version>
 		<jboss.bom.version>1.0.0.Final</jboss.bom.version>
 		-->
 		
@@ -307,7 +308,7 @@
 
 	<dependencyManagement>
 		<dependencies>
-			<!--
+			
 			<dependency>
 				<groupId>org.jboss.shrinkwrap.resolver</groupId>
 				<artifactId>shrinkwrap-resolver-bom</artifactId>
@@ -315,8 +316,7 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-				https://issues.jboss.org/browse/SHRINKWRAP-389
-				https://community.jboss.org/thread/204435
+				
 			<dependency>
 				<groupId>org.jboss.shrinkwrap</groupId>
 				<artifactId>shrinkwrap-bom</artifactId>
@@ -324,6 +324,7 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+
 			<dependency>
 				<groupId>org.jboss.bom</groupId>
 				<artifactId>jboss-javaee-6.0-with-tools</artifactId>
@@ -338,7 +339,6 @@
 	            <type>pom</type>
 	            <scope>import</scope>
             </dependency>
-			-->
 			
 			<dependency>
 				<groupId>org.jboss.arquillian</groupId>
