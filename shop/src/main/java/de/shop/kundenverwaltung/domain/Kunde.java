@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,6 +24,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.Version;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -35,6 +38,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import de.shop.bestellverwaltung.domain.Bestellung;
+import de.shop.util.*;
 
 
 @Entity
@@ -49,6 +53,8 @@ import de.shop.bestellverwaltung.domain.Bestellung;
 	@NamedQuery(name = Kunde.KUNDE_BY_EMAIL,
 			query = "SELECT K FROM KUNDE k WHERE k.email = :email")
 })
+
+//TODO @ScriptAssert Passwort ueberpruefen
 
 @XmlRootElement
 public class Kunde implements Serializable {
@@ -69,6 +75,7 @@ public class Kunde implements Serializable {
 	@Id
 	@GeneratedValue
 	@Column(name = "id", nullable = false, updatable = false)
+	@Min(value = 1, message = "{kundenverwaltung.kunde.id.min}", groups = IdGroup.class)
 	@XmlAttribute
 	private Long id = KEINE_ID;
 	
