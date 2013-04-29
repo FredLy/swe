@@ -18,6 +18,7 @@ import javax.validation.Validator;
 import javax.validation.groups.Default;
 
 import de.shop.kundenverwaltung.domain.Kunde;
+import de.shop.util.ConcurrentDeletedException;
 import de.shop.util.Log;
 import de.shop.util.ValidatorProvider;
 
@@ -117,10 +118,27 @@ public class KundeService implements Serializable {
 	public Kunde updateKunde(Kunde kunde, Locale locale) {
 		if (kunde == null)
 			return null;
-		validateKunde(kunde, locale, Default.class);
-		em.detach(kunde);
 		
-		Kunde tmp = findKundeByEmail
+		validateKunde(kunde, locale, Default.class);
+		
+		em.detach(kunde);
+
+		Kunde tmp = findKundeById(kunde.getId(), locale);
+		if (tmp == null) {
+			throw new ConcurrentDeletedException(kunde.getId());
+		}
+		em.detach(tmp);
+		
+		//Gibt es ein anderes Objekt mit gleicher Email-Adresse?
+		tmp = findKundeByEmail(kunde.getEmail(), locale);
+		if (tmp != null) {
+			em.detach(tmp);
+			if (tmp.getId().longValue() != kunde.getId().longValue()) {
+				// anderes Objekt mit gleichem Attributwert fuer email
+				throw new EmailExistsException(kunde.getEmail());
+			}
+		}
+		
 		kunde.setAktualisierungsdatum(new Date());
 		em.merge(kunde);
 		return kunde;
