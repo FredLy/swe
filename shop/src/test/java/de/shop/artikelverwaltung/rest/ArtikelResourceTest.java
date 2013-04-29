@@ -59,7 +59,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	}
 	
 	@Test
-	public void findKundeByIdNichtVorhanden() {
+	public void findArtikelByIdNichtVorhanden() {
 		LOGGER.finer("BEGINN");
 		
 		// Given
