@@ -8,7 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
-
+import com.jayway.restassured.RestAssured;
 
 public abstract class AbstractResourceTest {
 	protected static final String USERNAME = "102";
