@@ -228,6 +228,8 @@
 		<junit.version>4.10</junit.version>
 		<dbunit.version>2.4.8</dbunit.version>
 		
+		<javax.json.version>1.0-b06</javax.json.version>
+		
 		<selenium.version>2.25.0</selenium.version>
 		<jbehave.version>3.7</jbehave.version>
 		<!--
@@ -505,6 +507,13 @@
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
 			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>javax.json</artifactId>
+			<version>${javax.json.version}</version>
+			<scope>test</scope>
 		</dependency>
 		
 		<dependency>
