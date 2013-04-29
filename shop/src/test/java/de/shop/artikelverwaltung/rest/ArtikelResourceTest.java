@@ -24,7 +24,6 @@ import com.jayway.restassured.response.Response;
 import de.shop.util.AbstractResourceTest;
 
 @RunWith(Arquillian.class)
-//@FixMethodOrder(NAME_ASCENDING)
 public class ArtikelResourceTest extends AbstractResourceTest {
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
