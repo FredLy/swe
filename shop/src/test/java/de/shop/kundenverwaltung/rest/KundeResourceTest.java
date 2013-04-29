@@ -21,13 +21,19 @@ import static org.junit.Assert.fail;
 
 
 
+
+
+
+
 import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.json.JsonArray;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 
 import org.jboss.arquillian.junit.Arquillian;
@@ -57,6 +63,8 @@ public class KundeResourceTest extends AbstractResourceTest{
 	private static final String HAUSNUMMER = "30/A";
 	private static final String PLZ = "76131";
 	private static final String ORT = "Karlsruhe";
+	private static final Long KUNDE_ID_UPDATE = null;
+	private static final String NEUER_NACHNAME = null;
 
 	@Test
 	public void validate() {
@@ -220,4 +228,50 @@ public class KundeResourceTest extends AbstractResourceTest{
 		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
 		LOGGER.finer("Ende");
 	}
+	
+	@Test
+	public void updateKunde() {
+		LOGGER.finer("BEGINN");
+		
+		// Given
+		final Long kundeId = KUNDE_ID_UPDATE;
+		final String neuerNachname = NEUER_NACHNAME;
+		/**final String username = USERNAME;
+		final String password = PASSWORD;
+		*/
+		// When
+		Response response = given().header(ACCEPT, APPLICATION_JSON)
+				                   .pathParameter(KUNDEN_ID_PATH_PARAM, kundeId)
+                                   .get(KUNDEN_ID_PATH);
+		
+		JsonObject jsonObject;
+		try (final JsonReader jsonReader =
+				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
+			jsonObject = jsonReader.readObject();
+		}
+    	assertThat(jsonObject.getJsonNumber("id").longValue(), is(kundeId.longValue()));
+    	
+    	// Aus den gelesenen JSON-Werten ein neues JSON-Objekt mit neuem Nachnamen bauen
+    	final JsonObjectBuilder job = getJsonBuilderFactory().createObjectBuilder();
+    	final Set<String> keys = jsonObject.keySet();
+    	for (String k : keys) {
+    		if ("nachname".equals(k)) {
+    			job.add("nachname", neuerNachname);
+    		}
+    		else {
+    			job.add(k, jsonObject.get(k));
+    		}
+    	}
+    	jsonObject = job.build();
+    	
+		response = given().contentType(APPLICATION_JSON)
+				          .body(jsonObject.toString())
+                          /**.auth()
+                          .basic(username, password)
+                          */
+                          .put(KUNDEN_PATH);
+		
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
+   	}
 }
