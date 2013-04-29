@@ -4,6 +4,7 @@ import static com.jayway.restassured.RestAssured.given;
 import static de.shop.util.TestConstants.ACCEPT;
 import static de.shop.util.TestConstants.KUNDEN_ID_PATH_PARAM;
 import static de.shop.util.TestConstants.KUNDEN_ID_PATH;
+import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -14,6 +15,7 @@ import static de.shop.util.TestConstants.LOCATION;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+
 
 
 
@@ -159,6 +161,7 @@ public class KundeResourceTest extends AbstractResourceTest{
 	public void createKunde() {
 		LOGGER.finer("BEGINN");
 		
+		//Given
 		final String email = NEUE_EMAIL;
 		final String name = NACHNAME_A;
 		final String vorname = VORNAME_A;
@@ -197,5 +200,24 @@ public class KundeResourceTest extends AbstractResourceTest{
 				assertThat(id.longValue() > 0, is(true));
 		*/
 				LOGGER.finer("ENDE");
+	}
+	
+	@Test
+	public void deleteKunde(){
+		LOGGER.finer("Beginn");
+		
+		//Given
+		final Long kundeId = KUNDE_BY_ID_A;
+		/**final String username = USERNAME_ADMIN;
+		final String password = PASSWORD_ADMIN;
+		*/
+		//When
+		final Response response = given()
+											.pathParameter(KUNDEN_ID_PATH_PARAM, kundeId)
+											.delete(KUNDEN_ID_PATH);
+		
+		//Then
+		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
+		LOGGER.finer("Ende");
 	}
 }
