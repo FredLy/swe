@@ -91,12 +91,25 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		
 		
 		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
+									  .add("version", 0)
 		             		          .add("bezeichnung", bezeichnung)
 		             		          .add("groesse", groesse)
 		             		          .add("preis", preis)
-		             		          .add("saison", saison)
-		             		          .add("kategorie", kategorie)
-		             		          .add("abteilung", abteilung)
+		             		          .add("kategorie", getJsonBuilderFactory().createObjectBuilder()
+		                    		                  .add("id", 10)
+		                    		                  .add("bezeichnung", "Kleider")
+		                    		                  .add("version", 0)
+		                    		                  .build())
+		             		          .add("abteilung", getJsonBuilderFactory().createObjectBuilder()
+		                    		                  .add("id", 1)
+		                    		                  .add("bezeichnung", "Herrenmode")
+		                    		                  .add("version", 0)
+		                    		                  .build())
+		                    		  .add("saison", getJsonBuilderFactory().createObjectBuilder()
+		                    		                  .add("id", 3)
+		                    		                  .add("bezeichnung", "Winter")
+		                    		                  .add("version", 0)
+		                    		                  .build())
 		             		          .build();
 
 		// When
