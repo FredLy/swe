@@ -4,6 +4,8 @@ import static com.jayway.restassured.RestAssured.given;
 import static de.shop.util.TestConstants.ACCEPT;
 import static de.shop.util.TestConstants.ARTIKEL_ID_PATH;
 import static de.shop.util.TestConstants.ARTIKEL_ID_PATH_PARAM;
+import static de.shop.util.TestConstants.ARTIKEL_VORHANDEN;
+import static de.shop.util.TestConstants.ARTIKEL_NICHT_VORHANDEN;
 import static de.shop.util.TestConstants.LOCATION;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
@@ -39,12 +41,12 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		LOGGER.finer("BEGINN");	
 		
 		//Given
-		final Long artikelId = 1L;
+		final Long artikelId = Long.valueOf(ARTIKEL_VORHANDEN);
 		
 		//when
 		final Response response = given().header(ACCEPT, APPLICATION_JSON)
-										 .pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
-										 .get(ARTIKEL_ID_PATH);
+										 //.pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId) --> führt zu Fehlermeldung: specified too many path parameters
+										 .get(ARTIKEL_ID_PATH + ARTIKEL_VORHANDEN);
 		
 		//then
 		assertThat(response.getStatusCode(), is(HTTP_OK));
@@ -52,7 +54,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		try (final JsonReader jsonReader =
 	              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
 			final JsonObject jsonObject = jsonReader.readObject();
-			assertThat(jsonObject.getJsonNumber("id").longValue(), is(artikelId.longValue()));
+			assertThat(jsonObject.getJsonNumber("id").longValue(), is(artikelId));
 		}
 
 		LOGGER.finer("ENDE");
@@ -63,12 +65,12 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		LOGGER.finer("BEGINN");
 		
 		// Given
-		final Long artikelId = ARTIKEL_ID_NICHT_VORHANDEN;
+		final Long artikelId = Long.valueOf(ARTIKEL_NICHT_VORHANDEN);
 		
 		// When
 		final Response response = given().header(ACCEPT, APPLICATION_JSON)
-				                         .pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
-                                         .get(ARTIKEL_ID_PATH);
+				                         //.pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
+                                         .get(ARTIKEL_ID_PATH + ARTIKEL_NICHT_VORHANDEN);
 
     	// Then
     	assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
