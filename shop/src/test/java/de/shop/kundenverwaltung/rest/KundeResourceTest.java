@@ -62,8 +62,8 @@ public class KundeResourceTest extends AbstractResourceTest{
 	private static final String HAUSNUMMER = "30/A";
 	private static final String PLZ = "76131";
 	private static final String ORT = "Karlsruhe";
-	private static final Long KUNDE_ID_UPDATE = null;
-	private static final String NEUER_NACHNAME = null;
+	private static final Long KUNDE_ID_UPDATE = Long.valueOf(1);
+	private static final String NEUER_NACHNAME = "Menges";
 
 	@Test
 	public void validate() {
@@ -221,7 +221,7 @@ public class KundeResourceTest extends AbstractResourceTest{
 		//When
 		final Response response = given()
 											.pathParameter(KUNDEN_ID_PATH_PARAM, kundeId)
-											.delete(KUNDEN_ID_PATH);
+											.delete(KUNDEN_PATH);
 		
 		//Then
 		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
@@ -241,7 +241,7 @@ public class KundeResourceTest extends AbstractResourceTest{
 		// When
 		Response response = given().header(ACCEPT, APPLICATION_JSON)
 				                   .pathParameter(KUNDEN_ID_PATH_PARAM, kundeId)
-                                   .get(KUNDEN_ID_PATH);
+                                   .get(KUNDEN_PATH);
 		
 		JsonObject jsonObject;
 		try (final JsonReader jsonReader =
