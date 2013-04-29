@@ -5,6 +5,7 @@ import static de.shop.util.TestConstants.ACCEPT;
 import static de.shop.util.TestConstants.ARTIKEL_ID_PATH;
 import static de.shop.util.TestConstants.ARTIKEL_ID_PATH_PARAM;
 import static java.net.HttpURLConnection.HTTP_OK;
+import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -17,6 +18,7 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 
 import org.jboss.arquillian.junit.Arquillian;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.jayway.restassured.response.Response;
@@ -27,7 +29,9 @@ import de.shop.util.AbstractResourceTest;
 public class ArtikelResourceTest extends AbstractResourceTest {
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
+	private static final Long ARTIKEL_ID_NICHT_VORHANDEN = Long.valueOf(1000);
 	
+	@Test
 	public void findArtikelByID(){
 	
 		LOGGER.finer("BEGINN");	
@@ -49,6 +53,23 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 			assertThat(jsonObject.getJsonNumber("id").longValue(), is(artikelId.longValue()));
 		}
 
+		LOGGER.finer("ENDE");
+	}
+	
+	@Test
+	public void findKundeByIdNichtVorhanden() {
+		LOGGER.finer("BEGINN");
+		
+		// Given
+		final Long artikelId = ARTIKEL_ID_NICHT_VORHANDEN;
+		
+		// When
+		final Response response = given().header(ACCEPT, APPLICATION_JSON)
+				                         .pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
+                                         .get(ARTIKEL_ID_PATH);
+
+    	// Then
+    	assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
 		LOGGER.finer("ENDE");
 	}
 
