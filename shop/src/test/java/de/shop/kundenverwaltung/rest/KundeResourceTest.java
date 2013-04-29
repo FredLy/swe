@@ -9,20 +9,9 @@ import static java.net.HttpURLConnection.HTTP_OK;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static de.shop.util.TestConstants.KUNDEN_PATH;
-import static java.net.HttpURLConnection.HTTP_CREATED;
-import static de.shop.util.TestConstants.LOCATION;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
-
-
-
-
-
-
-
-
-
 
 import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
@@ -41,8 +30,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.jayway.restassured.response.Response;
-
-import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.util.AbstractResourceTest;
 
 @RunWith(Arquillian.class)
