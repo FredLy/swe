@@ -29,11 +29,11 @@ public final class TestConstants {
 	public static final String BESTELLUNGEN_ID_PATH = BESTELLUNGEN_PATH + "/{" + BESTELLUNGEN_ID_PATH_PARAM + "}";
 	public static final String BESTELLUNGEN_ID_KUNDE_PATH = BESTELLUNGEN_ID_PATH + "/kunde";
 	
-	public static final String ARTIKEL_ID_PATH = "/artikel/";
+	public static final String ARTIKEL_PATH = "/artikel/";
 	public static final String ARTIKEL_VORHANDEN = "1";
 	public static final String ARTIKEL_NICHT_VORHANDEN = "1000";
 	public static final String ARTIKEL_ID_PATH_PARAM = "id";
-	public static final String ARTIKEL_URI = BASEURI + ":" + PORT + BASEPATH + ARTIKEL_ID_PATH;
+	public static final String ARTIKEL_URI = BASEURI + ":" + PORT + BASEPATH + ARTIKEL_PATH;
 	
 	// Testklassen fuer Service- und Domain-Tests
 	public static final Class<?>[] TEST_CLASSES = { };
