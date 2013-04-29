@@ -8,9 +8,6 @@ import static de.shop.util.TestConstants.ACCEPT;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static de.shop.util.TestConstants.KUNDEN_ID_PATH;
-import static de.shop.util.TestConstants.KUNDEN_ID_PATH_PARAM;
-import static de.shop.util.TestConstants.KUNDEN_PATH;
 import static de.shop.util.TestConstants.BESTELLUNGEN_ID_PATH_PARAM;
 import static de.shop.util.TestConstants.BESTELLUNGEN_ID_PATH;
 import static de.shop.util.TestConstants.ARTIKEL_URI;
@@ -21,21 +18,15 @@ import static de.shop.util.TestConstants.LOCATION;
 
 import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
-import java.util.Date;
-import java.util.List;
 import java.util.logging.Logger;
 
-import javax.json.JsonArray;
 import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 
 import org.junit.Ignore;
 import org.junit.Test;
 
 import com.jayway.restassured.response.Response;
-
-import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.util.AbstractResourceTest;
 
 
