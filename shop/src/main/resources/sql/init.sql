@@ -1,4 +1,4 @@
---DROP SEQUENCE hibernate_sequence;
+DROP SEQUENCE hibernate_sequence;
 CREATE SEQUENCE hibernate_sequence START WITH 5000;
 
 CREATE INDEX bestellung__kunde_index ON bestellung(kunden_id);
