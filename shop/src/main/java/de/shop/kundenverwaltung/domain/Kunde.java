@@ -51,7 +51,7 @@ import de.shop.util.*;
 	@NamedQuery(name = Kunde.ALL_KUNDEN,
 			query = "SELECT k FROM Kunde k"),
 	@NamedQuery(name = Kunde.KUNDE_BY_EMAIL,
-			query = "SELECT K FROM KUNDE k WHERE k.email = :email")
+			query = "SELECT k FROM Kunde k WHERE k.email = :email")
 })
 
 //TODO @ScriptAssert Passwort ueberpruefen
