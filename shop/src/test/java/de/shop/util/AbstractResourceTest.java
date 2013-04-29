@@ -1,7 +1,24 @@
 package de.shop.util;
 
+import static com.jayway.restassured.config.DecoderConfig.decoderConfig;
+import static com.jayway.restassured.config.EncoderConfig.encoderConfig;
+import static com.jayway.restassured.config.HttpClientConfig.httpClientConfig;
+import static com.jayway.restassured.config.RestAssuredConfig.newConfig;
+import static de.shop.util.TestConstants.BASEPATH;
+import static de.shop.util.TestConstants.BASEURI;
+import static de.shop.util.TestConstants.PORT;
+import static org.apache.http.client.params.ClientPNames.DEFAULT_HEADERS;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
+import javax.json.Json;
+import javax.json.JsonBuilderFactory;
+import javax.json.JsonReaderFactory;
+
+import org.apache.http.Header;
+import org.apache.http.message.BasicHeader;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.Archive;
 import org.junit.After;
@@ -9,6 +26,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 
 import com.jayway.restassured.RestAssured;
+
 
 public abstract class AbstractResourceTest {
 	protected static final String USERNAME = "102";
