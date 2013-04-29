@@ -45,7 +45,9 @@ import de.shop.bestellverwaltung.domain.Bestellung;
 	@NamedQuery(name = Kunde.KUNDE_BY_ID, 
 			query = "SELECT k FROM Kunde k WHERE k.id = :id"),
 	@NamedQuery(name = Kunde.ALL_KUNDEN,
-			query = "SELECT k FROM Kunde k")
+			query = "SELECT k FROM Kunde k"),
+	@NamedQuery(name = Kunde.KUNDE_BY_EMAIL,
+			query = "SELECT K FROM KUNDE k WHERE k.email = :email")
 })
 
 @XmlRootElement
@@ -58,6 +60,8 @@ public class Kunde implements Serializable {
 	public static final String KUNDE_BY_NACHNAME = PREFIX + "findKundeByNachname";
 	public static final String KUNDE_BY_ID = PREFIX + "findKundeById";
 	public static final String ALL_KUNDEN = PREFIX + "findAllKunden";
+	public static final String KUNDE_BY_EMAIL = PREFIX + "findKundeByEmail";
+	public static final String PARAM_KUNDE_EMAIL = "email";
 	private static final int ERSTE_VERSION = 0;
 	
 

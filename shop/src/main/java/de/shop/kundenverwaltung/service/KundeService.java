@@ -11,6 +11,7 @@ import java.util.Set;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
@@ -69,6 +70,32 @@ public class KundeService implements Serializable {
 			throw new InvalidKundeIdException(kundeId, violations);
 	}
 	
+	public Kunde findKundeByEmail(String email, Locale locale) {
+		validateEmail(email, locale);
+		Kunde kunde;
+		try {
+			kunde = em.createNamedQuery(Kunde.KUNDE_BY_EMAIL, Kunde.class)
+					  .setParameter(Kunde.PARAM_KUNDE_EMAIL, email)
+					  .getSingleResult();
+		}
+		catch (NoResultException e) {
+			return null;
+		}
+		
+		return kunde;
+	}
+	
+	private void validateEmail(String email, Locale locale) {
+		final Validator validator = validatorProvider.getValidator(locale);
+		final Set<ConstraintViolation<Kunde>> violations = validator.validateValue(Kunde.class,
+				                                                                           "email",
+				                                                                           email,
+				                                                                           Default.class);
+		if (!violations.isEmpty())
+			throw new InvalidEmailException(email, violations);
+	}
+
+	
 	public Kunde createKunde(Kunde kunde, Locale locale) {
 		if (kunde == null)
 			return null;
@@ -91,6 +118,9 @@ public class KundeService implements Serializable {
 		if (kunde == null)
 			return null;
 		validateKunde(kunde, locale, Default.class);
+		em.detach(kunde);
+		
+		Kunde tmp = findKundeByEmail
 		kunde.setAktualisierungsdatum(new Date());
 		em.merge(kunde);
 		return kunde;
