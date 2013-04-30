@@ -79,7 +79,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		LOGGER.finer("BEGINN");
 		
 		// Given
-		final String bezeichnung = "NeuerArtikel";
+		final String bezeichnung = "NeuerArtikel100";
 		final String groesse = "L";
 		final double preis = 14.99;
 		

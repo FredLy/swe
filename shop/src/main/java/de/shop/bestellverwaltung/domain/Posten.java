@@ -63,7 +63,7 @@ public class Posten implements Serializable {
 	private Bestellung bestellung;
 	
 	@ManyToOne
-	@JoinColumn(name = "artikel_id", nullable = false, updatable = false, insertable = true)
+	@JoinColumn(name = "artikel_id", nullable = true, updatable = false, insertable = true)
 	@XmlTransient
 	@JsonIgnore
 	private Artikel artikel;
