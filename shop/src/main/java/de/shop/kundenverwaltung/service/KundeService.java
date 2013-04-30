@@ -17,6 +17,8 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.groups.Default;
 
+import de.shop.bestellverwaltung.domain.Bestellung;
+import de.shop.bestellverwaltung.domain.Posten;
 import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.util.ConcurrentDeletedException;
 import de.shop.util.Log;
@@ -144,9 +146,18 @@ public class KundeService implements Serializable {
 		return kunde;
 	}
 
-	public void deleteKunde(Kunde kunde) {
+	public void deleteKunde(Kunde kunde) { // vorher children löschen. (nicht über bs möglich, da Zirkel)
 		if (kunde == null)
 			return;
+		for(Bestellung b : kunde.getBestellungen()) {
+			if (b == null)
+				break;
+			List<Posten> posten = b.getPosten();
+			for (Posten p : posten) {
+				em.remove(p);
+			}
+			em.remove(b);
+		}
 		em.remove(kunde);
 	}
 }

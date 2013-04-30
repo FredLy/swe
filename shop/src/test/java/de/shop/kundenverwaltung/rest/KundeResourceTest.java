@@ -2,16 +2,18 @@ package de.shop.kundenverwaltung.rest;
 
 import static com.jayway.restassured.RestAssured.given;
 import static de.shop.util.TestConstants.ACCEPT;
-import static de.shop.util.TestConstants.KUNDEN_ID_PATH_PARAM;
 import static de.shop.util.TestConstants.KUNDEN_ID_PATH;
+import static de.shop.util.TestConstants.KUNDEN_ID_PATH_PARAM;
+import static de.shop.util.TestConstants.KUNDEN_NACHNAME_QUERY_PARAM;
+import static de.shop.util.TestConstants.KUNDEN_PATH;
+import static de.shop.util.TestConstants.LOCATION;
+import static java.net.HttpURLConnection.HTTP_CREATED;
+import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
-import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static de.shop.util.TestConstants.KUNDEN_PATH;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 
 import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
@@ -25,26 +27,23 @@ import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 
 import org.jboss.arquillian.junit.Arquillian;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.jayway.restassured.response.Response;
+
 import de.shop.util.AbstractResourceTest;
 
 @RunWith(Arquillian.class)
 public class KundeResourceTest extends AbstractResourceTest{
 	
-	
-	// A = Available -- N_A = Not_Available
-	
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
-	private static final Long  KUNDE_BY_ID_A = Long.valueOf(1);
-	private static final Long KUNDE_BY_ID_N_A = Long.valueOf(1000);
-	private static final String NACHNAME_A= "Merz";
-	private static final String NACHNAME_N_A = "Fillipo";
+	private static final Long  KUNDE_ID_VORHANDEN = Long.valueOf(1);
+	private static final Long KUNDE_ID_NICHT_VORHANDEN = Long.valueOf(1000);
+	private static final String NACHNAME_VORHANDEN= "Sudar";
+	private static final String NACHNAME_NICHT_VORHANDEN = "Fillipo";
 	private static final String VORNAME_A = "Jaqueline";
-	private static final String NEUE_EMAIL = NACHNAME_A + "@test.de";
+	private static final String NEUE_EMAIL = NACHNAME_VORHANDEN + "@test.de";
 	private static final String STRASSE = "Moltkestraﬂe";
 	private static final String HAUSNUMMER = "30/A";
 	private static final String PLZ = "76131";
@@ -52,23 +51,13 @@ public class KundeResourceTest extends AbstractResourceTest{
 	private static final Long KUNDE_ID_UPDATE = Long.valueOf(1);
 	private static final String NEUER_NACHNAME = "Menges";
 
-	@Test
-	public void validate() {
-		assertThat(true, is(true));
-	}
-	
-	@Ignore
-	@Test
-	public void notYetImplemented() {
-		fail();
-	}
 	
 	@Test
 	public void findKundeById() {
 		LOGGER.finer("BEGINN");
 		
 		// Given
-		final Long kundeId = KUNDE_BY_ID_A;
+		final Long kundeId = KUNDE_ID_VORHANDEN;
 		
 		// When
 		final Response response = given().header(ACCEPT, APPLICATION_JSON)
@@ -92,7 +81,7 @@ public class KundeResourceTest extends AbstractResourceTest{
 		LOGGER.finer("BEGINN");
 		
 		// Given
-		final Long kundeId = KUNDE_BY_ID_N_A;
+		final Long kundeId = KUNDE_ID_NICHT_VORHANDEN;
 		
 		// When
 		final Response response = given().header(ACCEPT, APPLICATION_JSON)
@@ -110,12 +99,12 @@ public class KundeResourceTest extends AbstractResourceTest{
 		
 		// Given
 		
-		final String nachname = NACHNAME_A;
+		final String nachname = NACHNAME_VORHANDEN;
 		
 		// When
 		
 		final Response response = given().header(ACCEPT, APPLICATION_JSON)
-					.queryParam(NACHNAME_A, nachname)
+					.queryParam(KUNDEN_NACHNAME_QUERY_PARAM, nachname)
 		             .get(KUNDEN_PATH);
 		
 		// Then
@@ -126,7 +115,7 @@ public class KundeResourceTest extends AbstractResourceTest{
 			    	
 			    	final List<JsonObject> jsonObjectList = jsonArray.getValuesAs(JsonObject.class);
 			    	for (JsonObject jsonObject : jsonObjectList) {
-			    		assertThat(jsonObject.getString("nachname"), is(nachname));
+			    		assertThat(jsonObject.getString("name"), is(nachname));
 			    	}
 				}
 
@@ -138,11 +127,11 @@ public class KundeResourceTest extends AbstractResourceTest{
 		LOGGER.finer("BEGINN");
 		
 		// Given
-		final String nachname = NACHNAME_N_A;
+		final String nachname = NACHNAME_NICHT_VORHANDEN;
 		
 		// When
 		final Response response = given().header(ACCEPT, APPLICATION_JSON)
-				                         .queryParam(NACHNAME_A, nachname)
+				                         .queryParam(KUNDEN_NACHNAME_QUERY_PARAM, nachname)
                                          .get(KUNDEN_PATH);
 		
 		// Then
@@ -157,7 +146,7 @@ public class KundeResourceTest extends AbstractResourceTest{
 		
 		//Given
 		final String email = NEUE_EMAIL;
-		final String name = NACHNAME_A;
+		final String name = NACHNAME_VORHANDEN;
 		final String vorname = VORNAME_A;
 		final String strasse = STRASSE;
 		final String hausnummer = HAUSNUMMER;
@@ -165,34 +154,31 @@ public class KundeResourceTest extends AbstractResourceTest{
 		final String ort = ORT;
 		
 		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
-										.add("nachname", name)
+										.add("name", name)
 										.add("vorname", vorname)
 										.add("email", email)
-										.add("adresse", getJsonBuilderFactory().createObjectBuilder()
-												.add("plz", plz)
-												.add("ort", ort)
-												.add("strasse", strasse)
-												.add("hausnummer", hausnummer)
-												.build())
+										.add("ort", ort)
+										.add("plz", plz)
+										.add("strasse", strasse)
+										.add("hausnummer", hausnummer)
 										.build();
 		// When
-		/**
-		 * final Response response = given().contentType(APPLICATION_JSON)
+		final Response response = given().contentType(APPLICATION_JSON)
 		 
 						               .body(jsonObject.toString())
-		                               .auth()
-		                               .basic(username, password)
+		                               //.auth()
+		                               //.basic(username, password)
 		                               .post(KUNDEN_PATH);
-		*/
+
 				
 		// Then 
-		/**		assertThat(response.getStatusCode(), is(HTTP_CREATED));
-				final String location = response.getHeader(LOCATION);
-				final int startPos = location.lastIndexOf('/');
-				final String idStr = location.substring(startPos + 1);
-				final Long id = Long.valueOf(idStr);
-				assertThat(id.longValue() > 0, is(true));
-		*/
+		assertThat(response.getStatusCode(), is(HTTP_CREATED));
+		final String location = response.getHeader(LOCATION);
+		final int startPos = location.lastIndexOf('/');
+		final String idStr = location.substring(startPos + 1);
+		final Long id = Long.valueOf(idStr);
+		assertThat(id.longValue() > 0, is(true));
+				
 				LOGGER.finer("ENDE");
 	}
 	
@@ -201,14 +187,14 @@ public class KundeResourceTest extends AbstractResourceTest{
 		LOGGER.finer("Beginn");
 		
 		//Given
-		final Long kundeId = KUNDE_BY_ID_A;
+		final Long kundeId = KUNDE_ID_VORHANDEN;
 		/**final String username = USERNAME_ADMIN;
 		final String password = PASSWORD_ADMIN;
 		*/
 		//When
 		final Response response = given()
-											.pathParameter(KUNDEN_ID_PATH_PARAM, kundeId)
-											.delete(KUNDEN_ID_PATH);
+									.pathParameter(KUNDEN_ID_PATH_PARAM, kundeId)
+									.delete(KUNDEN_ID_PATH);
 		
 		//Then
 		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
@@ -241,8 +227,8 @@ public class KundeResourceTest extends AbstractResourceTest{
     	final JsonObjectBuilder job = getJsonBuilderFactory().createObjectBuilder();
     	final Set<String> keys = jsonObject.keySet();
     	for (String k : keys) {
-    		if ("nachname".equals(k)) {
-    			job.add("nachname", neuerNachname);
+    		if ("name".equals(k)) {
+    			job.add("name", neuerNachname);
     		}
     		else {
     			job.add(k, jsonObject.get(k));

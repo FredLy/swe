@@ -22,13 +22,15 @@ import java.util.logging.Logger;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 
+import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import com.jayway.restassured.response.Response;
 
 import de.shop.util.AbstractResourceTest;
 
-
+@RunWith(Arquillian.class)
 public class BestellungResourceTest extends AbstractResourceTest {
 	
 	
