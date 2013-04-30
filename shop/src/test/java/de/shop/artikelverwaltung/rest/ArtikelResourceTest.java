@@ -2,14 +2,16 @@ package de.shop.artikelverwaltung.rest;
 
 import static com.jayway.restassured.RestAssured.given;
 import static de.shop.util.TestConstants.ACCEPT;
+import static de.shop.util.TestConstants.ARTIKEL_ID_PATH;
+import static de.shop.util.TestConstants.ARTIKEL_ID_PATH_PARAM;
+import static de.shop.util.TestConstants.ARTIKEL_NICHT_VORHANDEN;
 import static de.shop.util.TestConstants.ARTIKEL_PATH;
 import static de.shop.util.TestConstants.ARTIKEL_VORHANDEN;
-import static de.shop.util.TestConstants.ARTIKEL_NICHT_VORHANDEN;
 import static de.shop.util.TestConstants.LOCATION;
+import static java.net.HttpURLConnection.HTTP_CREATED;
+import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
-import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
-import static java.net.HttpURLConnection.HTTP_CREATED;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -45,8 +47,8 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		
 		//when
 		final Response response = given().header(ACCEPT, APPLICATION_JSON)
-										 //.pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId) --> führt zu Fehlermeldung: specified too many path parameters
-										 .get(ARTIKEL_PATH + ARTIKEL_VORHANDEN);
+										 .pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId) //--> führt zu Fehlermeldung: specified too many path parameters
+										 .get(ARTIKEL_ID_PATH); //+ ARTIKEL_VORHANDEN);
 		
 		//then
 		assertThat(response.getStatusCode(), is(HTTP_OK));
@@ -64,10 +66,13 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	public void findArtikelByIdNichtVorhanden() {
 		LOGGER.finer("BEGINN");
 		
+		//Given
+		final Long artikelId = Long.valueOf(ARTIKEL_NICHT_VORHANDEN);
+		
 		// When
 		final Response response = given().header(ACCEPT, APPLICATION_JSON)
-				                         //.pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
-                                         .get(ARTIKEL_PATH + ARTIKEL_NICHT_VORHANDEN);
+				                         .pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
+                                         .get(ARTIKEL_ID_PATH);
 
     	// Then
     	assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
@@ -134,8 +139,8 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		
 		// When
 		Response response = given().header(ACCEPT, APPLICATION_JSON)
-				                   //.pathParameter(KUNDEN_ID_PATH_PARAM, kundeId)
-                                   .get(ARTIKEL_PATH + ARTIKEL_VORHANDEN);
+				                   .pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
+                                   .get(ARTIKEL_ID_PATH);
 		
 		JsonObject jsonObject;
 		try (final JsonReader jsonReader =
