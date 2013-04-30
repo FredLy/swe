@@ -82,7 +82,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 	}
 	
 	@Test
-	@Ignore
+	@Ignore //FindKundeById!
 	public void createBestellung() {
 		LOGGER.finer("BEGINN");
 		
@@ -90,26 +90,29 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		final Long kundeId = KUNDE_ID_VORHANDEN;
 		final Long artikelId1 = ARTIKEL_ID_VORHANDEN_1;
 		final Long artikelId2 = ARTIKEL_ID_VORHANDEN_2;
-		final String username = USERNAME;
-		final String password = PASSWORD;
+		final String BEZEICHNUNG = "TestBezeichnung";
+		//final String username = USERNAME;
+		//final String password = PASSWORD;
 		
 		// Neues, client-seitiges Bestellungsobjekt als JSON-Datensatz
 		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
+									  .add("version", 0)
+									  .add("bezeichnung", BEZEICHNUNG)
 				                      .add("kundeUri", KUNDEN_URI + "/" + kundeId)
-				                      .add("bestellpositionen", getJsonBuilderFactory().createArrayBuilder()
+				                      .add("posten", getJsonBuilderFactory().createArrayBuilder()
 				            		                            .add(getJsonBuilderFactory().createObjectBuilder()
 				            		                                 .add("artikelUri", ARTIKEL_URI + "/" + artikelId1)
-				            		                                 .add("anzahl", 1))
+				            		                                 .add("menge", 1))
 				            		                            .add(getJsonBuilderFactory().createObjectBuilder()
 				            		                                 .add("artikelUri", ARTIKEL_URI + "/" + artikelId2)
-				            		                                 .add("anzahl", 2)))
+				            		                                 .add("menge", 2)))
 				                      .build();
 
 		// When
 		final Response response = given().contentType(APPLICATION_JSON)
 				                         .body(jsonObject.toString())
-				                         .auth()
-				                         .basic(username, password)
+				                         //.auth()
+				                         //.basic(username, password)
 				                         .post(BESTELLUNGEN_PATH);
 		
 		assertThat(response.getStatusCode(), is(HTTP_CREATED));
