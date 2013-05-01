@@ -28,6 +28,18 @@ CREATE INDEX artikel__abteilung_index ON artikel(abteilung_id);
 
 --insert into hibernate_sequence values(100);
 
+INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (0,0);
+INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (0,1);
+INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (0,2);
+INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (1,0);
+INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (1,1);
+INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (1,2);
+INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (2,1);
+INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (2,2);
+INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (3,1);
+INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (3,2);
+INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (4,2);
+
 insert into Abteilung (id, version, bezeichnung) values(0,0,'Damenmode');
 insert into Abteilung (id, version, bezeichnung) values(1,0,'Herrenmode');
 insert into Abteilung (id, version, bezeichnung) values(2,0,'Kindermode');
