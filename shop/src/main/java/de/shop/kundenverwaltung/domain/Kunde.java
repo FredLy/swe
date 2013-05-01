@@ -138,8 +138,8 @@ public class Kunde implements Serializable {
 	@XmlElement
 	private String ort;
 	
-	@Column(length = 10)
-	@Size(max = 10, message = "{KundenPasswort.msg}")
+	@Column(length = 40)
+	@Size(max = 40, message = "{KundenPasswort.msg}")
 	private String password;
 	
 	@Transient

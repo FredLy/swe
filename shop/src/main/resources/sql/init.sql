@@ -28,18 +28,6 @@ CREATE INDEX artikel__abteilung_index ON artikel(abteilung_id);
 
 --insert into hibernate_sequence values(100);
 
-INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (0,0);
-INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (0,1);
-INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (0,2);
-INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (1,0);
-INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (1,1);
-INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (1,2);
-INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (2,1);
-INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (2,2);
-INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (3,1);
-INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (3,2);
-INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (4,2);
-
 insert into Abteilung (id, version, bezeichnung) values(0,0,'Damenmode');
 insert into Abteilung (id, version, bezeichnung) values(1,0,'Herrenmode');
 insert into Abteilung (id, version, bezeichnung) values(2,0,'Kindermode');
@@ -80,11 +68,23 @@ insert into Artikel(id, version, bezeichnung, groesse, preis, saison_id, kategor
 insert into Artikel(id, version, bezeichnung, groesse, preis, saison_id, kategorie_id, abteilung_id, erstelldatum, aktualisierungsdatum) values(3,0,'Lederguertel Active','M',29.95,3,1,1,to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
 insert into Artikel(id, version, bezeichnung, groesse, preis, saison_id, kategorie_id, abteilung_id, erstelldatum, aktualisierungsdatum) values(4,0,'Abendkleid Frischluft','40',99.95,1,11,0,to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
 
-insert into Kunde(id, version, email, name, vorname, strasse, hausnummer, plz, ort, erstelldatum, aktualisierungsdatum) values(0,0,'fred.ly@googlemail.com','Ly','Fred','Auerbacher Straße','5A','86514','Angelbach',to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
-insert into Kunde(id, version, email, name, vorname, strasse, hausnummer, plz, ort, erstelldatum, aktualisierungsdatum) values(1,0,'pascal.vetter21@googlemail.com','Vetter','Pascal','Breitenweg','22','94832','Bietigheim',to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
-insert into Kunde(id, version, email, name, vorname, strasse, hausnummer, plz, ort, erstelldatum, aktualisierungsdatum) values(2,0,'eberhardt.yannick@gmail.com','Eberhardt','Yannick','Crossweg','1','47512','Chemnitz',to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
-insert into Kunde(id, version, email, name, vorname, strasse, hausnummer, plz, ort, erstelldatum, aktualisierungsdatum) values(3,0,'kristian.sudar@gmail.com','Sudar','Kristian','Drachtengasse','23','21564','Dallau',to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
-insert into Kunde(id, version, email, name, vorname, strasse, hausnummer, plz, ort, erstelldatum, aktualisierungsdatum) values(4,0,'menges.marc@gmail.com','Menges','Marc','Erlenweg','87B','47862','Eberbach',to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
+insert into Kunde(id, version, email, password, name, vorname, strasse, hausnummer, plz, ort, erstelldatum, aktualisierungsdatum) values(0,0,'fred.ly@googlemail.com', 'tlifxqsNyCzxIJnRwtQKuZToQQw=','Ly','Fred','Auerbacher Straße','5A','86514','Angelbach',to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
+insert into Kunde(id, version, email, password, name, vorname, strasse, hausnummer, plz, ort, erstelldatum, aktualisierungsdatum) values(1,0,'pascal.vetter21@googlemail.com', 'NWoZK3kTsExUV00Ywo1G5jlUKKs=', 'Vetter','Pascal','Breitenweg','22','94832','Bietigheim',to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
+insert into Kunde(id, version, email, password, name, vorname, strasse, hausnummer, plz, ort, erstelldatum, aktualisierungsdatum) values(2,0,'eberhardt.yannick@gmail.com', '2kuSN7rMzfGcB2DKt67EqDWQELA=', 'Eberhardt','Yannick','Crossweg','1','47512','Chemnitz',to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
+insert into Kunde(id, version, email, password, name, vorname, strasse, hausnummer, plz, ort, erstelldatum, aktualisierungsdatum) values(3,0,'kristian.sudar@gmail.com', 'd95o2uzYI7q7tY7bHI4U1xBug7s=', 'Sudar','Kristian','Drachtengasse','23','21564','Dallau',to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
+insert into Kunde(id, version, email, password, name, vorname, strasse, hausnummer, plz, ort, erstelldatum, aktualisierungsdatum) values(4,0,'menges.marc@gmail.com', 'G2RTiSRzpGfQc3LUXrBavCAxZHo=', 'Menges','Marc','Erlenweg','87B','47862','Eberbach',to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
+
+INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (0,0);
+INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (0,1);
+INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (0,2);
+INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (1,0);
+INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (1,1);
+INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (1,2);
+INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (2,1);
+INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (2,2);
+INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (3,1);
+INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (3,2);
+INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (4,2);
 
 insert into Bestellung(id, version, bezeichnung, kunden_id, datum, idx, erstelldatum, aktualisierungsdatum) values(0,0,'Bestellung_K0_0',0,to_date('01/23/2012','mm/dd/yyyy'),0,to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
 insert into Bestellung(id, version, bezeichnung, kunden_id, datum, idx, erstelldatum, aktualisierungsdatum) values(1,0,'Bestellung_K1_0',1,to_date('01/23/2012','mm/dd/yyyy'),0,to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
