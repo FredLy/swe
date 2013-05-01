@@ -1,5 +1,8 @@
 package de.shop.kundenverwaltung.domain;
 
+import static javax.persistence.FetchType.EAGER;
+import javax.persistence.UniqueConstraint;
+
 import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
@@ -9,8 +12,15 @@ import java.util.List;
 
 
 
+
+
+
+import java.util.Set;
+
 import javax.persistence.Basic;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -37,6 +47,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import de.shop.auth.service.jboss.AuthService.RolleType;
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.util.*;
 
@@ -126,6 +137,21 @@ public class Kunde implements Serializable {
 	@Column(name = "ort", length = 50, nullable = false)
 	@XmlElement
 	private String ort;
+	
+	@Column(length = 10)
+	@Size(max = 10, message = "{KundenPasswort.msg}")
+	private String password;
+	
+	@Transient
+	@JsonIgnore
+	private String passwordWdh;
+	
+	@ElementCollection(fetch = EAGER)
+	@CollectionTable(name = "kunde_rolle",
+	                 joinColumns = @JoinColumn(name = "kunde_fk", nullable = false),
+	                 uniqueConstraints =  @UniqueConstraint(columnNames = { "kunde_fk", "rolle_fk" }))
+	@Column(table = "kunde_rolle", name = "rolle_fk", nullable = false)
+	private Set<RolleType> rollen;
 	
 	@OneToMany
 	@JoinColumn(name = "kunden_id", nullable = false)
@@ -255,15 +281,31 @@ public class Kunde implements Serializable {
 	public void setAktualisierungsdatum(Date aktualisierungsdatum) {
 		this.aktualisierungsdatum = aktualisierungsdatum == null ? null : (Date) aktualisierungsdatum.clone();
 	}
-	
 	public URI getBestellungUri() {
 		return bestellungUri;
 	}
-
 	public void setBestellungUri(URI bestellungUri) {
 		this.bestellungUri = bestellungUri;
 	}
-
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getPasswordWdh() {
+		return passwordWdh;
+	}
+	public void setPasswordWdh(String passwordWdh) {
+		this.passwordWdh = passwordWdh;
+	}
+	public Set<RolleType> getRollen() {
+		return rollen;
+	}
+	public void setRollen(Set<RolleType> rollen) {
+		this.rollen = rollen;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
