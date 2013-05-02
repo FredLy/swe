@@ -81,10 +81,11 @@ insert into Kunde(id, version, email, password, name, vorname, strasse, hausnumm
 insert into Kunde(id, version, email, password, name, vorname, strasse, hausnummer, plz, ort, erstelldatum, aktualisierungsdatum) values(3,0,'kristian.sudar@gmail.com', 'd95o2uzYI7q7tY7bHI4U1xBug7s=', 'Sudar','Kristian','Drachtengasse','23','21564','Dallau',to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
 insert into Kunde(id, version, email, password, name, vorname, strasse, hausnummer, plz, ort, erstelldatum, aktualisierungsdatum) values(4,0,'menges.marc@gmail.com', 'G2RTiSRzpGfQc3LUXrBavCAxZHo=', 'Menges','Marc','Erlenweg','87B','47862','Eberbach',to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
 
-INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (0,0);
+INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (0,1);
+INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (0,3);
 INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (1,0);
 INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (1,1);
-INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (1,2);
+INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (1,3);
 INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (2,1);
 INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (2,2);
 INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (3,1);
@@ -105,3 +106,5 @@ insert into Posten(id, version, menge, bestellungs_id, artikel_id, idx, erstelld
 insert into Posten(id, version, menge, bestellungs_id, artikel_id, idx, erstelldatum, aktualisierungsdatum) values(5,0,1,3,2,0,to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
 insert into Posten(id, version, menge, bestellungs_id, artikel_id, idx, erstelldatum, aktualisierungsdatum) values(6,0,2,4,4,0,to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
 
+ALTER TABLE kunde_rolle ADD CONSTRAINT kunde_rolle__rolle_fk FOREIGN KEY (rolle_fk) REFERENCES rolle;
+CREATE INDEX kunde_rolle__kunde_index ON kunde_rolle(kunde_fk);
