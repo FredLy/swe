@@ -40,6 +40,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	private static final Long ID_KATEGORIE = Long.valueOf(9);
 	private static final Long ID_ABTEILUNG = Long.valueOf(1);
 	private static final Long ID_SAISON = Long.valueOf(1);
+	private static final Long ARTIKEL_ID_VORHANDEN = Long.valueOf(3);
 	
 	@Test
 	public void findArtikelByID() {
@@ -185,7 +186,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		LOGGER.finer("BEGINN");
 		
 		// Given
-		final Long artikelId = Long.valueOf(ARTIKEL_VORHANDEN);
+		final Long artikelId = ARTIKEL_ID_VORHANDEN;
 		final String username = USERNAME_ADMIN;
 		final String password = PASSWORD_ADMIN;
 		
