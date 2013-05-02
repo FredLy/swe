@@ -39,7 +39,7 @@ import de.shop.util.AbstractResourceTest;
 public class KundeResourceTest extends AbstractResourceTest {
 	
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
-	private static final Long  KUNDE_ID_VORHANDEN = Long.valueOf(1);
+	private static final Long  KUNDE_ID_VORHANDEN = Long.valueOf(3);
 	private static final Long KUNDE_ID_NICHT_VORHANDEN = Long.valueOf(1000);
 	private static final String NACHNAME_VORHANDEN = "Sudar";
 	private static final String NACHNAME_NICHT_VORHANDEN = "Fillipo";
