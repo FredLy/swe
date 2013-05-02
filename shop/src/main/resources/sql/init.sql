@@ -1,6 +1,13 @@
 DROP SEQUENCE hibernate_sequence;
 CREATE SEQUENCE hibernate_sequence START WITH 5000;
 
+DROP TABLE rolle;
+CREATE TABLE rolle(id NUMBER(1) NOT NULL PRIMARY KEY, name VARCHAR2(32) NOT NULL) CACHE;
+INSERT INTO rolle VALUES (0, 'admin');
+INSERT INTO rolle VALUES (1, 'mitarbeiter');
+INSERT INTO rolle VALUES (2, 'abteilungsleiter');
+INSERT INTO rolle VALUES (3, 'kunde');
+
 CREATE INDEX bestellung__kunde_index ON bestellung(kunden_id);
 CREATE INDEX posten__bestellung_index ON posten(bestellungs_id);
 CREATE INDEX posten__artikel_index ON posten(artikel_id);
@@ -75,8 +82,6 @@ insert into Kunde(id, version, email, password, name, vorname, strasse, hausnumm
 insert into Kunde(id, version, email, password, name, vorname, strasse, hausnummer, plz, ort, erstelldatum, aktualisierungsdatum) values(4,0,'menges.marc@gmail.com', 'G2RTiSRzpGfQc3LUXrBavCAxZHo=', 'Menges','Marc','Erlenweg','87B','47862','Eberbach',to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
 
 INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (0,0);
-INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (0,1);
-INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (0,2);
 INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (1,0);
 INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (1,1);
 INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (1,2);
