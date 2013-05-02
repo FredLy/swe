@@ -27,7 +27,7 @@ import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 
 import org.jboss.arquillian.junit.Arquillian;
-import org.junit.Ignore;
+//import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -54,7 +54,6 @@ public class KundeResourceTest extends AbstractResourceTest {
 
 	
 	@Test
-	@Ignore
 	public void findKundeById() {
 		LOGGER.finer("BEGINN");
 		
@@ -79,7 +78,6 @@ public class KundeResourceTest extends AbstractResourceTest {
 	}
 	
 	@Test
-	@Ignore
 	public void findKundeByIdNichtVorhanden() {
 		LOGGER.finer("BEGINN");
 		
@@ -97,7 +95,6 @@ public class KundeResourceTest extends AbstractResourceTest {
 	}
 	
 	@Test
-	@Ignore
 	public void findKundeByNachname() {
 		LOGGER.finer("BEGIN");
 		
@@ -127,7 +124,6 @@ public class KundeResourceTest extends AbstractResourceTest {
 	}
 	
 	@Test
-	@Ignore
 	public void findKundenByNachnameNichtVorhanden() {
 		LOGGER.finer("BEGINN");
 		
@@ -191,17 +187,18 @@ public class KundeResourceTest extends AbstractResourceTest {
 	}
 	
 	@Test
-	@Ignore
 	public void deleteKunde() {
 		LOGGER.finer("Beginn");
 		
 		//Given
 		final Long kundeId = KUNDE_ID_VORHANDEN;
-		/**final String username = USERNAME_ADMIN;
+		final String username = USERNAME_ADMIN;
 		final String password = PASSWORD_ADMIN;
-		*/
+		
 		//When
 		final Response response = given()
+									.auth()
+									.basic(username, password)
 									.pathParameter(KUNDEN_ID_PATH_PARAM, kundeId)
 									.delete(KUNDEN_ID_PATH);
 		
@@ -211,16 +208,15 @@ public class KundeResourceTest extends AbstractResourceTest {
 	}
 	
 	@Test
-	@Ignore
 	public void updateKunde() {
 		LOGGER.finer("BEGINN");
 		
 		// Given
 		final Long kundeId = KUNDE_ID_UPDATE;
 		final String neuerNachname = NEUER_NACHNAME;
-		/**final String username = USERNAME;
-		final String password = PASSWORD;
-		*/
+		final String username = USERNAME_ADMIN;
+		final String password = PASSWORD_ADMIN;
+		
 		// When
 		Response response = given().header(ACCEPT, APPLICATION_JSON)
 				                   .pathParameter(KUNDEN_ID_PATH_PARAM, kundeId)
@@ -248,9 +244,8 @@ public class KundeResourceTest extends AbstractResourceTest {
     	
 		response = given().contentType(APPLICATION_JSON)
 				          .body(jsonObject.toString())
-                          /**.auth()
+                          .auth()
                           .basic(username, password)
-                          */
                           .put(KUNDEN_PATH);
 		
 		// Then
