@@ -42,7 +42,6 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	private static final Long ID_SAISON = Long.valueOf(1);
 	
 	@Test
-	@Ignore
 	public void findArtikelByID() {
 	
 		LOGGER.finer("BEGINN");	
@@ -69,7 +68,6 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	}
 	
 	@Test
-	@Ignore
 	public void findArtikelByIdNichtVorhanden() {
 		LOGGER.finer("BEGINN");
 		
