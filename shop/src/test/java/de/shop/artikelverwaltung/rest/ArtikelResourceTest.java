@@ -141,7 +141,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		LOGGER.finer("BEGINN");
 		
 		// Given
-		final Long artikelId = Long.valueOf(ARTIKEL_VORHANDEN);
+		final Long artikelId = ARTIKEL_ID_VORHANDEN;
 		final String neueBezeichnung = "bezeichnungNeu";
 		final String username = USERNAME_ADMIN;
 		final String password = PASSWORD_ADMIN;
