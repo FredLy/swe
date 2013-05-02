@@ -141,8 +141,8 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		// Given
 		final Long artikelId = Long.valueOf(ARTIKEL_VORHANDEN);
 		final String neueBezeichnung = "bezeichnungNeu";
-		final String username = USERNAME;
-		final String password = PASSWORD;
+		final String username = USERNAME_ADMIN;
+		final String password = PASSWORD_ADMIN;
 		
 		// When
 		Response response = given().header(ACCEPT, APPLICATION_JSON)
