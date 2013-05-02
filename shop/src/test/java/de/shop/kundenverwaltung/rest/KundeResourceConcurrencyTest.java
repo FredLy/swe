@@ -49,7 +49,6 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 	private static final Long KUNDE_ID_DELETE2 = Long.valueOf(4);
 
 	@Test
-	@Ignore
 	public void updateUpdate() throws InterruptedException, ExecutionException {
 		LOGGER.finer("BEGINN");
 		
@@ -116,7 +115,6 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 	}
 	
 	@Test
-	@Ignore
 	public void updateDelete() throws InterruptedException, ExecutionException {
 		LOGGER.finer("BEGINN");
 		
@@ -170,7 +168,6 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 	}
 	
 	@Test
-	@Ignore
 	public void deleteUpdate() throws InterruptedException, ExecutionException {
 		LOGGER.finer("BEGINN");
 		
@@ -197,8 +194,8 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 		final JsonObjectBuilder job = getJsonBuilderFactory().createObjectBuilder();
     	final Set<String> keys = jsonObject.keySet();
     	for (String k : keys) {
-    		if ("nachname".equals(k)) {
-    			job.add("nachname", neuerNachname);
+    		if ("name".equals(k)) {
+    			job.add("name", neuerNachname);
     		}
     		else {
     			job.add(k, jsonObject.get(k));
