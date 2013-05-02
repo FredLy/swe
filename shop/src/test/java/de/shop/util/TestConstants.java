@@ -31,7 +31,7 @@ public final class TestConstants {
 	public static final String BESTELLUNGEN_ID_KUNDE_PATH = BESTELLUNGEN_ID_PATH + "/kunde";
 	
 	public static final String ARTIKEL_PATH = "/artikel"; // /
-	public static final String ARTIKEL_VORHANDEN = "1";
+	public static final String ARTIKEL_VORHANDEN = "3";
 	public static final String ARTIKEL_NICHT_VORHANDEN = "1000";
 	public static final String ARTIKEL_ID_PATH_PARAM = "id";
 	public static final String ARTIKEL_ID_PATH = ARTIKEL_PATH + "/{" + ARTIKEL_ID_PATH_PARAM + "}"; // löschen..
