@@ -13,6 +13,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 
+
 import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
 import java.util.Set;
@@ -27,6 +28,7 @@ import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 
 import org.jboss.arquillian.junit.Arquillian;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -42,11 +44,12 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 
 	private static final Long KUNDE_ID_UPDATE = Long.valueOf(1);
 	private static final String NEUER_NACHNAME = "Testname";
-	private static final String NEUER_NACHNAME_2 = "NeuerTestName";
-	private static final Long KUNDE_ID_DELETE1 = Long.valueOf(122);
-	private static final Long KUNDE_ID_DELETE2 = Long.valueOf(124);
+	private static final String NEUER_NACHNAME_2 = "Neuertestname";
+	private static final Long KUNDE_ID_DELETE1 = Long.valueOf(0);
+	private static final Long KUNDE_ID_DELETE2 = Long.valueOf(1);
 
 	@Test
+	@Ignore
 	public void updateUpdate() throws InterruptedException, ExecutionException {
 		LOGGER.finer("BEGINN");
 		
@@ -54,8 +57,8 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 		final Long kundeId = KUNDE_ID_UPDATE;
     	final String neuerNachname = NEUER_NACHNAME;
     	final String neuerNachname2 = NEUER_NACHNAME_2;
-		final String username = USERNAME;
-		final String password = PASSWORD;
+		final String username = USERNAME_ADMIN;
+		final String password = PASSWORD_ADMIN;
 		
 		// When
 		Response response = given().header(ACCEPT, APPLICATION_JSON)
@@ -92,8 +95,8 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
     	job = getJsonBuilderFactory().createObjectBuilder();
     	keys = jsonObject.keySet();
     	for (String k : keys) {
-    		if ("nachname".equals(k)) {
-    			job.add("nachname", neuerNachname);
+    		if ("name".equals(k)) {
+    			job.add("name", neuerNachname);
     		}
     		else {
     			job.add(k, jsonObject.get(k));
@@ -146,8 +149,8 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 		final JsonObjectBuilder job = getJsonBuilderFactory().createObjectBuilder();
     	final Set<String> keys = jsonObject.keySet();
     	for (String k : keys) {
-    		if ("nachname".equals(k)) {
-    			job.add("nachname", neuerNachname);
+    		if ("name".equals(k)) {
+    			job.add("name", neuerNachname);
     		}
     		else {
     			job.add(k, jsonObject.get(k));
@@ -166,6 +169,7 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 	}
 	
 	@Test
+	@Ignore
 	public void deleteUpdate() throws InterruptedException, ExecutionException {
 		LOGGER.finer("BEGINN");
 		
