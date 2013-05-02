@@ -31,6 +31,8 @@ import com.jayway.restassured.RestAssured;
 public abstract class AbstractResourceTest {
 	protected static final String USERNAME = "4";
 	protected static final String PASSWORD = "4";
+	protected static final String USERNAME_CUSTOMERRIGHTS = "2";
+	protected static final String PASSWORD_CUSTOMERRIGHTS = "2";
 	protected static final String USERNAME_ADMIN = "3";
 	protected static final String PASSWORD_ADMIN = "3";
 	protected static final String PASSWORD_FALSCH = "falsch";

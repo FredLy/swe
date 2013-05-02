@@ -9,6 +9,8 @@ import static de.shop.util.TestConstants.ARTIKEL_PATH;
 import static de.shop.util.TestConstants.ARTIKEL_VORHANDEN;
 import static de.shop.util.TestConstants.LOCATION;
 import static java.net.HttpURLConnection.HTTP_CREATED;
+import static java.net.HttpURLConnection.HTTP_FORBIDDEN;
+import static java.net.HttpURLConnection.HTTP_UNAUTHORIZED;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
@@ -41,6 +43,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	private static final Long ID_ABTEILUNG = Long.valueOf(1);
 	private static final Long ID_SAISON = Long.valueOf(1);
 	private static final Long ARTIKEL_ID_VORHANDEN = Long.valueOf(3);
+	private static final Long ARTIKEL_ID_DELETE = Long.valueOf(2);
 	
 	@Test
 	public void findArtikelByID() {
@@ -137,6 +140,98 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	}
 	
 	@Test
+	public void createArtikelNoRights() {
+		LOGGER.finer("BEGINN");
+		
+		// Given
+		final String bezeichnung = "Neu";
+		final String groesse = "M";
+		final double preis = 14.99;
+		final String username = USERNAME_CUSTOMERRIGHTS;
+		final String password = PASSWORD_CUSTOMERRIGHTS;
+		
+		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
+									  .add("version", 0)
+		             		          .add("bezeichnung", bezeichnung)
+		             		          .add("groesse", groesse)
+		             		          .add("preis", preis)
+		             		          .add("kategorie", getJsonBuilderFactory().createObjectBuilder()
+		                    		                  .add("id", ID_KATEGORIE)
+		                    		                  .add("bezeichnung", "Kleider")
+		                    		                  .add("version", 0)
+		                    		                  .build())
+		             		          .add("abteilung", getJsonBuilderFactory().createObjectBuilder()
+		                    		                  .add("id", ID_ABTEILUNG)
+		                    		                  .add("bezeichnung", "Herrenmode")
+		                    		                  .add("version", 0)
+		                    		                  .build())
+		                    		  .add("saison", getJsonBuilderFactory().createObjectBuilder()
+		                    		                  .add("id", ID_SAISON)
+		                    		                  .add("bezeichnung", "Winter")
+		                    		                  .add("version", 0)
+		                    		                  .build())
+		             		          .build();
+
+		// When
+		final Response response = (given().contentType(APPLICATION_JSON)
+										 .auth()
+										 .basic(username,  password)
+				                         .body(jsonObject.toString()))
+                                         .post(ARTIKEL_PATH);
+		
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_FORBIDDEN));
+		
+		LOGGER.finer("ENDE");
+	}
+	
+	@Test
+	public void WrongPassword() {
+		LOGGER.finer("BEGINN");
+		
+		// Given
+		final String bezeichnung = "Neu";
+		final String groesse = "M";
+		final double preis = 14.99;
+		final String username = USERNAME_CUSTOMERRIGHTS;
+		final String password = PASSWORD_FALSCH;
+		
+		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
+									  .add("version", 0)
+		             		          .add("bezeichnung", bezeichnung)
+		             		          .add("groesse", groesse)
+		             		          .add("preis", preis)
+		             		          .add("kategorie", getJsonBuilderFactory().createObjectBuilder()
+		                    		                  .add("id", ID_KATEGORIE)
+		                    		                  .add("bezeichnung", "Kleider")
+		                    		                  .add("version", 0)
+		                    		                  .build())
+		             		          .add("abteilung", getJsonBuilderFactory().createObjectBuilder()
+		                    		                  .add("id", ID_ABTEILUNG)
+		                    		                  .add("bezeichnung", "Herrenmode")
+		                    		                  .add("version", 0)
+		                    		                  .build())
+		                    		  .add("saison", getJsonBuilderFactory().createObjectBuilder()
+		                    		                  .add("id", ID_SAISON)
+		                    		                  .add("bezeichnung", "Winter")
+		                    		                  .add("version", 0)
+		                    		                  .build())
+		             		          .build();
+
+		// When
+		final Response response = (given().contentType(APPLICATION_JSON)
+										 .auth()
+										 .basic(username,  password)
+				                         .body(jsonObject.toString()))
+                                         .post(ARTIKEL_PATH);
+		
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_UNAUTHORIZED));
+		
+		LOGGER.finer("ENDE");
+	}
+	
+	@Test
 	public void updateArtikel() {
 		LOGGER.finer("BEGINN");
 		
@@ -186,7 +281,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		LOGGER.finer("BEGINN");
 		
 		// Given
-		final Long artikelId = ARTIKEL_ID_VORHANDEN;
+		final Long artikelId = ARTIKEL_ID_DELETE;
 		final String username = USERNAME_ADMIN;
 		final String password = PASSWORD_ADMIN;
 		
