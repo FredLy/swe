@@ -36,9 +36,9 @@ import de.shop.util.AbstractResourceTest;
 @RunWith(Arquillian.class)
 public class ArtikelResourceTest extends AbstractResourceTest {
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
-	private static final Long ID_KATEGORIE = Long.valueOf(10);
+	private static final Long ID_KATEGORIE = Long.valueOf(9);
 	private static final Long ID_ABTEILUNG = Long.valueOf(1);
-	private static final Long ID_SAISON = Long.valueOf(13);
+	private static final Long ID_SAISON = Long.valueOf(1);
 	
 	@Test
 	public void findArtikelByID() {
