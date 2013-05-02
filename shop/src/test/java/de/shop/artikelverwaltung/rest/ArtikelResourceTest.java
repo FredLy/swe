@@ -36,9 +36,12 @@ import de.shop.util.AbstractResourceTest;
 @RunWith(Arquillian.class)
 public class ArtikelResourceTest extends AbstractResourceTest {
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+	private static final Long ID_KATEGORIE = Long.valueOf(10);
+	private static final Long ID_ABTEILUNG = Long.valueOf(1);
+	private static final Long ID_SAISON = Long.valueOf(13);
 	
 	@Test
-	public void findArtikelByID(){
+	public void findArtikelByID() {
 	
 		LOGGER.finer("BEGINN");	
 		
@@ -47,7 +50,8 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		
 		//when
 		final Response response = given().header(ACCEPT, APPLICATION_JSON)
-										 .pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId) //--> führt zu Fehlermeldung: specified too many path parameters
+										 .pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId) 
+										 //--> führt zu Fehlermeldung: specified too many path parameters
 										 .get(ARTIKEL_ID_PATH); //+ ARTIKEL_VORHANDEN);
 		
 		//then
@@ -95,17 +99,17 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		             		          .add("groesse", groesse)
 		             		          .add("preis", preis)
 		             		          .add("kategorie", getJsonBuilderFactory().createObjectBuilder()
-		                    		                  .add("id", 10)
+		                    		                  .add("id", ID_KATEGORIE)
 		                    		                  .add("bezeichnung", "Kleider")
 		                    		                  .add("version", 0)
 		                    		                  .build())
 		             		          .add("abteilung", getJsonBuilderFactory().createObjectBuilder()
-		                    		                  .add("id", 1)
+		                    		                  .add("id", ID_ABTEILUNG)
 		                    		                  .add("bezeichnung", "Herrenmode")
 		                    		                  .add("version", 0)
 		                    		                  .build())
 		                    		  .add("saison", getJsonBuilderFactory().createObjectBuilder()
-		                    		                  .add("id", 3)
+		                    		                  .add("id", ID_SAISON)
 		                    		                  .add("bezeichnung", "Winter")
 		                    		                  .add("version", 0)
 		                    		                  .build())
