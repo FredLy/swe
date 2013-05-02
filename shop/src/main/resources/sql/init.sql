@@ -90,6 +90,7 @@ INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (2,1);
 INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (2,2);
 INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (3,1);
 INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (3,2);
+INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (4,1);
 INSERT INTO kunde_rolle (kunde_fk, rolle_fk) VALUES (4,2);
 
 insert into Bestellung(id, version, bezeichnung, kunden_id, datum, idx, erstelldatum, aktualisierungsdatum) values(0,0,'Bestellung_K0_0',0,to_date('01/23/2012','mm/dd/yyyy'),0,to_date('10/29/2012','mm/dd/yyyy'),to_date('10/29/2012','mm/dd/yyyy'));
