@@ -53,13 +53,12 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		//Given
 		final Long artikelId = Long.valueOf(ARTIKEL_VORHANDEN);
 		
-		//when
+		//When
 		final Response response = given().header(ACCEPT, APPLICATION_JSON)
 										 .pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId) 
-										 //--> führt zu Fehlermeldung: specified too many path parameters
-										 .get(ARTIKEL_ID_PATH); //+ ARTIKEL_VORHANDEN);
+										 .get(ARTIKEL_ID_PATH);
 		
-		//then
+		//Then
 		assertThat(response.getStatusCode(), is(HTTP_OK));
 		
 		try (final JsonReader jsonReader =
@@ -253,7 +252,6 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		}
     	assertThat(jsonObject.getJsonNumber("id").longValue(), is(artikelId.longValue()));
     	
-    	// Aus den gelesenen JSON-Werten ein neues JSON-Objekt mit neuer Bezeichnung bauen
     	final JsonObjectBuilder job = getJsonBuilderFactory().createObjectBuilder();
     	final Set<String> keys = jsonObject.keySet();
     	for (String k : keys) {
