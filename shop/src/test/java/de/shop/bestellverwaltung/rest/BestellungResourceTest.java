@@ -91,8 +91,8 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		final Long artikelId1 = ARTIKEL_ID_VORHANDEN_1;
 		final Long artikelId2 = ARTIKEL_ID_VORHANDEN_2;
 		final String BEZEICHNUNG = "TestBezeichnung";
-		//final String username = USERNAME;
-		//final String password = PASSWORD;
+		final String username = USERNAME_ADMIN;
+		final String password = PASSWORD_ADMIN;
 		
 		// Neues, client-seitiges Bestellungsobjekt als JSON-Datensatz
 		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
@@ -111,8 +111,8 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		// When
 		final Response response = given().contentType(APPLICATION_JSON)
 				                         .body(jsonObject.toString())
-				                         //.auth()
-				                         //.basic(username, password)
+				                         .auth()
+				                         .basic(username, password)
 				                         .post(BESTELLUNGEN_PATH);
 		
 		assertThat(response.getStatusCode(), is(HTTP_CREATED));
