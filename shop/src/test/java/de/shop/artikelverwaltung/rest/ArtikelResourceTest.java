@@ -91,7 +91,8 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		final String bezeichnung = "NeuerArtikel100";
 		final String groesse = "L";
 		final double preis = 14.99;
-		
+		final String username = USERNAME_ADMIN;
+		final String password = PASSWORD_ADMIN;
 		
 		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
 									  .add("version", 0)
@@ -117,6 +118,8 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 
 		// When
 		final Response response = (given().contentType(APPLICATION_JSON)
+										 .auth()
+										 .basic(username,  password)
 				                         .body(jsonObject.toString()))
                                          .post(ARTIKEL_PATH);
 		
@@ -138,8 +141,8 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		// Given
 		final Long artikelId = Long.valueOf(ARTIKEL_VORHANDEN);
 		final String neueBezeichnung = "bezeichnungNeu";
-//		final String username = USERNAME;
-//		final String password = PASSWORD;
+		final String username = USERNAME;
+		final String password = PASSWORD;
 		
 		// When
 		Response response = given().header(ACCEPT, APPLICATION_JSON)
@@ -168,11 +171,31 @@ public class ArtikelResourceTest extends AbstractResourceTest {
     	
 		response = given().contentType(APPLICATION_JSON)
 				          .body(jsonObject.toString())
-                          //.auth()
-                          //.basic(username, password)
+                          .auth()
+                          .basic(username, password)
                           .put(ARTIKEL_PATH);
 		
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
+	}
+	
+	@Test
+	public void deleteArtikel() {
+		LOGGER.finer("BEGINN");
+		
+		// Given
+		final Long artikelId = Long.valueOf(ARTIKEL_VORHANDEN);
+		final String username = USERNAME_ADMIN;
+		final String password = PASSWORD_ADMIN;
+		
+		// When
+		final Response response = given().auth()
+                                         .basic(username, password)
+                                         .pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
+                                         .delete(ARTIKEL_ID_PATH);
+		
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
+		LOGGER.finer("ENDE");
 	}
 }
