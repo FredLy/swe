@@ -35,12 +35,12 @@ import com.jayway.restassured.response.Response;
 import de.shop.util.AbstractResourceTest;
 
 @RunWith(Arquillian.class)
-public class KundeResourceTest extends AbstractResourceTest{
+public class KundeResourceTest extends AbstractResourceTest {
 	
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	private static final Long  KUNDE_ID_VORHANDEN = Long.valueOf(1);
 	private static final Long KUNDE_ID_NICHT_VORHANDEN = Long.valueOf(1000);
-	private static final String NACHNAME_VORHANDEN= "Sudar";
+	private static final String NACHNAME_VORHANDEN = "Sudar";
 	private static final String NACHNAME_NICHT_VORHANDEN = "Fillipo";
 	private static final String VORNAME_A = "Jaqueline";
 	private static final String NEUE_EMAIL = NACHNAME_VORHANDEN + "@test.de";
@@ -186,7 +186,7 @@ public class KundeResourceTest extends AbstractResourceTest{
 	}
 	
 	@Test
-	public void deleteKunde(){
+	public void deleteKunde() {
 		LOGGER.finer("Beginn");
 		
 		//Given
