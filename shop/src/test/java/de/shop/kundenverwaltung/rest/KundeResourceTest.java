@@ -129,6 +129,7 @@ public class KundeResourceTest extends AbstractResourceTest{
 		// Given
 		final String nachname = NACHNAME_NICHT_VORHANDEN;
 		
+		
 		// When
 		final Response response = given().header(ACCEPT, APPLICATION_JSON)
 				                         .queryParam(KUNDEN_NACHNAME_QUERY_PARAM, nachname)
@@ -152,6 +153,8 @@ public class KundeResourceTest extends AbstractResourceTest{
 		final String hausnummer = HAUSNUMMER;
 		final String plz = PLZ;
 		final String ort = ORT;
+		final String username = USERNAME_ADMIN;
+		final String password = PASSWORD_ADMIN;
 		
 		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
 										.add("name", name)
@@ -166,8 +169,8 @@ public class KundeResourceTest extends AbstractResourceTest{
 		final Response response = given().contentType(APPLICATION_JSON)
 		 
 						               .body(jsonObject.toString())
-		                               //.auth()
-		                               //.basic(username, password)
+		                               .auth()
+		                               .basic(username, password)
 		                               .post(KUNDEN_PATH);
 
 				
