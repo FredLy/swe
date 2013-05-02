@@ -8,9 +8,11 @@ import static de.shop.util.TestConstants.KUNDEN_NACHNAME_QUERY_PARAM;
 import static de.shop.util.TestConstants.KUNDEN_PATH;
 import static de.shop.util.TestConstants.LOCATION;
 import static java.net.HttpURLConnection.HTTP_CREATED;
+import static java.net.HttpURLConnection.HTTP_FORBIDDEN;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
+import static java.net.HttpURLConnection.HTTP_UNAUTHORIZED;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -183,7 +185,85 @@ public class KundeResourceTest extends AbstractResourceTest {
 		final Long id = Long.valueOf(idStr);
 		assertThat(id.longValue() > 0, is(true));
 				
-				LOGGER.finer("ENDE");
+		LOGGER.finer("ENDE");
+	}
+	
+	@Test
+	public void createKundeNoRights() {
+		LOGGER.finer("BEGINN");
+		
+		//Given
+		final String email = NEUE_EMAIL;
+		final String name = NACHNAME_VORHANDEN;
+		final String vorname = VORNAME_A;
+		final String strasse = STRASSE;
+		final String hausnummer = HAUSNUMMER;
+		final String plz = PLZ;
+		final String ort = ORT;
+		final String username = USERNAME_CUSTOMERRIGHTS;
+		final String password = PASSWORD_CUSTOMERRIGHTS;
+		
+		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
+										.add("name", name)
+										.add("vorname", vorname)
+										.add("email", email)
+										.add("ort", ort)
+										.add("plz", plz)
+										.add("strasse", strasse)
+										.add("hausnummer", hausnummer)
+										.build();
+		// When
+		final Response response = given().contentType(APPLICATION_JSON)
+		 
+						               .body(jsonObject.toString())
+		                               .auth()
+		                               .basic(username, password)
+		                               .post(KUNDEN_PATH);
+
+				
+		// Then 
+		assertThat(response.getStatusCode(), is(HTTP_FORBIDDEN));
+
+		LOGGER.finer("ENDE");
+	}
+	
+	@Test
+	public void wrongPassword() {
+		LOGGER.finer("BEGINN");
+		
+		//Given
+		final String email = NEUE_EMAIL;
+		final String name = NACHNAME_VORHANDEN;
+		final String vorname = VORNAME_A;
+		final String strasse = STRASSE;
+		final String hausnummer = HAUSNUMMER;
+		final String plz = PLZ;
+		final String ort = ORT;
+		final String username = USERNAME_ADMIN;
+		final String password = PASSWORD_FALSCH;
+		
+		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
+										.add("name", name)
+										.add("vorname", vorname)
+										.add("email", email)
+										.add("ort", ort)
+										.add("plz", plz)
+										.add("strasse", strasse)
+										.add("hausnummer", hausnummer)
+										.build();
+		// When
+		final Response response = given().contentType(APPLICATION_JSON)
+		 
+						               .body(jsonObject.toString())
+		                               .auth()
+		                               .basic(username, password)
+		                               .post(KUNDEN_PATH);
+
+				
+		// Then 
+		assertThat(response.getStatusCode(), is(HTTP_UNAUTHORIZED));
+				
+		LOGGER.finer("ENDE");
 	}
 	
 	@Test

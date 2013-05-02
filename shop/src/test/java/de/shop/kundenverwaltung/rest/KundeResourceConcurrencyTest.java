@@ -28,7 +28,6 @@ import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 
 import org.jboss.arquillian.junit.Arquillian;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -69,8 +68,7 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 			jsonObject = jsonReader.readObject();
 		}
 
-    	// Konkurrierendes Update
-		// Aus den gelesenen JSON-Werten ein neues JSON-Objekt mit neuem Nachnamen bauen
+    	// Concurrent Update
     	JsonObjectBuilder job = getJsonBuilderFactory().createObjectBuilder();
     	Set<String> keys = jsonObject.keySet();
     	for (String k : keys) {
@@ -89,8 +87,7 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 		response = future.get();   // Warten bis der "parallele" Thread fertig ist
 		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
 		
-    	// Fehlschlagendes Update
-		// Aus den gelesenen JSON-Werten ein neues JSON-Objekt mit neuem Nachnamen bauen
+    	// Failed Update
     	job = getJsonBuilderFactory().createObjectBuilder();
     	keys = jsonObject.keySet();
     	for (String k : keys) {
@@ -136,15 +133,15 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 			jsonObject = jsonReader.readObject();
 		}
 
-		// Konkurrierendes Delete
+		// Concurrent Delete
     	final ConcurrentDelete concurrentDelete = new ConcurrentDelete(KUNDEN_PATH + '/' + kundeId,
     			                                                       username2, password2);
     	final ExecutorService executorService = Executors.newSingleThreadExecutor();
 		final Future<Response> future = executorService.submit(concurrentDelete);
-		response = future.get();   // Warten bis der "parallele" Thread fertig ist
+		response = future.get();
 		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
 		
-    	// Fehlschlagendes Update
+    	// Failed Update
 		final JsonObjectBuilder job = getJsonBuilderFactory().createObjectBuilder();
     	final Set<String> keys = jsonObject.keySet();
     	for (String k : keys) {
@@ -190,7 +187,7 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 			jsonObject = jsonReader.readObject();
 		}
 
-		// Konkurrierendes Update
+		// Concurrent Update
 		final JsonObjectBuilder job = getJsonBuilderFactory().createObjectBuilder();
     	final Set<String> keys = jsonObject.keySet();
     	for (String k : keys) {
@@ -205,10 +202,9 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
     			                                                      username2, password2);
     	final ExecutorService executorService = Executors.newSingleThreadExecutor();
 		final Future<Response> future = executorService.submit(concurrenUpdate);
-		response = future.get();   // Warten bis der "parallele" Thread fertig ist
+		response = future.get();
 		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
 		
-    	// Erfolgreiches Delete trotz konkurrierendem Update
 		response = given().auth()
                           .basic(username, password)
                           .pathParameter(KUNDEN_ID_PATH_PARAM, kundeId)

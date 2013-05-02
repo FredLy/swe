@@ -185,7 +185,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	}
 	
 	@Test
-	public void WrongPassword() {
+	public void wrongPassword() {
 		LOGGER.finer("BEGINN");
 		
 		// Given
