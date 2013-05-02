@@ -91,7 +91,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		final Long kundeId = KUNDE_ID_VORHANDEN;
 		final Long artikelId1 = ARTIKEL_ID_VORHANDEN_1;
 		final Long artikelId2 = ARTIKEL_ID_VORHANDEN_2;
-		final String BEZEICHNUNG = "TestBezeichnung";
+		final String BEZEICHNUNG = "testBezeichnung";
 		final String username = USERNAME_ADMIN;
 		final String password = PASSWORD_ADMIN;
 		
@@ -134,7 +134,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		final Long kundeId = KUNDE_ID_VORHANDEN;
 		final Long artikelId1 = ARTIKEL_ID_VORHANDEN_1;
 		final Long artikelId2 = ARTIKEL_ID_VORHANDEN_2;
-		final String BEZEICHNUNG = "TestBezeichnung";
+		final String BEZEICHNUNG = "testBezeichnung";
 		final String username = USERNAME_ADMIN;
 		final String password = PASSWORD_FALSCH;
 		

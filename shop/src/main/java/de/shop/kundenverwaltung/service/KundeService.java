@@ -149,7 +149,7 @@ public class KundeService implements Serializable {
 	public void deleteKunde(Kunde kunde) { // vorher children löschen. (nicht über bs möglich, da Zirkel)
 		if (kunde == null)
 			return;
-		for(Bestellung b : kunde.getBestellungen()) {
+		for (Bestellung b : kunde.getBestellungen()) {
 			if (b == null)
 				break;
 			List<Posten> posten = b.getPosten();

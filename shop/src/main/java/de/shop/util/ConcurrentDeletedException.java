@@ -3,7 +3,7 @@ package de.shop.util;
 import javax.ejb.ApplicationException;
 
 @ApplicationException(rollback = true)
-public class ConcurrentDeletedException extends AbstractShopException{
+public class ConcurrentDeletedException extends AbstractShopException {
 	
 	/**
 	 * 
