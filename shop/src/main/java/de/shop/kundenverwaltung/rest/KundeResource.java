@@ -37,6 +37,7 @@ import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.kundenverwaltung.service.KundeService;
 import de.shop.util.Log;
 import de.shop.util.NotFoundException;
+import de.shop.util.Transactional;
 
 
 @Path("/kunden")
@@ -44,6 +45,7 @@ import de.shop.util.NotFoundException;
 @Consumes
 @RequestScoped
 @Log
+@Transactional
 public class KundeResource {
 
 	private static final Logger LOGGER = 

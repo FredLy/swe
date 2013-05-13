@@ -41,12 +41,14 @@ import de.shop.kundenverwaltung.rest.UriHelperKunde;
 import de.shop.kundenverwaltung.service.KundeService;
 import de.shop.util.Log;
 import de.shop.util.NotFoundException;
+import de.shop.util.Transactional;
 
 @Path("/bestellungen")
 @Produces({ APPLICATION_JSON })
 @Consumes
 @RequestScoped
 @Log
+@Transactional
 public class BestellungResource {
 
 	
