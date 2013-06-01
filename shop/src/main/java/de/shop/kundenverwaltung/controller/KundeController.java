@@ -45,6 +45,7 @@ import de.shop.auth.controller.AuthController;
 import de.shop.kundenverwaltung.domain.AbstractKunde;
 import de.shop.kundenverwaltung.domain.Adresse;
 import de.shop.kundenverwaltung.domain.HobbyType;
+import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.kundenverwaltung.domain.PasswordGroup;
 import de.shop.kundenverwaltung.domain.Privatkunde;
 import de.shop.kundenverwaltung.service.EmailExistsException;
@@ -142,18 +143,18 @@ public class KundeController implements Serializable {
 	private FileHelper fileHelper;
 
 	private Long kundeId;
-	private AbstractKunde kunde;
+	private Kunde kunde;
 	private List<String> hobbies;
 	
 	private String nachname;
 	
-	private List<AbstractKunde> kunden = Collections.emptyList();
+	private List<Kunde> kunden = Collections.emptyList();
 	
 	private SortOrder vornameSortOrder = SortOrder.unsorted;
 	private String vornameFilter = "";
 	
 	private boolean geaendertKunde;    // fuer ValueChangeListener
-	private Privatkunde neuerPrivatkunde;
+	private Kunde neuerPrivatkunde;
 	
 	private byte[] bytes;
 	private String contentType;
@@ -203,7 +204,7 @@ public class KundeController implements Serializable {
 		this.kundeId = kundeId;
 	}
 
-	public AbstractKunde getKunde() {
+	public Kunde getKunde() {
 		return kunde;
 	}
 
@@ -223,7 +224,7 @@ public class KundeController implements Serializable {
 		this.nachname = nachname;
 	}
 
-	public List<AbstractKunde> getKunden() {
+	public List<Kunde> getKunden() {
 		return kunden;
 	}
 
@@ -249,7 +250,7 @@ public class KundeController implements Serializable {
 		this.vornameFilter = vornameFilter;
 	}
 
-	public Privatkunde getNeuerPrivatkunde() {
+	public Kunde getNeuerPrivatkunde() {
 		return neuerPrivatkunde;
 	}
 	
@@ -272,7 +273,7 @@ public class KundeController implements Serializable {
 	@TransactionAttribute(REQUIRED)
 	public String findKundeById() {
 		// Bestellungen werden durch "Extended Persistence Context" nachgeladen
-		kunde = ks.findKundeById(kundeId, FetchType.NUR_KUNDE, locale);
+		kunde = ks.findKundeById(kundeId,  locale);
 		
 		if (kunde == null) {
 			// Kein Kunde zu gegebener ID gefunden
@@ -293,8 +294,8 @@ public class KundeController implements Serializable {
 	 * @return Liste der potenziellen Kunden
 	 */
 	@TransactionAttribute(REQUIRED)
-	public List<AbstractKunde> findKundenByIdPrefix(String idPrefix) {
-		List<AbstractKunde> kundenPrefix = null;
+	public List<Kunde> findKundenByIdPrefix(String idPrefix) {
+		List<Kunde> kundenPrefix = null;
 		Long id = null; 
 		try {
 			id = Long.valueOf(idPrefix);
@@ -330,7 +331,7 @@ public class KundeController implements Serializable {
 		}
 		
 		// Suche durch den Anwendungskern
-		kunde = ks.findKundeById(id, FetchType.NUR_KUNDE, locale);
+		kunde = ks.findKundeById(id, locale);
 		if (kunde == null) {
 			return;
 		}
@@ -343,15 +344,15 @@ public class KundeController implements Serializable {
 	@TransactionAttribute(REQUIRED)
 	public String findKundenByNachname() {
 		if (nachname == null || nachname.isEmpty()) {
-			kunden = ks.findAllKunden(FetchType.MIT_BESTELLUNGEN, OrderByType.UNORDERED);
+			kunden = (List<Kunde>) ks.findAllKunden();
 			return JSF_LIST_KUNDEN;
 		}
 
 		try {
-			kunden = ks.findKundenByNachname(nachname, FetchType.MIT_BESTELLUNGEN, locale);
+			kunden = ks.findKundenByNachname(nachname, locale);
 		}
 		catch (InvalidNachnameException e) {
-			final Collection<ConstraintViolation<AbstractKunde>> violations = e.getViolations();
+			final Collection<ConstraintViolation<Kunde>> violations = e.getViolations();
 			messages.error(violations, CLIENT_ID_KUNDEN_NACHNAME);
 			return null;
 		}
@@ -379,13 +380,13 @@ public class KundeController implements Serializable {
 	}
 	
 	@TransactionAttribute(REQUIRED)
-	public String details(AbstractKunde ausgewaehlterKunde) {
+	public String details(Kunde ausgewaehlterKunde) {
 		if (ausgewaehlterKunde == null) {
 			return null;
 		}
 		
 		// Bestellungen nachladen
-		this.kunde = ks.findKundeById(ausgewaehlterKunde.getId(), FetchType.MIT_BESTELLUNGEN, locale);
+		this.kunde = ks.findKundeById(ausgewaehlterKunde.getId(), locale);
 		this.kundeId = this.kunde.getId();
 		
 		return JSF_VIEW_KUNDE;
@@ -394,14 +395,8 @@ public class KundeController implements Serializable {
 	@TransactionAttribute(REQUIRED)
 	public String createPrivatkunde() {
 		// Liste von Strings als Set von Enums konvertieren
-		final Set<HobbyType> hobbiesPrivatkunde = new HashSet<>();
-		for (String s : hobbies) {
-			hobbiesPrivatkunde.add(HobbyType.valueOf(s));
-		}
-		neuerPrivatkunde.setHobbies(hobbiesPrivatkunde);
-
 		try {
-			neuerPrivatkunde = (Privatkunde) ks.createKunde(neuerPrivatkunde, locale);
+			neuerPrivatkunde = ks.createKunde(neuerPrivatkunde, locale);
 		}
 		catch (InvalidKundeException | EmailExistsException e) {
 			final String outcome = createPrivatkundeErrorMsg(e);
@@ -437,14 +432,7 @@ public class KundeController implements Serializable {
 		if (neuerPrivatkunde != null) {
 			return;
 		}
-
-		neuerPrivatkunde = new Privatkunde();
-		final Adresse adresse = new Adresse();
-		adresse.setKunde(neuerPrivatkunde);
-		neuerPrivatkunde.setAdresse(adresse);
-		
-		final int anzahlHobbies = HobbyType.values().length;
-		hobbies = new ArrayList<>(anzahlHobbies);
+		neuerPrivatkunde = new Kunde();
 	}
 	
 	/**
@@ -453,20 +441,6 @@ public class KundeController implements Serializable {
 	 */
 	public Class<?>[] getPasswordGroup() {
 		return PASSWORD_GROUP.clone();
-	}
-
-	/**
-	 * Hobbies als Liste von Strings fuer JSF aufbereiten, wenn ein existierender Privatkunde
-	 * in updatePrivatkunde.xhtml aktualisiert wird
-	 */
-	public void copyHobbies() {
-		hobbies = new ArrayList<>(HobbyType.values().length);
-
-		final Privatkunde privatkunde = (Privatkunde) kunde;
-		final Set<HobbyType> hobbiesPrivatkunde = privatkunde.getHobbies();
-		for (HobbyType h : hobbiesPrivatkunde) {
-			hobbies.add(h.name());
-		}
 	}
 
 	/**
@@ -498,19 +472,9 @@ public class KundeController implements Serializable {
 			return JSF_INDEX;
 		}
 		
-		if (kunde.getClass().equals(Privatkunde.class)) {
-			final Privatkunde privatkunde = (Privatkunde) kunde;
-			final Set<HobbyType> hobbiesPrivatkunde = privatkunde.getHobbies();
-			hobbiesPrivatkunde.clear();
-			
-			for (String s : hobbies) {
-				hobbiesPrivatkunde.add(HobbyType.valueOf(s));				
-			}
-		}
-		
 		LOGGER.tracef("Aktualisierter Kunde: %s", kunde);
 		try {
-			kunde = ks.updateKunde(kunde, locale, false);
+			kunde = ks.updateKunde(kunde, locale);
 		}
 		catch (EmailExistsException | InvalidKundeException
 			  | OptimisticLockException | ConcurrentDeletedException e) {
@@ -530,16 +494,16 @@ public class KundeController implements Serializable {
 		return JSF_VIEW_KUNDE + JSF_REDIRECT_SUFFIX;
 	}
 	
-	private String updateErrorMsg(RuntimeException e, Class<? extends AbstractKunde> kundeClass) {
+	private String updateErrorMsg(RuntimeException e, Class<? extends Kunde> kundeClass) {
 		final Class<? extends RuntimeException> exceptionClass = e.getClass();
 		if (exceptionClass.equals(InvalidKundeException.class)) {
 			// Ungueltiges Password: Attribute wurden bereits von JSF validiert
 			final InvalidKundeException orig = (InvalidKundeException) e;
-			final Collection<ConstraintViolation<AbstractKunde>> violations = orig.getViolations();
+			final Collection<ConstraintViolation<Kunde>> violations = orig.getViolations();
 			messages.error(violations, CLIENT_ID_UPDATE_PASSWORD);
 		}
 		else if (exceptionClass.equals(EmailExistsException.class)) {
-			if (kundeClass.equals(Privatkunde.class)) {
+			if (kundeClass.equals(Kunde.class)) {
 				messages.error(KUNDENVERWALTUNG, MSG_KEY_UPDATE_PRIVATKUNDE_DUPLIKAT, CLIENT_ID_UPDATE_EMAIL);
 			}
 			else {
@@ -555,7 +519,7 @@ public class KundeController implements Serializable {
 			}
 		}
 		else if (exceptionClass.equals(ConcurrentDeletedException.class)) {
-			if (kundeClass.equals(Privatkunde.class)) {
+			if (kundeClass.equals(Kunde.class)) {
 				messages.error(KUNDENVERWALTUNG, MSG_KEY_UPDATE_PRIVATKUNDE_CONCURRENT_DELETE, null);
 			}
 			else {
@@ -595,20 +559,18 @@ public class KundeController implements Serializable {
 		return JSF_DELETE_OK;
 	}
 	
-	public String selectForUpdate(AbstractKunde ausgewaehlterKunde) {
+	public String selectForUpdate(Kunde ausgewaehlterKunde) {
 		if (ausgewaehlterKunde == null) {
 			return null;
 		}
 		
 		kunde = ausgewaehlterKunde;
 		
-		return Privatkunde.class.equals(ausgewaehlterKunde.getClass())
-			   ? JSF_UPDATE_PRIVATKUNDE
-			   : JSF_UPDATE_FIRMENKUNDE;
+		return JSF_UPDATE_PRIVATKUNDE
 	}
 
 	@TransactionAttribute(REQUIRED)
-	public String delete(AbstractKunde ausgewaehlterKunde) {
+	public String delete(Kunde ausgewaehlterKunde) {
 		try {
 			ks.deleteKunde(ausgewaehlterKunde);
 		}
@@ -630,7 +592,7 @@ public class KundeController implements Serializable {
 
 	@TransactionAttribute(REQUIRED)
 	public String upload() {
-		kunde = ks.findKundeById(kundeId, FetchType.NUR_KUNDE, locale);
+		kunde = ks.findKundeById(kundeId, locale);
 		if (kunde == null) {
 			return null;
 		}

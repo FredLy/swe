@@ -43,6 +43,13 @@ public class KundeService implements Serializable {
 		return kunden;
 	}
 	
+	public List<Kunde> findKundenByNachname(String name) {
+		List<Kunde> kunden = em.createNamedQuery(Kunde.KUNDE_BY_NACHNAME, Kunde.class) 
+								.setParameter("name", name)
+								.getResultList();
+		return kunden;
+	}
+	
 	private void validateNachname(String nachname, Locale locale) {
 		final Validator validator = validatorProvider.getValidator(locale);
 		final Set<ConstraintViolation<Kunde>> violations = validator.validateValue(Kunde.class,

@@ -28,7 +28,7 @@ import com.google.common.collect.Lists;
 
 import de.shop.auth.service.jboss.AuthService;
 import de.shop.auth.service.jboss.AuthService.RolleType;
-import de.shop.kundenverwaltung.domain.AbstractKunde;
+import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.kundenverwaltung.service.KundeService;
 import de.shop.util.InternalError;
 import de.shop.util.Log;
@@ -62,7 +62,7 @@ public class AuthController implements Serializable {
 	@Produces
 	@SessionScoped
 	@KundeLoggedIn
-	private AbstractKunde user;
+	private Kunde user;
 	
 	@Inject
 	private KundeService ks;
@@ -162,8 +162,11 @@ public class AuthController implements Serializable {
 			messages.error(SHOP, MSG_KEY_LOGIN_ERROR, CLIENT_ID_USERNAME);
 			return null;   // Gleiche Seite nochmals aufrufen: mit den fehlerhaften Werten
 		}
-		
-		user = ks.findKundeByUserName(username);
+		List<Kunde> kundenListe = ks.findKundenByNachname(username);
+		for(Kunde k : kundenListe){
+			if(k.getName().equals(username))
+				user = k;
+		}
 		if (user == null) {
 			logout();
 			throw new InternalError("Kein Kunde mit dem Loginnamen \"" + username + "\" gefunden");
@@ -186,7 +189,11 @@ public class AuthController implements Serializable {
 		// Benutzername beim Login ermitteln
 		username = request.getRemoteUser();
 
-		user = ks.findKundeByUserName(username);
+		List<Kunde> kundenListe = ks.findKundenByNachname(username);
+		for(Kunde k : kundenListe){
+			if(k.getName().equals(username))
+				user = k;
+		}
 		if (user == null) {
 			// Darf nicht passieren, wenn unmittelbar zuvor das Login erfolgreich war
 			logout();
@@ -230,16 +237,21 @@ public class AuthController implements Serializable {
 		return user != null;
 	}
 	
-	@Transactional
-	public List<String> findUsernameListByUsernamePrefix(String usernamePrefix) {
-		final List<String> usernameList = authService.findUsernameListByUsernamePrefix(usernamePrefix);
-		return usernameList;
-	}
+//	@Transactional //TODO: implement UserPrefix
+//	public List<String> findUsernameListByUsernamePrefix(String usernamePrefix) {
+//		final List<String> usernameList = authService.findUsernameListByUsernamePrefix(usernamePrefix);
+//		return usernameList;
+//	}
 	
 	@Transactional
 	public String findRollenByUsername() {
 		// Gibt es den Usernamen ueberhaupt?
-		final AbstractKunde kunde = ks.findKundeByUserName(usernameUpdateRollen);
+		Kunde kunde = null;
+		List<Kunde> kundenListe = ks.findKundenByNachname(username);
+		for(Kunde k : kundenListe){
+			if(k.getName().equals(username))
+				kunde = k;
+		}
 		if (kunde == null) {
 			kundeId = null;
 			ausgewaehlteRollenOrig = null;
