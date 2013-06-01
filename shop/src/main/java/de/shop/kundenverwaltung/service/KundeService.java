@@ -4,6 +4,7 @@ import static de.shop.util.Constants.KEINE_ID;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -75,6 +76,25 @@ public class KundeService implements Serializable {
 	public Kunde findKundeById(Long id, Locale locale) {
 		validateKundeId(id, locale);
 		return em.find(Kunde.class, id);
+	}
+	
+	public List<Kunde> findKundenByIdPrefix(Long id) {
+		if (id == null) {
+			return Collections.emptyList();
+		}
+		
+		final List<Kunde> kunden = em.createNamedQuery(Kunde.FIND_KUNDEN_BY_ID_PREFIX,
+				                                               Kunde.class)
+				                             .setParameter(Kunde.PARAM_KUNDE_ID_PREFIX, id.toString() + '%')
+				                             .getResultList();
+		return kunden;
+	}
+	
+	public List<String> findNachnamenByPrefix(String nachnamePrefix) {
+		final List<String> nachnamen = em.createNamedQuery(Kunde.FIND_NACHNAMEN_BY_PREFIX, String.class)
+				                         .setParameter(Kunde.PARAM_KUNDE_NACHNAME_PREFIX, nachnamePrefix + '%')
+				                         .getResultList();
+		return nachnamen;
 	}
 	
 	public void validateKundeId(Long kundeId, Locale locale) {

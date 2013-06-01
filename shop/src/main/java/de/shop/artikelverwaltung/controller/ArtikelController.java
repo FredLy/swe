@@ -33,7 +33,7 @@ public class ArtikelController implements Serializable {
 	
 	private static final String JSF_LIST_ARTIKEL = "/artikelverwaltung/listArtikel";
 	private static final String FLASH_ARTIKEL = "artikel";
-	private static final int ANZAHL_LADENHUETER = 5;
+	
 	
 	private static final String JSF_SELECT_ARTIKEL = "/artikelverwaltung/selectArtikel";
 	private static final String SESSION_VERFUEGBARE_ARTIKEL = "verfuegbareArtikel";
@@ -88,11 +88,6 @@ public class ArtikelController implements Serializable {
 		return JSF_LIST_ARTIKEL;
 	}
 	
-
-	@Transactional
-	public void loadLadenhueter() {
-		ladenhueter = as.ladenhueter(ANZAHL_LADENHUETER);
-	}
 	
 	@Transactional
 	public String selectArtikel() {
@@ -100,7 +95,7 @@ public class ArtikelController implements Serializable {
 			return JSF_SELECT_ARTIKEL;
 		}
 		
-		final List<Artikel> alleArtikel = as.findVerfuegbareArtikel();
+		final List<Artikel> alleArtikel = (List<Artikel>) as.findAllArtikel();
 		session.setAttribute(SESSION_VERFUEGBARE_ARTIKEL, alleArtikel);
 		return JSF_SELECT_ARTIKEL;
 	}
