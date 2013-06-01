@@ -146,6 +146,8 @@ public class Posten implements Serializable {
 		this.aktualisierungsdatum = aktualisierungsdatum == null ? null : (Date) aktualisierungsdatum.clone();
 	}
 	
+	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

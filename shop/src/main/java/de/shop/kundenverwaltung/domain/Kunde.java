@@ -1,7 +1,6 @@
 package de.shop.kundenverwaltung.domain;
 
 import static javax.persistence.FetchType.EAGER;
-import javax.persistence.UniqueConstraint;
 
 import java.io.Serializable;
 import java.net.URI;
@@ -9,12 +8,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-
-
-
-
-
-
 import java.util.Set;
 
 import javax.persistence.Basic;
@@ -28,11 +21,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
@@ -41,6 +36,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.CascadeType.REMOVE;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.Email;
@@ -49,7 +46,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import de.shop.auth.service.jboss.AuthService.RolleType;
 import de.shop.bestellverwaltung.domain.Bestellung;
-import de.shop.util.*;
+import de.shop.util.File;
+import de.shop.util.IdGroup;
 
 
 @Entity
@@ -173,6 +171,11 @@ public class Kunde implements Serializable {
 	@JsonIgnore
 	@Temporal(TemporalType.DATE)
 	private Date aktualisierungsdatum;
+	
+	@OneToOne(cascade = { PERSIST, REMOVE })
+	@JoinColumn(name = "file_fk")
+	@JsonIgnore
+	private File file;
 	
 	public Kunde() {
 		super();
@@ -306,6 +309,14 @@ public class Kunde implements Serializable {
 		this.rollen = rollen;
 	}
 	
+	public File getFile() {
+		return file;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

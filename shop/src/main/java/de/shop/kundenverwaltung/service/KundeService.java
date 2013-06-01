@@ -21,7 +21,11 @@ import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.bestellverwaltung.domain.Posten;
 import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.util.ConcurrentDeletedException;
+import de.shop.util.File;
+import de.shop.util.FileHelper;
+import de.shop.util.FileHelper.MimeType;
 import de.shop.util.Log;
+import de.shop.util.NoMimeTypeException;
 import de.shop.util.ValidatorProvider;
 
 @Log
@@ -34,6 +38,9 @@ public class KundeService implements Serializable {
 	
 	@Inject
 	private ValidatorProvider validatorProvider;
+	
+	@Inject
+	private FileHelper fileHelper;
 	
 	public List<Kunde> findKundenByNachname(String name, Locale locale) {
 		validateNachname(name, locale);
@@ -166,5 +173,42 @@ public class KundeService implements Serializable {
 			em.remove(b);
 		}
 		em.remove(kunde);
+	}
+		
+	public void setFile(Long kundeId, byte[] bytes, Locale locale) {
+		final Kunde kunde = findKundeById(kundeId, locale);
+		if (kunde == null) {
+			return;
+		}
+		final MimeType mimeType = fileHelper.getMimeType(bytes);
+		setFile(kunde, bytes, mimeType);
+	}
+	
+	/**
+	 * Mit MIME-Type fuer Upload bei Webseiten
+	 */
+	public void setFile(Kunde kunde, byte[] bytes, String mimeTypeStr) {
+		final MimeType mimeType = MimeType.get(mimeTypeStr);
+		setFile(kunde, bytes, mimeType);
+	}
+	
+	private void setFile(Kunde kunde, byte[] bytes, MimeType mimeType) {
+		if (mimeType == null) {
+			throw new NoMimeTypeException();
+		}
+		
+		final String filename = fileHelper.getFilename(kunde.getClass(), kunde.getId(), mimeType);
+		
+		// Gibt es noch kein (Multimedia-) File
+		File file = kunde.getFile();
+		if (file == null) {
+			file = new File(bytes, filename, mimeType);
+			kunde.setFile(file);
+			em.persist(file);
+		}
+		else {
+			file.set(bytes, filename, mimeType);
+			em.merge(file);
+		}
 	}
 }
