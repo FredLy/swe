@@ -1,7 +1,7 @@
 package de.shop.auth.service.jboss;
 
-//import static de.shop.kundenverwaltung.domain.Kunde.FIND_USERNAME_BY_USERNAME_PREFIX;
-//import static de.shop.kundenverwaltung.domain.Kunde.PARAM_USERNAME_PREFIX;
+import static de.shop.kundenverwaltung.domain.Kunde.FIND_USERNAME_BY_USERNAME_PREFIX;
+import static de.shop.kundenverwaltung.domain.Kunde.PARAM_USERNAME_PREFIX;
 import static de.shop.util.Constants.HASH_ALGORITHM;
 import static de.shop.util.Constants.HASH_CHARSET;
 import static de.shop.util.Constants.HASH_ENCODING;
@@ -149,6 +149,7 @@ public class AuthService implements Serializable {
 	/**
 	 * siehe http://community.jboss.org/thread/169263
 	 * siehe https://docs.jboss.org/author/display/AS7/Management+Clients
+	 * siehe https://github.com/jbossas/jboss-as/blob/master/controller-client/src/main/java/org/jboss/as/controller/client/ModelControllerClient.java
 	 * siehe http://community.jboss.org/wiki/FormatOfADetypedOperationRequest
 	 * siehe http://community.jboss.org/wiki/DetypedDescriptionOfTheAS7ManagementModel
 	 * 
@@ -248,12 +249,12 @@ public class AuthService implements Serializable {
 
 	/**
 	 */
-//	public List<String> findUsernameListByUsernamePrefix(String usernamePrefix) {
-//		final List<String> usernameList = em.createNamedQuery(FIND_USERNAME_BY_USERNAME_PREFIX, String.class)
-//				                            .setParameter(PARAM_USERNAME_PREFIX, usernamePrefix + '%')
-//				                            .getResultList();
-//		return usernameList;
-//	}
+	public List<String> findUsernameListByUsernamePrefix(String usernamePrefix) {
+		final List<String> usernameList = em.createNamedQuery(FIND_USERNAME_BY_USERNAME_PREFIX, String.class)
+				                            .setParameter(PARAM_USERNAME_PREFIX, usernamePrefix + '%')
+				                            .getResultList();
+		return usernameList;
+	}
 	
 
 	public static void main(String[] args) throws IOException {

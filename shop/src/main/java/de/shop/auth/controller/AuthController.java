@@ -237,11 +237,11 @@ public class AuthController implements Serializable {
 		return user != null;
 	}
 	
-//	@Transactional //TODO: implement UserPrefix
-//	public List<String> findUsernameListByUsernamePrefix(String usernamePrefix) {
-//		final List<String> usernameList = authService.findUsernameListByUsernamePrefix(usernamePrefix);
-//		return usernameList;
-//	}
+	@Transactional
+	public List<String> findUsernameListByUsernamePrefix(String usernamePrefix) {
+		final List<String> usernameList = authService.findUsernameListByUsernamePrefix(usernamePrefix);
+		return usernameList;
+	}
 	
 	@Transactional
 	public String findRollenByUsername() {

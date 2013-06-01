@@ -70,7 +70,11 @@ import de.shop.util.IdGroup;
     		query = "SELECT   DISTINCT k.name"
 	        + " FROM  Kunde k "
 	        + " WHERE UPPER(k.name) LIKE UPPER(:"
-        	+ Kunde.PARAM_KUNDE_NACHNAME_PREFIX + ")")
+        	+ Kunde.PARAM_KUNDE_NACHNAME_PREFIX + ")"),
+    @NamedQuery(name  = Kunde.FIND_USERNAME_BY_USERNAME_PREFIX,
+	        query = "SELECT   CONCAT('', k.id)"
+	        + " FROM  Kunde k"
+	        + " WHERE CONCAT('', k.id) LIKE :" + Kunde.PARAM_USERNAME_PREFIX),
 })
 
 //TODO @ScriptAssert Passwort ueberpruefen
@@ -88,12 +92,13 @@ public class Kunde implements Serializable {
 	public static final String KUNDE_BY_EMAIL = PREFIX + "findKundeByEmail";
 	public static final String PARAM_KUNDE_EMAIL = "email";
 	private static final int ERSTE_VERSION = 0;
-	
-	//public static final String FIND_IDS_BY_PREFIX = PREFIX + "findIdsByIdPrefix";
+	public static final String FIND_USERNAME_BY_USERNAME_PREFIX = PREFIX + "findKundeByUsernamePrefix";
+	public static final String FIND_IDS_BY_PREFIX = PREFIX + "findIdsByIdPrefix";
 	public static final String FIND_KUNDEN_BY_ID_PREFIX = PREFIX + "findKundenByIdPrefix";
 	public static final String PARAM_KUNDE_ID_PREFIX = "idPrefix";
 	public static final String FIND_NACHNAMEN_BY_PREFIX = PREFIX + "findNachnamenByPrefix";
 	public static final String PARAM_KUNDE_NACHNAME_PREFIX = "nachnamePrefix";
+	public static final String PARAM_USERNAME_PREFIX = "usernamePrefix";
 
 		
 	@Id
