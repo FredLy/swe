@@ -9,14 +9,11 @@ import static javax.persistence.PersistenceContextType.EXTENDED;
 
 import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -42,25 +39,19 @@ import org.richfaces.event.FileUploadEvent;
 import org.richfaces.model.UploadedFile;
 
 import de.shop.auth.controller.AuthController;
-import de.shop.kundenverwaltung.domain.AbstractKunde;
-import de.shop.kundenverwaltung.domain.Adresse;
-import de.shop.kundenverwaltung.domain.HobbyType;
 import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.kundenverwaltung.domain.PasswordGroup;
-import de.shop.kundenverwaltung.domain.Privatkunde;
 import de.shop.kundenverwaltung.service.EmailExistsException;
 import de.shop.kundenverwaltung.service.InvalidKundeException;
 import de.shop.kundenverwaltung.service.InvalidNachnameException;
 import de.shop.kundenverwaltung.service.KundeDeleteBestellungException;
 import de.shop.kundenverwaltung.service.KundeService;
-import de.shop.kundenverwaltung.service.KundeService.FetchType;
-import de.shop.kundenverwaltung.service.KundeService.OrderByType;
 import de.shop.util.AbstractShopException;
 import de.shop.util.Client;
 import de.shop.util.ConcurrentDeletedException;
-import de.shop.util.Messages;
 import de.shop.util.File;
 import de.shop.util.FileHelper;
+import de.shop.util.Messages;
 
 /**
  * Dialogsteuerung fuer die Kundenverwaltung
@@ -511,7 +502,7 @@ public class KundeController implements Serializable {
 			}
 		}
 		else if (exceptionClass.equals(OptimisticLockException.class)) {
-			if (kundeClass.equals(Privatkunde.class)) {
+			if (kundeClass.equals(Kunde.class)) {
 				messages.error(KUNDENVERWALTUNG, MSG_KEY_UPDATE_PRIVATKUNDE_CONCURRENT_UPDATE, null);
 			}
 			else {
@@ -566,7 +557,7 @@ public class KundeController implements Serializable {
 		
 		kunde = ausgewaehlterKunde;
 		
-		return JSF_UPDATE_PRIVATKUNDE
+		return JSF_UPDATE_PRIVATKUNDE;
 	}
 
 	@TransactionAttribute(REQUIRED)
