@@ -23,7 +23,6 @@ import de.shop.bestellverwaltung.service.BestellungValidationException;
 import de.shop.bestellverwaltung.service.BestellungService;
 import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.kundenverwaltung.service.KundeService;
-import de.shop.kundenverwaltung.service.KundeService.FetchType;
 import de.shop.util.Client;
 import de.shop.util.Log;
 import de.shop.util.Transactional;
@@ -72,13 +71,13 @@ public class BestellungController implements Serializable {
 		}
 		
 		// Den eingeloggten Kunden mit seinen Bestellungen ermitteln, und dann die neue Bestellung zu ergaenzen
-		kunde = ks.findKundeById(kunde.getId(), FetchType.MIT_BESTELLUNGEN, locale);
+		kunde = ks.findKundeById(kunde.getId(), locale);
 		
 		// Aus dem Warenkorb nur Positionen mit Anzahl > 0
 		final List<Posten> positionen = warenkorb.getPositionen();
 		final List<Posten> neuePositionen = new ArrayList<>(positionen.size());
 		for (Posten bp : positionen) {
-			if (bp.getAnzahl() > 0) {
+			if (bp.getMenge() > 0) {
 				neuePositionen.add(bp);
 			}
 		}
