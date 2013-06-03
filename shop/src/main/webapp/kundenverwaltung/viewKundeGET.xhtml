@@ -29,22 +29,16 @@
 				<h:outputText id="id" value="#{kc.kunde.id}"/>
 				
 				<h:outputText id="nachnameLabel" value="#{msgKv['viewKundeGET.nachname']}"/>
-				<h:outputText id="nachname" value="#{kc.kunde.nachname}"/>
+				<h:outputText id="nachname" value="#{kc.kunde.name}"/>
 				
 				<h:outputText id="vornameLabel" value="#{msgKv['viewKundeGET.vorname']}"/>
 				<h:outputText id="vorname" value="#{kc.kunde.vorname}"/>
 							
 				<h:outputText id="seitLabel" value="#{msgKv['viewKundeGET.seit']}"/>
-				<h:outputText id="seit" value="#{kc.kunde.seit}">
+				<h:outputText id="seit" value="#{kc.kunde.erstelldatum}">
 					<f:convertDateTime type="date" dateStyle="long"/>
 				</h:outputText>
-							
-				<h:outputText id="umsatzLabel" value="#{msgKv['viewKundeGET.umsatz']}"/>
-				<h:outputText id="umsatz" value="#{kc.kunde.umsatz}">
-					<f:convertNumber type="currency"
-					                 currencyCode="EUR"/>
-				</h:outputText>
-				
+						
 				<h:outputText id="emailLabel" value="#{msgKv['viewKundeGET.email']}"/>
 				<h:outputText id="email" value="#{kc.kunde.email}"/>
 			
@@ -53,11 +47,6 @@
 				
 				<h:outputText id="privatkundeLabel" value="#{msgKv['viewKundeGET.kundenart']}" rendered="#{kc.kunde.class.simpleName eq 'Privatkunde'}"/>
 				<h:outputText id="privatkunde" value="#{msgKv['viewKundeGET.privatkunde']}" rendered="#{kc.kunde.class.simpleName eq 'Privatkunde'}"/>
-							
-				<h:outputText id="rabattLabel" value="#{msgKv['viewKundeGET.rabatt']}" rendered="#{kc.kunde.class.simpleName eq 'Firmenkunde'}"/>
-				<h:outputText id="rabatt" value="#{kc.kunde.rabatt}" rendered="#{kc.kunde.class.simpleName eq 'Firmenkunde'}">
-					<f:convertNumber type="percent" maxFractionDigits="2"/>
-				</h:outputText>
 							
 				<h:outputText id="familienstandLabel" value="#{msgKv['viewKundeGET.familienstand']}" rendered="#{kc.kunde.class.simpleName eq 'Privatkunde' and kc.kunde.familienstand eq 'LEDIG'}"/>
 				<h:outputText id="familienstand" value="#{msgKv['viewKundeGET.familienstand.ledig']}" rendered="#{kc.kunde.class.simpleName eq 'Privatkunde' and kc.kunde.familienstand eq 'LEDIG'}"/>
