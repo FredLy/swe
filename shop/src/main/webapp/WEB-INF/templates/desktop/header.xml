@@ -107,7 +107,7 @@
 								</f:facet>
 								
 								<rich:inputNumberSpinner id="anzahl"
-				                                         value="#{position.anzahl}"
+				                                         value="#{position.menge}"
 				                                         minValue="0"
 				                                         maxValue="99"
 				                                         inputSize="2"/>
