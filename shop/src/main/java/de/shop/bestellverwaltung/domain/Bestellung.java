@@ -2,10 +2,13 @@ package de.shop.bestellverwaltung.domain;
 
 import java.io.Serializable;
 import java.net.URI;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -158,6 +161,12 @@ public class Bestellung implements Serializable {
 	public void setDatum(Date datum) {
 		this.datum = datum == null ? null : (Date) datum.clone();
 	}
+	
+	public String getErstelldatum(String format) {
+		final Format formatter = new SimpleDateFormat(format, Locale.getDefault());
+		return formatter.format(erstelldatum);
+	}
+	
 	public Date getErstelldatum() {
 		return erstelldatum == null ? null : (Date) erstelldatum.clone();
 	}
