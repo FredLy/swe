@@ -70,7 +70,7 @@ public class BestellungController implements Serializable {
 			return JSF_DEFAULT_ERROR;
 		}
 		
-		// Den eingeloggten Kunden mit seinen Bestellungen ermitteln, und dann die neue Bestellung zu ergaenzen
+		// Den eingeloggten Kunden mit seinen Bestellungen ermitteln, um dann die neue Bestellung zu ergaenzen
 		kunde = ks.findKundeById(kunde.getId(), locale);
 		
 		// Aus dem Warenkorb nur Positionen mit Anzahl > 0

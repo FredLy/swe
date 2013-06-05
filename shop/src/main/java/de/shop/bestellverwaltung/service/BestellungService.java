@@ -103,6 +103,7 @@ public class BestellungService implements Serializable {
 		kunde = ks.findKundeById(kunde.getId(), locale);
 		kunde.addBestellung(bestellung);
 		bestellung.setKunde(kunde);
+		bestellung.setBezeichnung("blablabla :)");
 		
 		bestellung.setId(KEINE_ID);
 		for (Posten p : bestellung.getPosten()) {
@@ -115,7 +116,7 @@ public class BestellungService implements Serializable {
 			em.persist(p);
 		}
 		em.persist(bestellung);
-		event.fire(bestellung);
+		//event.fire(bestellung);
 		return bestellung;
 	}
 	
