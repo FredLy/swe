@@ -239,11 +239,7 @@ public class AuthController implements Serializable {
 	public String findRollenByUsername() {
 		// Gibt es den Usernamen ueberhaupt?
 		Kunde kunde = null;
-		List<Kunde> kundenListe = ks.findKundenByNachname(username);
-		for(Kunde k : kundenListe){
-			if(k.getName().equals(username))
-				kunde = k;
-		}
+		kunde = ks.findKundeById(Long.valueOf(username));
 		if (kunde == null) {
 			kundeId = null;
 			ausgewaehlteRollenOrig = null;

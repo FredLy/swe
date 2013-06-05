@@ -84,11 +84,15 @@ public class KundeService implements Serializable {
 	}	
 	
 	public Kunde findKundeById(Long id, Locale locale) {
+		if(id == null)
+			return null;
 		validateKundeId(id, locale);
 		return em.find(Kunde.class, id);
 	}
 	
 	public Kunde findKundeById(Long id) {
+		if(id == null)
+			return null;
 		Kunde k = em.find(Kunde.class, id); 
 		return k;
 	}
