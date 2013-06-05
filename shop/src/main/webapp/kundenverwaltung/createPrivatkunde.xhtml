@@ -40,7 +40,7 @@
 					             columns="3">
 			
 						<h:outputLabel id="nachnameLabel" for="nachname" value="#{msgKv['createPrivatkunde.nachname']}"/>
-						<h:inputText id="nachname" value="#{kc.neuerPrivatkunde.nachname}">
+						<h:inputText id="nachname" value="#{kc.neuerPrivatkunde.name}">
 							<rich:validator oninvalid="$(#{rich:element('nachname')}).addClass('invalid')"
                                             onvalid="$(#{rich:element('nachname')}).removeClass('invalid')"/>
 						</h:inputText>
@@ -50,21 +50,21 @@
 						<h:inputText id="vorname" value="#{kc.neuerPrivatkunde.vorname}"/>
 						<f:verbatim/>
 						
-						<h:outputLabel id="kategorieLabel" value="#{msgKv['createPrivatkunde.kategorie']}" for="kategorie"/>
+						<!-- <h:outputLabel id="kategorieLabel" value="#{msgKv['createPrivatkunde.kategorie']}" for="kategorie"/>
 						<rich:inputNumberSlider id="kategorie"
 						                        value="#{kc.neuerPrivatkunde.kategorie}"
 						                        minValue="0"
 						                        maxValue="5"
 						                        inputSize="1"
 						                        width="100"/>
-						<f:verbatim/>
+						<f:verbatim/> -->
 						
 						<h:outputLabel id="seitLabel"
 						               for="seit"
 						               value="#{msgKv['createPrivatkunde.seit']}"/>
 						<rich:calendar id="seit"
 						               datePattern="#{msgKv['createPrivatkunde.calendar.pattern']}"
-						               value="#{kc.neuerPrivatkunde.seit}"
+						               value="#{kc.neuerPrivatkunde.erstelldatum}"
 						               timezone="CET">
 						    <!-- https://issues.jboss.org/browse/RF-10224
 							<rich:validator/>
@@ -73,18 +73,18 @@
 						</rich:calendar>
 						<rich:messages id="fehlermeldungenSeit" for="seit"/>
 						
-						<h:outputLabel id="umsatzLabel" for="umsatz" value="#{msgKv['createPrivatkunde.umsatz']}"/>
+						<!-- <h:outputLabel id="umsatzLabel" for="umsatz" value="#{msgKv['createPrivatkunde.umsatz']}"/>
 						<h:inputText id="umsatz"
 						             value="#{kc.neuerPrivatkunde.umsatz}"
 						             converterMessage="#{msgKv['createPrivatkunde.umsatz.convert']}">
 						    <f:convertNumber type="currency"
 							                 currencyCode="EUR"
 							                 maxFractionDigits="2"/>
-							<f:ajax event="blur" render="fehlermeldungenUmsatz"/>
+							<f:ajax event="blur" render="fehlermeldungenUmsatz"/>-->
 							<!-- https://issues.jboss.org/browse/RF-10224
 							<rich:validator/>
 							-->
-						</h:inputText>
+						<!--</h:inputText>
 						<rich:messages id="fehlermeldungenUmsatz" for="umsatz"/>
 			
 						<h:outputLabel id="familienstandLabel" for="familienstand" value="#{msgKv['createPrivatkunde.familienstand']}"/>
@@ -121,7 +121,7 @@
 							<f:selectItem id="reisen" itemValue="REISEN" 
 										  itemLabel="#{msgKv['createPrivatkunde.reisen']}"/>
 						</h:selectManyCheckbox>
-						<f:verbatim/>
+						<f:verbatim/>-->
 										
 						<h:outputLabel id="emailLabel" for="email" value="#{msgKv['createPrivatkunde.email']}"/>
 						<h:inputText id="email" value="#{kc.neuerPrivatkunde.email}">
@@ -148,7 +148,7 @@
 		
 						<h:outputLabel id="plzLabel" for="plz" value="#{msgKv['createPrivatkunde.plz']}"/>
 						<h:inputText id="plz"
-						             value="#{kc.neuerPrivatkunde.adresse.plz}">
+						             value="#{kc.neuerPrivatkunde.plz}">
 							<rich:validator oninvalid="$(#{rich:element('plz')}).addClass('invalid')"
                                             onvalid="$(#{rich:element('plz')}).removeClass('invalid')"/>
 						</h:inputText>
@@ -156,7 +156,7 @@
 						
 						<h:outputLabel id="ortLabel" for="ort" value="#{msgKv['createPrivatkunde.ort']}"/>
 						<h:inputText id="ort"
-						             value="#{kc.neuerPrivatkunde.adresse.ort}">
+						             value="#{kc.neuerPrivatkunde.ort}">
 							<rich:validator oninvalid="$(#{rich:element('ort')}).addClass('invalid')"
                                             onvalid="$(#{rich:element('ort')}).removeClass('invalid')"/>
 						</h:inputText>
@@ -164,21 +164,21 @@
 						
 						<h:outputLabel id="strasseLabel" for="strasse" value="#{msgKv['createPrivatkunde.strasse']}"/>
 						<h:inputText id="strasse"
-						             value="#{kc.neuerPrivatkunde.adresse.strasse}">
+						             value="#{kc.neuerPrivatkunde.strasse}">
 							<rich:validator oninvalid="$(#{rich:element('strasse')}).addClass('invalid')"
                                             onvalid="$(#{rich:element('strasse')}).removeClass('invalid')"/>
 						</h:inputText>
 						<rich:messages id="fehlermeldungStrasse" for="strasse"/>
 						
 						<h:outputLabel id="hausnrLabel" for="hausnr" value="#{msgKv['createPrivatkunde.hausnr']}"/>
-						<h:inputText id="hausnr" value="#{kc.neuerPrivatkunde.adresse.hausnr}"/>
+						<h:inputText id="hausnr" value="#{kc.neuerPrivatkunde.hausnummer}"/>
 						<f:verbatim/>
 						
-						<h:outputLabel id="agbLabel" for="agb" value="#{msgKv['createPrivatkunde.agb']}"/>
+						<!-- <h:outputLabel id="agbLabel" for="agb" value="#{msgKv['createPrivatkunde.agb']}"/>
 						<h:selectBooleanCheckbox id="agb" value="#{kc.neuerPrivatkunde.agbAkzeptiert}">
 							<rich:validator/>
 						</h:selectBooleanCheckbox>
-						<rich:message id="fehlermeldungAgb" for="agb"/>
+						<rich:message id="fehlermeldungAgb" for="agb"/> -->
 					</h:panelGrid>
 		
 					<p id="buttons">

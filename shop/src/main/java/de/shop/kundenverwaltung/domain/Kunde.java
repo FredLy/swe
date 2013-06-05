@@ -171,7 +171,7 @@ public class Kunde implements Serializable {
 	@Column(table = "kunde_rolle", name = "rolle_fk", nullable = false)
 	private Set<RolleType> rollen;
 	
-	@OneToMany
+	@OneToMany(fetch = EAGER)
 	@JoinColumn(name = "kunden_id", nullable = false)
 	@OrderColumn(name = "idx", nullable = false)
 	@XmlTransient

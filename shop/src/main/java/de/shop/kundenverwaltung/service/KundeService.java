@@ -3,6 +3,7 @@ package de.shop.kundenverwaltung.service;
 import static de.shop.util.Constants.KEINE_ID;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -18,6 +20,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.groups.Default;
 
+import de.shop.auth.service.jboss.AuthService;
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.bestellverwaltung.domain.Posten;
 import de.shop.kundenverwaltung.domain.Kunde;
@@ -41,7 +44,14 @@ public class KundeService implements Serializable {
 	private ValidatorProvider validatorProvider;
 	
 	@Inject
+	private AuthService authService;
+	
+	@Inject
 	private FileHelper fileHelper;
+	
+	@Inject
+	@NeuerKunde
+	private transient Event<Kunde> event;
 	
 	public List<Kunde> findKundenByNachname(String name, Locale locale) {
 		validateNachname(name, locale);
@@ -144,8 +154,22 @@ public class KundeService implements Serializable {
 		kunde.setId(KEINE_ID);
 		validateKunde(kunde, locale, Default.class);
 		kunde.setErstelldatum(new Date());
+		passwordVerschluesseln(kunde);
+		//event.fire(kunde); Impl Observer
+		kunde.setBestellungen(new ArrayList<Bestellung>());
 		em.persist(kunde);
 		return kunde;
+	}
+	
+	private void passwordVerschluesseln(Kunde kunde) {
+		//logger.debugf("passwordVerschluesseln BEGINN: %s", kunde);
+
+		final String unverschluesselt = kunde.getPassword();
+		final String verschluesselt = authService.verschluesseln(unverschluesselt);
+		kunde.setPassword(verschluesselt);
+		kunde.setPasswordWdh(verschluesselt);
+
+		//logger.debugf("passwordVerschluesseln ENDE: %s", verschluesselt);
 	}
 	
 	private void validateKunde(Kunde kunde, Locale locale, Class<?>... groups) {
