@@ -78,6 +78,11 @@ public class KundeService implements Serializable {
 		return em.find(Kunde.class, id);
 	}
 	
+	public Kunde findKundeById(Long id) {
+		Kunde k = em.find(Kunde.class, id); 
+		return k;
+	}
+	
 	public List<Kunde> findKundenByIdPrefix(Long id) {
 		if (id == null) {
 			return Collections.emptyList();

@@ -9,9 +9,9 @@
 	  xmlns:a4j="http://richfaces.org/a4j">
 
 	<ui:composition template="/WEB-INF/templates/desktop/main.xml">
-		<ui:define name="metadata">
+		<!--  <ui:define name="metadata">
 			<f:event type="preRenderView" listener="#{kc.copyHobbies}"/>
-		</ui:define>
+		</ui:define>-->
 		
 		<ui:param name="pageTitle" value="#{msgKv['updatePrivatkunde.title']}"/>
 	
@@ -42,7 +42,7 @@
 				             columns="3">
 					<h:outputLabel id="nachnameLabel" for="nachname" value="#{msgKv['updatePrivatkunde.nachname']}"/>
 					<h:inputText id="nachname"
-					             value="#{kc.kunde.nachname}"
+					             value="#{kc.kunde.name}"
 					             valueChangeListener="#{kc.geaendert}">
 						<rich:validator oninvalid="$(#{rich:element('nachname')}).addClass('invalid')"
                                         onvalid="$(#{rich:element('nachname')}).removeClass('invalid')"/>
@@ -53,13 +53,13 @@
 					<h:inputText id="vorname" value="#{kc.kunde.vorname}" valueChangeListener="#{kc.geaendert}"/>
 					<f:verbatim/>
 					
-					<h:outputLabel id="kategorieLabel" value="#{msgKv['updatePrivatkunde.kategorie']}" for="kategorie"/>
+					<!-- <h:outputLabel id="kategorieLabel" value="#{msgKv['updatePrivatkunde.kategorie']}" for="kategorie"/>
 					<rich:inputNumberSpinner id="kategorie"
 					                         value="#{kc.kunde.kategorie}"
 					                         minValue="0" maxValue="5"
 					                         inputSize="1"
 					                         valueChangeListener="#{kc.geaendert}"/>
-					<f:verbatim/>
+					<f:verbatim/> -->
 					
 					<h:outputLabel id="seitLabel"
 					               for="seit"
@@ -67,7 +67,7 @@
 					               escape="false"/>
 					<rich:calendar id="seit"
 					               datePattern="#{msgKv['updatePrivatkunde.calendar.pattern']}"
-					               value="#{kc.kunde.seit}"
+					               value="#{kc.kunde.erstelldatum}"
 					               timezone="CET">
 						<!--
 						<rich:validator/>
@@ -75,7 +75,7 @@
 					</rich:calendar>
 					<rich:messages id="fehlermeldungSeit" for="seit"/>
 					
-					<h:outputLabel id="umsatzLabel" for="umsatz" value="#{msgKv['updatePrivatkunde.umsatz']}"/>
+					<!-- <h:outputLabel id="umsatzLabel" for="umsatz" value="#{msgKv['updatePrivatkunde.umsatz']}"/>
 					<h:inputText id="umsatz"
 					             value="#{kc.kunde.umsatz}"
 					             converterMessage="#{msgKv['updatePrivatkunde.umsatz.convert']}"
@@ -97,7 +97,7 @@
 	                                     maxIntegerDigits="2"/>
 						<f:ajax event="blur" render="updateKundeForm:fehlermeldungenRabatt"/>
 					</h:inputText>
-					<rich:messages id="fehlermeldungenRabatt" for="rabatt"/>
+					<rich:messages id="fehlermeldungenRabatt" for="rabatt"/> 
 		
 					<h:outputLabel id="familienstandLabel" for="familienstandMenu" value="#{msgKv['updatePrivatkunde.familienstand']}"/>
 					<rich:select id="familienstandMenu"
@@ -127,7 +127,7 @@
 						<f:selectItem itemValue="REISEN" 
 									  itemLabel="#{msgKv['updatePrivatkunde.reisen']}"/>
 					</h:selectManyCheckbox>
-					<f:verbatim/>
+					<f:verbatim/>-->
 					
 					<h:outputLabel id="emailLabel" for="email" value="#{msgKv['updatePrivatkunde.email']}"/>
 					<h:inputText id="email" value="#{kc.kunde.email}" valueChangeListener="#{kc.geaendert}">

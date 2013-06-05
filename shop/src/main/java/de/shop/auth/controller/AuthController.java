@@ -162,11 +162,7 @@ public class AuthController implements Serializable {
 			messages.error(SHOP, MSG_KEY_LOGIN_ERROR, CLIENT_ID_USERNAME);
 			return null;   // Gleiche Seite nochmals aufrufen: mit den fehlerhaften Werten
 		}
-		List<Kunde> kundenListe = ks.findKundenByNachname(username);
-		for(Kunde k : kundenListe){
-			if(k.getName().equals(username))
-				user = k;
-		}
+		Kunde user =  ks.findKundeById(Long.valueOf(username));
 		if (user == null) {
 			logout();
 			throw new InternalError("Kein Kunde mit dem Loginnamen \"" + username + "\" gefunden");
@@ -189,11 +185,7 @@ public class AuthController implements Serializable {
 		// Benutzername beim Login ermitteln
 		username = request.getRemoteUser();
 
-		List<Kunde> kundenListe = ks.findKundenByNachname(username);
-		for(Kunde k : kundenListe){
-			if(k.getName().equals(username))
-				user = k;
-		}
+		Kunde user = ks.findKundeById(Long.valueOf(username));
 		if (user == null) {
 			// Darf nicht passieren, wenn unmittelbar zuvor das Login erfolgreich war
 			logout();
