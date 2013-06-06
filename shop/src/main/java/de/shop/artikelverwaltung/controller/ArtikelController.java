@@ -142,9 +142,9 @@ public class ArtikelController implements Serializable {
 	}
 
 
-	public List<Artikel> getLadenhueter() {
-		return ladenhueter;
-	}
+//	public List<Artikel> getLadenhueter() {
+//		return ladenhueter;
+//	}
 
 	@PostConstruct
 	private void postConstruct() {
