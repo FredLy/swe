@@ -93,8 +93,8 @@
 							<rich:column id="editSpalte" rendered="#{not empty ac.artikels and rich:isUserInRole('admin')}">
 								<h:commandButton id="editButton"
 										 image="#{resource['images:edit.gif']}"
-								         action="#{kc.selectForUpdate(kunde)}"
-								         alt="#{msgKv['listKunden.editButtonAlt']}"/>
+								         action="#{ac.selectForUpdate(art)}"
+								         alt="#{msgAv['listArtikel.editButtonAlt']}"/>
 							</rich:column>
 							
 							<rich:column id="buttonSpalte"

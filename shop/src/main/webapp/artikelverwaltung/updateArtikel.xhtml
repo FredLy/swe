@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:rich="http://richfaces.org/rich"
+	  xmlns:a4j="http://richfaces.org/a4j">
+
+	<ui:composition template="/WEB-INF/templates/desktop/main.xml">
+		
+		<ui:param name="pageTitle" value="#{msgAv['updateArtikel.title']}"/>
+	
+		<ui:define name="article">
+			<h1>
+				<h:outputFormat id="headingArtikel" value="#{msgAv['updateArtikel.heading']}" rendered="#{not empty ac.artikel}">
+					<f:param id="idWert" value="#{ac.artikel.id}"/>
+				</h:outputFormat>
+			</h1>
+			
+			<h:outputText id="fehlerKeinArtikel"
+			              value="#{msgav['updateKunde.keinArtikel']}"
+			              class="rf-msg-err"
+			              rendered="#{empty ac.artikel}"/>
+
+			<a4j:push id="updateEvent" address="updateArtikel"
+		              ondataavailable="if (event.rf.data == '#{ac.artikel.id}') { $('#updateMessage').html('&lt;span class=rf-msg-err&gt;#{msgAv['updateArtikel.concurrentUpdate']}&lt;/span&gt;') }"/>
+			<span id="updateMessage"></span>
+			
+			<rich:messages id="fehlermeldungGobal" globalOnly="true"/>
+			<h:form id="updateArtikelForm" rendered="#{not empty ac.artikel}">
+				
+				<h:panelGrid id="updateArtikelTabelle"
+				             columns="2">
+					<h:outputLabel id="bezeichnungLabel" for="bezeichnung" value="#{msgAv['listArtikel.bezeichnung']}"/>
+					<h:inputText id="bezeichnung"
+					             value="#{ac.artikel.bezeichnung}"
+					             valueChangeListener="#{ac.geaendert}">
+					</h:inputText>
+					<h:outputLabel id="preisLabel" for="preis" value="#{msgAv['listArtikel.preis']}"/>
+					<h:inputText id="preis" value="#{ac.artikel.preis}" valueChangeListener="#{ac.geaendert}"/>
+					<h:outputLabel id="groesseLabel" for="groesse" value="#{msgAv['listArtikel.groesse']}"/>
+					<h:inputText id="groesse"
+					             value="#{ac.artikel.groesse}"
+					             valueChangeListener="#{ac.geaendert}">
+					</h:inputText>
+					
+				</h:panelGrid>
+	
+				<p id="buttons">
+					<h:commandButton id="button" action="#{ac.update}" value="#{msgKv['updatePrivatkunde.submit']}"/>
+					#{' '}
+					<h:commandButton type="reset" value="#{msgKv['updatePrivatkunde.reset']}"/>
+				</p>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>

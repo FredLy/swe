@@ -1,5 +1,7 @@
 package de.shop.artikelverwaltung.controller;
 
+import static de.shop.util.Constants.JSF_INDEX;
+import static de.shop.util.Constants.JSF_REDIRECT_SUFFIX;
 import static de.shop.util.Messages.MessagesType.ARTIKELVERWALTUNG;
 import static javax.ejb.TransactionAttributeType.REQUIRED;
 
@@ -13,15 +15,23 @@ import javax.annotation.PreDestroy;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Event;
 import javax.faces.context.Flash;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.OptimisticLockException;
 import javax.servlet.http.HttpSession;
 
 import org.jboss.logging.Logger;
+import org.richfaces.cdi.push.Push;
 
 import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.artikelverwaltung.service.ArtikelService;
+import de.shop.auth.controller.AuthController;
+import de.shop.kundenverwaltung.service.EmailExistsException;
+import de.shop.kundenverwaltung.service.InvalidKundeException;
+import de.shop.util.ConcurrentDeletedException;
 import de.shop.util.Log;
 import de.shop.util.Messages;
 import de.shop.util.Transactional;
@@ -64,7 +74,20 @@ public class ArtikelController implements Serializable {
 	private List<Artikel> artikels = Collections.emptyList();
 	
 	private List<Artikel> ladenhueter;
+	
+	private boolean geaendertArtikel;
+	
+	@Inject
+	@Push(topic = "marketing")
+	private transient Event<String> neuerArtikelEvent;
+	
+	@Inject
+	@Push(topic = "updateArtikel")
+	private transient Event<String> updateArtikelEvent;
 
+	@Inject
+	private AuthController auth;
+	
 	@Inject
 	private Messages messages;
 	
@@ -78,6 +101,22 @@ public class ArtikelController implements Serializable {
 	private transient HttpSession session;
 
 	
+	public boolean isGeaendertKunde() {
+		return geaendertArtikel;
+	}
+
+	public void setGeaendertKunde(boolean geaendertKunde) {
+		this.geaendertArtikel = geaendertKunde;
+	}
+
+	public Artikel getArtikel() {
+		return artikel;
+	}
+
+	public void setArtikel(Artikel artikel) {
+		this.artikel = artikel;
+	}
+
 	public List<Artikel> getArtikels() {
 		return artikels;
 	}
@@ -132,11 +171,10 @@ public class ArtikelController implements Serializable {
 	
 	/**
 	 * F&uuml;r rich:autocomplete
-	 * @return Liste der potenziellen Bezeinungen
+	 * @return Liste der potenziellen Bezeichnungen
 	 */
 	@TransactionAttribute(REQUIRED)
 	public List<String> findBezeichnungenByPrefix(String bezeichnungPrefix) {
-		// NICHT: Liste von Kunden. Sonst waeren gleiche Nachnamen mehrfach vorhanden.
 		final List<String> bezeichnungen = as.findBezeichnungenByPrefix(bezeichnungPrefix);
 		if (bezeichnungen.isEmpty()) {
 			messages.error(ARTIKELVERWALTUNG, MSG_KEY_ARTIKEL_NOT_FOUND_BY_BEZEICHNUNG, CLIENT_ID_ARTIKEL_BEZEICHNUNG, artikelId);
@@ -193,7 +231,7 @@ public class ArtikelController implements Serializable {
 //		}
 
 		// Push-Event fuer Webbrowser
-//		neuerArtikelEvent.fire(String.valueOf(neuerArtikel.getId()));
+		neuerArtikelEvent.fire(String.valueOf(neuerArtikel.getId()));
 		
 		// Aufbereitung fuer viewArtikel.xhtml
 		artikelId = neuerArtikel.getId();
@@ -202,7 +240,7 @@ public class ArtikelController implements Serializable {
 		
 		final List<Artikel> alleArtikel = (List<Artikel>) as.findAllArtikel();
 		session.setAttribute(SESSION_VERFUEGBARE_ARTIKEL, alleArtikel);
-		return JSF_SELECT_ARTIKEL;// JSF_VIEW_ARTIKEL + JSF_REDIRECT_SUFFIX;
+		return JSF_SELECT_ARTIKEL + JSF_REDIRECT_SUFFIX;
 	}
 	
 	public String selectForUpdate(Artikel ausgewaehlterArtikel) {
@@ -212,4 +250,51 @@ public class ArtikelController implements Serializable {
 		artikel = ausgewaehlterArtikel;
 		return JSF_UPDATE_ARTIKEL;
 	}
+	
+	public void geaendert(ValueChangeEvent e) {
+		if (geaendertArtikel) {
+			return;
+		}
+		
+		if (e.getOldValue() == null) {
+			if (e.getNewValue() != null) {
+				geaendertArtikel = true;
+			}
+			return;
+		}
+
+		if (!e.getOldValue().equals(e.getNewValue())) {
+			geaendertArtikel = true;				
+		}
+	}
+	
+	@TransactionAttribute(REQUIRED)
+	public String update() {
+		auth.preserveLogin();
+		
+		if (!geaendertArtikel || artikel == null) {
+			return JSF_INDEX;
+		}
+		
+		LOGGER.tracef("Aktualisierter Artikel: %s", artikel);
+		try {
+			artikel = as.updateArtikel(artikel);
+		}
+		catch (EmailExistsException | InvalidKundeException
+			  | OptimisticLockException | ConcurrentDeletedException e) {
+			//errorMessages..
+		}
+
+		// Push-Event fuer Webbrowser
+		updateArtikelEvent.fire(String.valueOf(artikel.getId()));
+		
+		// ValueChangeListener zuruecksetzen
+		geaendertArtikel = false;
+		
+		// Aufbereitung fuer viewKunde.xhtml
+		artikelId = artikel.getId();
+		
+		return JSF_SELECT_ARTIKEL + JSF_REDIRECT_SUFFIX;
+	}
+	
 }
