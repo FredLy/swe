@@ -177,7 +177,8 @@ public class ArtikelController implements Serializable {
 	public List<String> findBezeichnungenByPrefix(String bezeichnungPrefix) {
 		final List<String> bezeichnungen = as.findBezeichnungenByPrefix(bezeichnungPrefix);
 		if (bezeichnungen.isEmpty()) {
-			messages.error(ARTIKELVERWALTUNG, MSG_KEY_ARTIKEL_NOT_FOUND_BY_BEZEICHNUNG, CLIENT_ID_ARTIKEL_BEZEICHNUNG, artikelId);
+			messages.error(ARTIKELVERWALTUNG, MSG_KEY_ARTIKEL_NOT_FOUND_BY_BEZEICHNUNG, 
+						   CLIENT_ID_ARTIKEL_BEZEICHNUNG, artikelId);
 			return bezeichnungen;
 		}
 
@@ -224,7 +225,8 @@ public class ArtikelController implements Serializable {
 		// Liste von Strings als Set von Enums konvertieren
 		try {
 			neuerArtikel = as.createArtikel(neuerArtikel);
-		}catch(Exception e){}
+			} 
+		catch (Exception e) { }
 //		catch (InvalidKundeException | EmailExistsException e) {
 //			final String outcome = createPrivatkundeErrorMsg(e);
 //			return outcome;
