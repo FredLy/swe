@@ -66,15 +66,15 @@ public class Artikel implements Serializable {
 	@Column(name = "preis", length = 12, nullable = false)
 	private Double preis;
 	
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = true)
 	@JoinColumn(name = "saison_id", nullable = true, insertable = true, updatable = true)
 	private Saison saison;
 	
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = true)
 	@JoinColumn(name = "kategorie_id", nullable = true, insertable = true, updatable = true)
 	private Kategorie kategorie;
 	
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = true)
 	@JoinColumn(name = "abteilung_id", nullable = true, insertable = true, updatable = true)
 	private Abteilung abteilung;
 	

@@ -9,7 +9,7 @@
 
 	<ui:composition template="/WEB-INF/templates/desktop/main.xml">
 		<ui:define name="metadata">
-			<f:event type="preRenderView" listener="#{ac.createArtikel}"/>
+			<f:event type="preRenderView" listener="#{ac.createEmptyArtikel}"/>
 		</ui:define>
 		
 		<ui:param name="pageTitle" value="#{msgAv['createArtikel.title']}"/>
@@ -22,10 +22,16 @@
 			<h:form id="createArtikelForm">
 					
 					<h:panelGrid id="createArtikelTabelle"
-					             columns="3">
+					             columns="2">
 			
 						<h:outputLabel id="Bezeichnung" for="bezeichnung" value="#{msgAv['createArtikel.bezeichnung']}"/>
 						<h:inputText id="bezeichnung" value="#{ac.neuerArtikel.bezeichnung}">
+						</h:inputText>
+						<h:outputLabel id="Preis" for="preis" value="#{msgAv['createArtikel.preis']}"/>
+						<h:inputText id="preis" value="#{ac.neuerArtikel.preis}">
+						</h:inputText>
+						<h:outputLabel id="Groesse" for="groesse" value="#{msgAv['createArtikel.groesse']}"/>
+						<h:inputText id="groesse" value="#{ac.neuerArtikel.groesse}">
 						</h:inputText>
 					</h:panelGrid>
 		
