@@ -12,13 +12,12 @@
 		        	        library="images"
 		            	    alt="#{msg['header.logo.alt']}"/>
 		</h:outputLink>
-
+<!--
 		<h:form id="schnellsucheForm">
 			<rich:dropDownMenu id="schnellsucheMenu">
 				<f:facet name="label">
 					#{msg['header.schnellsuche']}
 				</f:facet>
-
 				<rich:menuItem id="schnellsucheItem">
 					<h:panelGrid id="schnellsucheGrid" columns="3">
 						<h:outputLabel id="artikelBezLabel"
@@ -34,8 +33,9 @@
 						<h:commandButton id="kundeButton" action="#{kc.findKundeById}" value="#{msg['header.schnellsuche.button']}"/>
 					</h:panelGrid>
 				</rich:menuItem>
+				
 			</rich:dropDownMenu>
-		</h:form>
+		</h:form>-->
 				
 		<rich:toolbarGroup id="rightGroup" location="right">
 			<h:form id="loginFormHeader" rendered="#{not auth.loggedIn}">
