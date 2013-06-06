@@ -33,6 +33,11 @@ import de.shop.bestellverwaltung.domain.Posten;
 			query = "SELECT a FROM Artikel a WHERE a.id = :id"),
 	@NamedQuery(name = Artikel.ARTIKEL_BY_BEZEICHNUNG,
 			query = "SELECT a FROM Artikel a WHERE a.bezeichnung = :bezeichnung"),
+	@NamedQuery(name  = Artikel.FIND_BEZEICHNUNGEN_BY_PREFIX,
+    		query = "SELECT   DISTINCT a.bezeichnung"
+	        + " FROM  Artikel a "
+	        + " WHERE UPPER(a.bezeichnung) LIKE UPPER(:"
+        	+ Artikel.PARAM_ARTIKEL_BEZEICHNUNG_PREFIX + ")"),
 	@NamedQuery(name = Artikel.ALL_ARTIKEL,
 			query = "SELECT a FROM Artikel a")
 })
@@ -44,6 +49,8 @@ public class Artikel implements Serializable {
 	public static final String ARTIKEL_BY_ID = PREFIX + "findArtikelByID";
 	public static final String ARTIKEL_BY_BEZEICHNUNG = PREFIX + "findArtikelByBezeichnung";
 	public static final String ALL_ARTIKEL = PREFIX + "findAllArtikel";
+	public static final String FIND_BEZEICHNUNGEN_BY_PREFIX = PREFIX + "findBezeichnungenByPrefix";
+	public static final String PARAM_ARTIKEL_BEZEICHNUNG_PREFIX = "bezeichnungPrefix";
 	private static final int ERSTE_VERSION = 0;
 	
 	@Id

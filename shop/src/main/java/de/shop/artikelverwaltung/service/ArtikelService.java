@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import de.shop.artikelverwaltung.domain.Artikel;
+import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.util.Log;
 
 @Log
@@ -39,6 +40,13 @@ public class ArtikelService implements Serializable {
 					  .setParameter("bezeichnung", bezeichnung)
 					  .getResultList();
 		return artikel;
+	}
+	
+	public List<String> findBezeichnungenByPrefix(String bezeichnungPrefix) {
+		final List<String> bezeichnungen = em.createNamedQuery(Artikel.FIND_BEZEICHNUNGEN_BY_PREFIX, String.class)
+				                         .setParameter(Artikel.PARAM_ARTIKEL_BEZEICHNUNG_PREFIX, bezeichnungPrefix + '%')
+				                         .getResultList();
+		return bezeichnungen;
 	}
 	
 	public Collection<Artikel> findAllArtikel() {

@@ -36,6 +36,20 @@
 						</f:facet>
 						#{position.artikel.bezeichnung}
 					</rich:column>
+					
+					<rich:column id="groesseSpalte">
+						<f:facet name="header">
+							#{msgAv['listArtikel.groesse']}
+						</f:facet>
+						#{position.artikel.groesse}
+					</rich:column>
+							
+					<rich:column id="preisSpalte">
+						<f:facet name="header">
+							#{msgAv['listArtikel.preis']}
+						</f:facet>
+						#{position.artikel.preis}
+					</rich:column>
 		
 					<rich:column id="anzahlSpalte">
 						<f:facet name="header">

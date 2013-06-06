@@ -1,9 +1,11 @@
 package de.shop.artikelverwaltung.controller;
 
+import static de.shop.util.Messages.MessagesType.ARTIKELVERWALTUNG;
 import static javax.ejb.TransactionAttributeType.REQUIRED;
 
 import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -21,6 +23,7 @@ import org.jboss.logging.Logger;
 import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.artikelverwaltung.service.ArtikelService;
 import de.shop.util.Log;
+import de.shop.util.Messages;
 import de.shop.util.Transactional;
 
 
@@ -42,6 +45,13 @@ public class ArtikelController implements Serializable {
 	private static final String JSF_ARTIKELVERWALTUNG = "/artikelverwaltung/";
 	private static final String JSF_VIEW_ARTIKEL = JSF_ARTIKELVERWALTUNG + "viewArtikel";
 	private static final String JSF_SELECT_ARTIKEL = "/artikelverwaltung/selectArtikel";
+	private static final String JSF_UPDATE_ARTIKEL = JSF_ARTIKELVERWALTUNG + "updateArtikel";
+	
+	private static final String CLIENT_ID_ARTIKEL_BEZEICHNUNG = "form:bezeichnung";
+	private static final String MSG_KEY_ARTIKEL_NOT_FOUND_BY_BEZEICHNUNG = "listArtikel.notFound";
+	
+	private static final int MAX_AUTOCOMPLETE = 10;
+	
 	private static final String SESSION_VERFUEGBARE_ARTIKEL = "verfuegbareArtikel";
 
 	private String bezeichnung;
@@ -51,8 +61,13 @@ public class ArtikelController implements Serializable {
 	private Long artikelId;
 	private Artikel artikel;
 	
+	private List<Artikel> artikels = Collections.emptyList();
+	
 	private List<Artikel> ladenhueter;
 
+	@Inject
+	private Messages messages;
+	
 	@Inject
 	private ArtikelService as;
 	
@@ -63,6 +78,14 @@ public class ArtikelController implements Serializable {
 	private transient HttpSession session;
 
 	
+	public List<Artikel> getArtikels() {
+		return artikels;
+	}
+
+	public void setArtikels(List<Artikel> artikels) {
+		this.artikels = artikels;
+	}
+
 	public Artikel getNeuerArtikel() {
 		return neuerArtikel;
 	}
@@ -101,12 +124,44 @@ public class ArtikelController implements Serializable {
 
 	@Transactional
 	public String findArtikelByBezeichnung() {
-		final List<Artikel> artikel = as.findArtikelByBezeichnung(bezeichnung);
-		flash.put(FLASH_ARTIKEL, artikel);
+		artikels = as.findArtikelByBezeichnung(bezeichnung);
+		flash.put(FLASH_ARTIKEL, artikels);
 
 		return JSF_LIST_ARTIKEL;
 	}
 	
+	/**
+	 * F&uuml;r rich:autocomplete
+	 * @return Liste der potenziellen Bezeinungen
+	 */
+	@TransactionAttribute(REQUIRED)
+	public List<String> findBezeichnungenByPrefix(String bezeichnungPrefix) {
+		// NICHT: Liste von Kunden. Sonst waeren gleiche Nachnamen mehrfach vorhanden.
+		final List<String> bezeichnungen = as.findBezeichnungenByPrefix(bezeichnungPrefix);
+		if (bezeichnungen.isEmpty()) {
+			messages.error(ARTIKELVERWALTUNG, MSG_KEY_ARTIKEL_NOT_FOUND_BY_BEZEICHNUNG, CLIENT_ID_ARTIKEL_BEZEICHNUNG, artikelId);
+			return bezeichnungen;
+		}
+
+		if (bezeichnungen.size() > MAX_AUTOCOMPLETE) {
+			return bezeichnungen.subList(0, MAX_AUTOCOMPLETE);
+		}
+
+		return bezeichnungen;
+	}
+	
+	@TransactionAttribute(REQUIRED)
+	public String details(Artikel ausgewaehlterArtikel) {
+		if (ausgewaehlterArtikel == null) {
+			return null;
+		}
+		
+		// Bestellungen nachladen
+		this.artikel = as.findArtikelById(ausgewaehlterArtikel.getId());
+		this.artikelId = this.artikel.getId();
+		
+		return JSF_VIEW_ARTIKEL;
+	}
 	
 	@Transactional
 	public String selectArtikel() {
@@ -138,7 +193,7 @@ public class ArtikelController implements Serializable {
 //		}
 
 		// Push-Event fuer Webbrowser
-//		neuerKundeEvent.fire(String.valueOf(neuerPrivatkunde.getId()));
+//		neuerArtikelEvent.fire(String.valueOf(neuerArtikel.getId()));
 		
 		// Aufbereitung fuer viewArtikel.xhtml
 		artikelId = neuerArtikel.getId();
@@ -148,5 +203,13 @@ public class ArtikelController implements Serializable {
 		final List<Artikel> alleArtikel = (List<Artikel>) as.findAllArtikel();
 		session.setAttribute(SESSION_VERFUEGBARE_ARTIKEL, alleArtikel);
 		return JSF_SELECT_ARTIKEL;// JSF_VIEW_ARTIKEL + JSF_REDIRECT_SUFFIX;
+	}
+	
+	public String selectForUpdate(Artikel ausgewaehlterArtikel) {
+		if (ausgewaehlterArtikel == null) {
+			return null;
+		}
+		artikel = ausgewaehlterArtikel;
+		return JSF_UPDATE_ARTIKEL;
 	}
 }

@@ -22,7 +22,11 @@
 						               value="#{msgAv['listArtikel.bezeichnung']}"
 						               for="bezeichnung"/>
 		
-						<h:inputText id="bezeichnung" value="#{ac.bezeichnung}"/>
+						<rich:autocomplete id="bezeichnung"
+					                   value="#{ac.bezeichnung}"
+					                   mode="ajax"
+					                   minChars="1"
+					                   autocompleteMethod="#{ac.findBezeichnungenByPrefix}"/>
 		
 						<a4j:commandButton id="findButton"
 						                   action="#{ac.findArtikelByBezeichnung}"
@@ -47,17 +51,17 @@
 				<a4j:outputPanel id="artikelPanel">
 					<c:if test="#{not empty flash.artikel or param.init ne 'true'}">
 						<c:set var="artikel" value="#{flash.artikel}" scope="view"/>
-						<c:set target="#{flash}" property="artikel" value="#{artikel}"/>
+						<c:set target="#{flash}" property="artikel" value="#{artikels}"/>
 						
 						<rich:dataTable id="artikelTabelle"
-						                value="#{artikel}"
+						                value="#{ac.artikels}"
 						                var="art"
 						                rows="5"
 						                noDataLabel="#{msgAv['listArtikel.keineDaten']}"
 						                rowClasses="odd-row, even-row"
 						                styleClass="tabelleMitZebrastil"
 						                cellspacing="10"
-						                rendered="#{not empty artikel or param.init ne 'true'}">
+						                rendered="#{not empty artikels or param.init ne 'true'}">
 							<rich:column id="idSpalte">
 								<f:facet name="header">
 									#{msgAv['listArtikel.id']}
@@ -72,8 +76,29 @@
 								#{art.bezeichnung}
 							</rich:column>
 							
+							<rich:column id="groesseSpalte">
+								<f:facet name="header">
+									#{msgAv['listArtikel.groesse']}
+								</f:facet>
+								#{art.groesse}
+							</rich:column>
+							
+							<rich:column id="preisSpalte">
+								<f:facet name="header">
+									#{msgAv['listArtikel.preis']}
+								</f:facet>
+								#{art.preis}
+							</rich:column>
+							
+							<rich:column id="editSpalte" rendered="#{not empty ac.artikels and rich:isUserInRole('admin')}">
+								<h:commandButton id="editButton"
+										 image="#{resource['images:edit.gif']}"
+								         action="#{kc.selectForUpdate(kunde)}"
+								         alt="#{msgKv['listKunden.editButtonAlt']}"/>
+							</rich:column>
+							
 							<rich:column id="buttonSpalte"
-							             rendered="#{not empty artikel}">
+							             rendered="#{not empty artikels}">
 								<h:commandButton id="warenkorbButton"
 												 image="#{resource['images:warenkorb.gif']}"
 										         action="#{wk.add(art)}"
@@ -85,7 +110,7 @@
 						<rich:dataScroller id="dataScroller"
 						                   for="artikelTabelle"
 						                   maxPages="10"
-						                   rendered="#{not empty artikel}"/>
+						                   rendered="#{not empty artikels}"/>
 						
 						<a4j:outputPanel id="outputPanelZebra" ajaxRendered="true">
 							<rich:jQuery id="odd"
