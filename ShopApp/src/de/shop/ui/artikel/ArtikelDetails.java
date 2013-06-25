@@ -2,9 +2,7 @@ package de.shop.ui.artikel;
 
 import static android.app.ActionBar.NAVIGATION_MODE_TABS;
 import static de.shop.util.Constants.ARTIKEL_KEY;
-
 import android.app.ActionBar;
-import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -12,10 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import de.shop.R;
 import de.shop.data.Artikel;
-import de.shop.util.TabListener;
 
 public class ArtikelDetails extends Fragment {
 	private static final String LOG_TAG = ArtikelDetails.class.getSimpleName();
@@ -41,12 +37,5 @@ public class ArtikelDetails extends Fragment {
 
 	    final Bundle args = new Bundle(1);
     	args.putSerializable(ARTIKEL_KEY, artikel);
-    	
-	    Tab tab = actionBar.newTab()
-	                       .setText(getString(R.string.k_stammdaten))
-	                       .setTabListener(new TabListener<ArtikelDetails>(activity,
-	                    		                                            ArtikelDetails.class,
-	                    		                                            args));
-	    actionBar.addTab(tab);
 	}
 }

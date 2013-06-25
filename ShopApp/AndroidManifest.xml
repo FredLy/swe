@@ -43,6 +43,17 @@
 		</activity>
 		
 		<activity
+			android:name=".ui.artikel.ArtikelListe"
+			android:label="@string/a_artikel_liste_title"
+			android:parentActivityName=".ui.main.Main"
+			android:exported="false" > <!-- false ist der Defaultwert, da es keinen intent-filter gibt -->
+			
+			<meta-data
+            	android:name="android.app.default_searchable"
+            	android:value=".ui.artikel.SucheBezeichnungActivity" />
+		</activity>
+		
+		<activity
 			android:name=".ui.main.SucheIdActivity"
 			android:exported="false" >
 			
@@ -80,6 +91,9 @@
 		
 		<service
 			android:name=".service.BestellungService" />
+		
+		<service
+			android:name=".service.ArtikelService" />
 	</application>
 
 </manifest>

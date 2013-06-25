@@ -12,6 +12,7 @@ import android.os.IBinder;
 import android.util.Log;
 import de.shop.R;
 import de.shop.data.Kunde;
+import de.shop.service.ArtikelService;
 import de.shop.service.ArtikelService.ArtikelServiceBinder;
 import de.shop.service.BestellungService;
 import de.shop.service.KundeService;
@@ -105,8 +106,12 @@ public class Main extends Activity {
 		Intent intent = new Intent(this, KundeService.class);
 		bindService(intent, kundeServiceConnection, Context.BIND_AUTO_CREATE);
 		
+		intent = new Intent(this, ArtikelService.class);
+		bindService(intent, artikelServiceConnection, Context.BIND_AUTO_CREATE);
+		
 		intent = new Intent(this, BestellungService.class);
 		bindService(intent, bestellungServiceConnection, Context.BIND_AUTO_CREATE);
+		
     }
     
 	@Override
@@ -114,6 +119,7 @@ public class Main extends Activity {
 		super.onStop();
 		
 		unbindService(kundeServiceConnection);
+		unbindService(artikelServiceConnection);
 		unbindService(bestellungServiceConnection);
 	}
 

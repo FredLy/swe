@@ -65,8 +65,6 @@ public class ArtikelService extends Service {
 			return artikel;
 		}
 		
-		
-		
 		public Artikel sucheArtikelByBezeichnung(String bezeichnung) {
 			// (evtl. mehrere) Parameter vom Typ "String", Resultat vom Typ "ArrayList<Kunde>"
 			final AsyncTask<String, Void, Artikel> sucheArtikelByBezeichnungTask = new AsyncTask<String, Void, Artikel>() {
@@ -108,7 +106,5 @@ public class ArtikelService extends Service {
 
 			return artikel;
 	    }	
-	
-
 	}
 }
