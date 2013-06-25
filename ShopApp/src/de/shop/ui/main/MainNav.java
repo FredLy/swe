@@ -135,7 +135,7 @@ public class MainNav extends ListFragment implements OnItemClickListener, OnMenu
 					artikelPopup.inflate(R.menu.artikel_popup);
 					artikelPopup.setOnMenuItemClickListener(this);
 				}
-				popup = kundenPopup;
+				popup = artikelPopup;
 				break;
 				
 			case BESTELLUNGEN:

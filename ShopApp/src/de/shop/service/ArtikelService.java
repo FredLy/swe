@@ -2,12 +2,9 @@ package de.shop.service;
 
 import static de.shop.ui.main.Prefs.mock;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Binder;
