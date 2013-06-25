@@ -1,0 +1,12 @@
+<resources>
+
+	<string name="a_artikel_id_hint">Enter article no.</string>
+	<string name="a_artikel_id">Article No.</string>
+    <string name="a_bezeichnung">Bezeichnung</string>
+    <string name="a_bezeichnung_hint">Enter the title</string>
+    <string name="a_stammdaten">Master data</string>
+    <string name="a_datum">Date</string>
+    <string name="a_artikel_liste_title">Articles</string>
+    <string name="a_hint_bezeichnung">Article title</string>
+    
+</resources>

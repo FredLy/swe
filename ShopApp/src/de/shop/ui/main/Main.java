@@ -1,7 +1,6 @@
 package de.shop.ui.main;
 
 import static de.shop.util.Constants.KUNDE_KEY;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.ComponentName;
@@ -11,9 +10,9 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
-
 import de.shop.R;
 import de.shop.data.Kunde;
+import de.shop.service.ArtikelService.ArtikelServiceBinder;
 import de.shop.service.BestellungService;
 import de.shop.service.KundeService;
 import de.shop.service.BestellungService.BestellungServiceBinder;
@@ -24,6 +23,7 @@ public class Main extends Activity {
 	private static final String LOG_TAG = Main.class.getSimpleName();
 	
 	private KundeServiceBinder kundeServiceBinder;
+	private ArtikelServiceBinder artikelServiceBinder;
 	private BestellungServiceBinder bestellungServiceBinder;
 	
 	// ServiceConnection ist ein Interface: anonyme Klasse verwenden, um ein Objekt davon zu erzeugen
@@ -38,6 +38,18 @@ public class Main extends Activity {
 			kundeServiceBinder = null;
 		}
 	};
+	
+		private ServiceConnection artikelServiceConnection = new ServiceConnection() {
+			@Override
+			public void onServiceConnected(ComponentName name, IBinder serviceBinder) {
+				artikelServiceBinder = (ArtikelServiceBinder) serviceBinder;
+			}
+
+			@Override
+			public void onServiceDisconnected(ComponentName name) {
+				artikelServiceBinder = null;
+			}
+		};
 	
 	private ServiceConnection bestellungServiceConnection = new ServiceConnection() {
 		@Override
@@ -109,6 +121,10 @@ public class Main extends Activity {
 		return kundeServiceBinder;
 	}
 
+	public ArtikelServiceBinder getArtikelServiceBinder() {
+		return artikelServiceBinder;
+	}
+	
 	public BestellungServiceBinder getBestellungServiceBinder() {
 		return bestellungServiceBinder;
 	}

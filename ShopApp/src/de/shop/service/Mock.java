@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import de.shop.data.Artikel;
 import de.shop.data.Bestellung;
 import de.shop.data.Kunde;
 
@@ -23,6 +24,14 @@ final class Mock {
 
 		return kunden;
     }
+	
+	static Artikel sucheArtikelByBezeichnung(String bezeichnung) {
+		return new Artikel(1L,bezeichnung,"M",99.99);
+    }
+	
+	static Artikel sucheArtikelById(Long id){
+		return new Artikel(id, "TestArtikel", "TestGroesse", 99.99);
+	}
 
 	static List<Long> sucheBestellungenIdsByKundeId(Long id) {
 		final int anzahl = (int) ((id % 3) + 3);  // 3 - 5 Bestellungen
